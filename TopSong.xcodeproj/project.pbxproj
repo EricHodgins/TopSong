@@ -8,20 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		7A3E31431D07083600DC90B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E31421D07083600DC90B0 /* AppDelegate.swift */; };
-		7A3E31451D07083600DC90B0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E31441D07083600DC90B0 /* ViewController.swift */; };
 		7A3E31481D07083600DC90B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A3E31461D07083600DC90B0 /* Main.storyboard */; };
 		7A3E314A1D07083600DC90B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A3E31491D07083600DC90B0 /* Assets.xcassets */; };
 		7A3E314D1D07083600DC90B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A3E314B1D07083600DC90B0 /* LaunchScreen.storyboard */; };
+		7A3E31551D070A4300DC90B0 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */; };
+		7A3E315B1D07CD7600DC90B0 /* TopPickTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E315A1D07CD7600DC90B0 /* TopPickTableViewCell.swift */; };
+		7A8CD6DF1D08613F0010EBD9 /* SongPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8CD6DE1D08613F0010EBD9 /* SongPickerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7A3E313F1D07083600DC90B0 /* TopSong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TopSong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A3E31421D07083600DC90B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7A3E31441D07083600DC90B0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		7A3E31471D07083600DC90B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7A3E31491D07083600DC90B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7A3E314C1D07083600DC90B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7A3E314E1D07083600DC90B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = ../ProfileViewController.swift; sourceTree = "<group>"; };
+		7A3E315A1D07CD7600DC90B0 /* TopPickTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopPickTableViewCell.swift; path = ../TopPickTableViewCell.swift; sourceTree = "<group>"; };
+		7A8CD6DE1D08613F0010EBD9 /* SongPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongPickerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +59,9 @@
 			isa = PBXGroup;
 			children = (
 				7A3E31421D07083600DC90B0 /* AppDelegate.swift */,
-				7A3E31441D07083600DC90B0 /* ViewController.swift */,
+				7A3E315A1D07CD7600DC90B0 /* TopPickTableViewCell.swift */,
+				7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */,
+				7A8CD6DE1D08613F0010EBD9 /* SongPickerViewController.swift */,
 				7A3E31461D07083600DC90B0 /* Main.storyboard */,
 				7A3E31491D07083600DC90B0 /* Assets.xcassets */,
 				7A3E314B1D07083600DC90B0 /* LaunchScreen.storyboard */,
@@ -135,8 +141,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A3E31451D07083600DC90B0 /* ViewController.swift in Sources */,
+				7A3E31551D070A4300DC90B0 /* ProfileViewController.swift in Sources */,
+				7A8CD6DF1D08613F0010EBD9 /* SongPickerViewController.swift in Sources */,
 				7A3E31431D07083600DC90B0 /* AppDelegate.swift in Sources */,
+				7A3E315B1D07CD7600DC90B0 /* TopPickTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +294,7 @@
 				7A3E31531D07083600DC90B0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
