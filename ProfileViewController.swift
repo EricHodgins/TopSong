@@ -39,18 +39,18 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
         
         
         // Top Picks Label
-        let fontAttribute = UIFont(name: "Chalkboard SE", size: 25.0)
+        let fontAttribute = UIFont.chalkboardFont(withSize: 25.0)
         let colorAttribute = UIColor().lightBlueAppDesign
-        let mutableString = NSMutableAttributedString(string: topPicksLabel.text!, attributes: [NSFontAttributeName: fontAttribute!, NSForegroundColorAttributeName: colorAttribute])
+        let mutableString = NSMutableAttributedString(string: topPicksLabel.text!, attributes: [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: colorAttribute])
         topPicksLabel.attributedText = mutableString
         
         //Profile Name Textfield
-        let fontTextfieldAttribute = UIFont(name: "Chalkboard SE", size: 18.0)
+        let fontTextfieldAttribute = UIFont.chalkboardFont(withSize: 18.0)
         let colorTextfieldAttribute = UIColor().lightBlueAppDesign
         let mutableTextFieldPlaceholderString = NSMutableAttributedString(string: "Profile Name",
-                                                               attributes: [NSFontAttributeName : fontTextfieldAttribute!, NSForegroundColorAttributeName: colorTextfieldAttribute])
+                                                               attributes: [NSFontAttributeName : fontTextfieldAttribute, NSForegroundColorAttributeName: colorTextfieldAttribute])
         profileNameTextField.attributedPlaceholder = mutableTextFieldPlaceholderString
-        profileNameTextField.defaultTextAttributes = [NSFontAttributeName : fontTextfieldAttribute!, NSForegroundColorAttributeName: colorTextfieldAttribute]
+        profileNameTextField.defaultTextAttributes = [NSFontAttributeName : fontTextfieldAttribute, NSForegroundColorAttributeName: colorTextfieldAttribute]
         profileNameTextField.textAlignment = .Center
         
         

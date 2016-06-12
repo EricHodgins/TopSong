@@ -15,6 +15,11 @@ class SongPickerViewController: UIViewController, UITableViewDataSource, UITable
     weak var delegate: SongPicking?
     var pickedNumberAtIndexPath: NSIndexPath?
     
+    let cellSongTitleAttribute = UIFont.chalkboardFont(withSize: 20.0)
+    let cellSongTitleColorAttribute = UIColor().darkBlueAppDesign
+    let cellArtistColorAttribute = UIColor().lightBlueAppDesign
+    let cellArtistFontAttribute = UIFont.chalkboardFont(withSize: 15.0)
+    
     @IBOutlet weak var tableView: UITableView!
     
     var mediaItems = [MPMediaItem]()
@@ -30,7 +35,7 @@ class SongPickerViewController: UIViewController, UITableViewDataSource, UITable
         searchController.loadViewIfNeeded()
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
-        searchController.searchBar.barTintColor = UIColor(red: 145/255, green: 187/255, blue: 212/255, alpha: 1.0)
+        searchController.searchBar.barTintColor = UIColor().lightBlueAppDesign
         tableView.tableHeaderView = searchController.searchBar
         
         tableView.backgroundColor = UIColor.clearColor()
@@ -41,6 +46,10 @@ class SongPickerViewController: UIViewController, UITableViewDataSource, UITable
             self.view.alpha = 1.0
         }
         
+    }
+    
+    deinit {
+        print("songPickerViewController was deallocated.")
     }
     
     
@@ -77,8 +86,8 @@ class SongPickerViewController: UIViewController, UITableViewDataSource, UITable
             song = mediaItems[indexPath.row]
         }
         
-        cell.textLabel?.text = song.title!
-        cell.detailTextLabel?.text = song.artist!
+        cell.textLabel?.attributedText = NSAttributedString(string: song.title!, attributes: [NSFontAttributeName: cellSongTitleAttribute, NSForegroundColorAttributeName: cellSongTitleColorAttribute])
+        cell.detailTextLabel?.attributedText = NSAttributedString(string: song.artist!, attributes: [NSFontAttributeName: cellArtistFontAttribute, NSForegroundColorAttributeName: cellArtistColorAttribute])
         
         return cell
         
