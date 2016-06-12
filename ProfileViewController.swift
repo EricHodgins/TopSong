@@ -9,22 +9,22 @@
 import UIKit
 import MediaPlayer
 
-protocol SongChanging: class {
-    func changingNewTopSongAt(indexPath: NSIndexPath)
-}
 
-protocol SongPicking: class {
-    func pickedNewTopSong(song: MPMediaItem, forIndexPath: NSIndexPath)
-}
-
-
-class ProfileViewController: UIViewController, UITableViewDataSource {
+class ProfileViewController: UIViewController, UITableViewDataSource, UINavigationControllerDelegate {
 
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var profileNameTextField: UITextField!
+    @IBOutlet weak var topPicksLabel: UILabel!
     
-    let nameTextFieldBottomLine = UIView()
     var userTopPicks = [MPMediaItem?](count: 3, repeatedValue: nil)
+    
+    let imagePicker = UIImagePickerController()
+    
+    let cellSongTitleAttribute = UIFont.chalkboardFont(withSize: 20.0)
+    let cellSongTitleColorAttribute = UIColor().darkBlueAppDesign
+    let cellArtistColorAttribute = UIColor().lightBlueAppDesign
+    let cellArtistFontAttribute = UIFont.chalkboardFont(withSize: 15.0)
+    let cellButtonStringAttribute = NSAttributedString(string: "Change", attributes: [NSFontAttributeName: UIFont.chalkboardFont(withSize: 15.0), NSForegroundColorAttributeName: UIColor().redAppDesign])
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -34,26 +34,50 @@ class ProfileViewController: UIViewController, UITableViewDataSource {
         tableView.dataSource = self
         profileNameTextField.delegate = self
         
+        //Setup Cell Button String Attribute
+        //cellButtonStringAttribute = NSAttributedString(string: "Change", attributes: [NSFontAttributeName: ])
+        
+        
+        // Top Picks Label
+        let fontAttribute = UIFont(name: "Chalkboard SE", size: 25.0)
+        let colorAttribute = UIColor().lightBlueAppDesign
+        let mutableString = NSMutableAttributedString(string: topPicksLabel.text!, attributes: [NSFontAttributeName: fontAttribute!, NSForegroundColorAttributeName: colorAttribute])
+        topPicksLabel.attributedText = mutableString
+        
+        //Profile Name Textfield
+        let fontTextfieldAttribute = UIFont(name: "Chalkboard SE", size: 18.0)
+        let colorTextfieldAttribute = UIColor().lightBlueAppDesign
+        let mutableTextFieldPlaceholderString = NSMutableAttributedString(string: "Profile Name",
+                                                               attributes: [NSFontAttributeName : fontTextfieldAttribute!, NSForegroundColorAttributeName: colorTextfieldAttribute])
+        profileNameTextField.attributedPlaceholder = mutableTextFieldPlaceholderString
+        profileNameTextField.defaultTextAttributes = [NSFontAttributeName : fontTextfieldAttribute!, NSForegroundColorAttributeName: colorTextfieldAttribute]
+        profileNameTextField.textAlignment = .Center
+        
+        
+        // Picking Profile Image
+        
         profileImageView.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.3)
         profileImageView.layer.cornerRadius = profileImageView.frame.size.height / 2
         profileImageView.layer.masksToBounds = true
         
         profileImageView.layer.borderWidth = 1
-        profileImageView.layer.borderColor = UIColor(red: 145/255, green: 187/255, blue: 212/255, alpha: 1.0).CGColor
+        profileImageView.layer.borderColor = UIColor().lightBlueAppDesign.CGColor
         
-        view.addSubview(nameTextFieldBottomLine)
-        nameTextFieldBottomLine.backgroundColor = UIColor(red: 145/255, green: 187/255, blue: 212/255, alpha: 1.0)
-
+        //Single Tap to Change Picture
+        let newPictureGestureRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProfileViewController.pickNewPictureForProfile))
+        profileImageView.userInteractionEnabled = true
+        profileImageView.addGestureRecognizer(newPictureGestureRecognizer)
+        
+        imagePicker.delegate = self
+        imagePicker.sourceType = .PhotoLibrary
+        imagePicker.allowsEditing = false
+        
     }
+
     
-    
-    override func viewDidLayoutSubviews() {
-        nameTextFieldBottomLine.translatesAutoresizingMaskIntoConstraints = false
-        
-        nameTextFieldBottomLine.topAnchor.constraintEqualToAnchor(profileNameTextField.bottomAnchor).active = true
-        nameTextFieldBottomLine.centerXAnchor.constraintEqualToAnchor(profileNameTextField.centerXAnchor).active = true
-        nameTextFieldBottomLine.widthAnchor.constraintEqualToConstant(profileNameTextField.frame.size.width).active = true
-        nameTextFieldBottomLine.heightAnchor.constraintEqualToConstant(1.0).active = true
+    func pickNewPictureForProfile() {
+        print("picking new picture..")
+        presentViewController(imagePicker, animated: true, completion: nil)
     }
     
     
@@ -69,7 +93,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource {
         let cell = tableView.dequeueReusableCellWithIdentifier("profileCell", forIndexPath: indexPath) as! TopPickTableViewCell
         
         let separator = UIView(frame:CGRect(x: 10, y: cell.contentView.frame.size.height - 1, width: view.frame.size.width - 40, height: 1.0))
-        separator.backgroundColor = UIColor(red: 145/255, green: 187/255, blue: 212/255, alpha: 1.0)
+        separator.backgroundColor = UIColor().lightBlueAppDesign
         cell.contentView.addSubview(separator)
         
         if let song = userTopPicks[indexPath.row] {
@@ -79,6 +103,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource {
             cell.songTitleLabel.text = "Pick A New Top Song"
             cell.artistLabel.text = ""
         }
+        
+        let songAttributedString = NSMutableAttributedString(string: cell.songTitleLabel.text!, attributes: [NSFontAttributeName: cellSongTitleAttribute, NSForegroundColorAttributeName: cellSongTitleColorAttribute])
+        let artistAttributedString = NSMutableAttributedString(string: cell.artistLabel.text!, attributes: [NSFontAttributeName: cellArtistFontAttribute, NSForegroundColorAttributeName: cellArtistColorAttribute])
+        cell.songTitleLabel.attributedText = songAttributedString
+        cell.artistLabel.attributedText = artistAttributedString
+        cell.changeButton.setAttributedTitle(cellButtonStringAttribute, forState: .Normal)
         
         cell.topPickIndexPath = indexPath
         cell.delegate = self
@@ -90,12 +120,13 @@ class ProfileViewController: UIViewController, UITableViewDataSource {
 }
 
 
+//MARK: Textfield Delegate
 extension ProfileViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        print("textfield")
         textField.resignFirstResponder()
         return true
     }
+    
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if profileNameTextField.isFirstResponder() {
@@ -105,7 +136,7 @@ extension ProfileViewController: UITextFieldDelegate {
 }
 
 
-
+//MARK: SongChanging Protocol
 extension ProfileViewController: SongChanging {
     func changingNewTopSongAt(indexPath: NSIndexPath) {
         let songPickerNavVC = storyboard?.instantiateViewControllerWithIdentifier("SongPicker") as! UINavigationController
@@ -117,7 +148,7 @@ extension ProfileViewController: SongChanging {
     }
 }
 
-
+//MARK: SongPicking Protocol
 extension ProfileViewController: SongPicking {
     func pickedNewTopSong(song: MPMediaItem, forIndexPath: NSIndexPath) {
         userTopPicks[forIndexPath.row] = song
@@ -126,7 +157,19 @@ extension ProfileViewController: SongPicking {
 }
 
 
-
+//MARK: UIImagePicker Delegate
+extension ProfileViewController: UIImagePickerControllerDelegate {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        profileImageView.image = image
+        
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+}
 
 
 

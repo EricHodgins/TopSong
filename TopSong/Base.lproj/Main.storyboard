@@ -36,20 +36,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UQ2-wD-tcb">
-                                <rect key="frame" x="20" y="83" width="120" height="120"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_account_circle_white" translatesAutoresizingMaskIntoConstraints="NO" id="UQ2-wD-tcb">
+                                <rect key="frame" x="250" y="81" width="100" height="100"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="7ov-es-AVQ"/>
-                                    <constraint firstAttribute="width" constant="120" id="Bwx-lO-ioq"/>
+                                    <constraint firstAttribute="width" constant="100" id="een-qL-70t"/>
+                                    <constraint firstAttribute="height" constant="100" id="nrH-Ua-g8p"/>
                                 </constraints>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Profile Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bnj-I0-7lz">
-                                <rect key="frame" x="169" y="139" width="411" height="24"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="20"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Profile Name" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Bnj-I0-7lz">
+                                <rect key="frame" x="259" y="191" width="83" height="18"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="15"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="67" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0Xe-mK-DTo">
-                                <rect key="frame" x="0.0" y="327" width="600" height="224"/>
+                                <rect key="frame" x="0.0" y="342" width="600" height="209"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="profileCell" rowHeight="67" id="T9p-NP-glm" customClass="TopPickTableViewCell" customModule="TopSong" customModuleProvider="target">
@@ -107,6 +107,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="artistLabel" destination="qsI-oJ-UXJ" id="xgn-KF-s8K"/>
+                                            <outlet property="changeButton" destination="zKK-Nk-NNP" id="uK2-Ws-KU2"/>
                                             <outlet property="songTitleLabel" destination="qTq-ma-wHV" id="cBv-M6-zmy"/>
                                         </connections>
                                     </tableViewCell>
@@ -114,32 +115,38 @@
                                 <sections/>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Top Picks" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lpi-L5-GMH">
-                                <rect key="frame" x="239" y="253" width="122" height="33"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="28"/>
+                                <rect key="frame" x="248" y="280" width="105" height="28"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="24"/>
                                 <color key="textColor" red="0.24705882352941178" green="0.396078431372549" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="lpi-L5-GMH" firstAttribute="centerX" secondItem="dtS-xM-gUY" secondAttribute="centerX" id="0tF-32-UJq"/>
-                            <constraint firstItem="Bnj-I0-7lz" firstAttribute="leading" secondItem="UQ2-wD-tcb" secondAttribute="trailing" constant="29" id="4rZ-IP-8z3"/>
+                            <constraint firstItem="Bnj-I0-7lz" firstAttribute="top" secondItem="UQ2-wD-tcb" secondAttribute="bottom" constant="10" id="D2c-gj-tDa"/>
+                            <constraint firstItem="0Xe-mK-DTo" firstAttribute="top" secondItem="lpi-L5-GMH" secondAttribute="bottom" constant="34" id="DPL-h2-gPn"/>
+                            <constraint firstItem="lpi-L5-GMH" firstAttribute="top" secondItem="Bnj-I0-7lz" secondAttribute="bottom" constant="71" id="ESb-la-RUG"/>
                             <constraint firstItem="8Dw-Qt-FUh" firstAttribute="top" secondItem="0Xe-mK-DTo" secondAttribute="bottom" id="Jkl-42-y5h"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="UQ2-wD-tcb" secondAttribute="leading" id="PaN-Le-D9R"/>
-                            <constraint firstItem="Bnj-I0-7lz" firstAttribute="top" secondItem="Ayt-b4-gNb" secondAttribute="bottom" constant="75" id="Y95-Y6-1Y7"/>
-                            <constraint firstItem="lpi-L5-GMH" firstAttribute="top" secondItem="UQ2-wD-tcb" secondAttribute="bottom" constant="50" id="cIk-t1-c1R"/>
+                            <constraint firstItem="Bnj-I0-7lz" firstAttribute="centerX" secondItem="UQ2-wD-tcb" secondAttribute="centerX" id="KsF-77-jvJ"/>
+                            <constraint firstItem="UQ2-wD-tcb" firstAttribute="top" secondItem="Ayt-b4-gNb" secondAttribute="bottom" constant="17" id="aLX-0A-J9A"/>
                             <constraint firstAttribute="trailingMargin" secondItem="0Xe-mK-DTo" secondAttribute="trailing" constant="-20" id="cuy-kb-3Vz"/>
-                            <constraint firstItem="UQ2-wD-tcb" firstAttribute="top" secondItem="Ayt-b4-gNb" secondAttribute="bottom" constant="19" id="etg-Cr-Fjs"/>
-                            <constraint firstItem="0Xe-mK-DTo" firstAttribute="top" secondItem="lpi-L5-GMH" secondAttribute="bottom" constant="41" id="k3k-iX-5Ci"/>
+                            <constraint firstItem="Bnj-I0-7lz" firstAttribute="centerX" secondItem="UQ2-wD-tcb" secondAttribute="centerX" id="hvZ-bf-Dnn"/>
                             <constraint firstItem="0Xe-mK-DTo" firstAttribute="leading" secondItem="dtS-xM-gUY" secondAttribute="leadingMargin" constant="-20" id="pOd-65-4et"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Bnj-I0-7lz" secondAttribute="trailing" id="rrJ-Td-lh2"/>
+                            <constraint firstItem="lpi-L5-GMH" firstAttribute="centerX" secondItem="Bnj-I0-7lz" secondAttribute="centerX" id="wdB-hb-JBw"/>
+                            <constraint firstItem="UQ2-wD-tcb" firstAttribute="centerX" secondItem="dtS-xM-gUY" secondAttribute="centerX" id="woz-16-hnE"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="KsF-77-jvJ"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="SOe-aa-EDD"/>
                     <connections>
-                        <outlet property="profileImageView" destination="UQ2-wD-tcb" id="3yJ-F2-46o"/>
+                        <outlet property="profileImageView" destination="UQ2-wD-tcb" id="qH5-RA-P5r"/>
                         <outlet property="profileNameTextField" destination="Bnj-I0-7lz" id="jiX-7m-D7G"/>
                         <outlet property="tableView" destination="0Xe-mK-DTo" id="m2U-tW-xbv"/>
+                        <outlet property="topPicksLabel" destination="lpi-L5-GMH" id="dqf-PW-NiF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fuA-H9-Qi3" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -238,7 +245,7 @@
         <scene sceneID="X2c-OQ-XOK">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="RdW-sf-a8i" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" id="kKT-F4-hN8"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="ic_account_circle_white" id="kKT-F4-hN8"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Iw3-hb-0x1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -272,4 +279,7 @@
             <point key="canvasLocation" x="3944" y="-642"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ic_account_circle_white" width="24" height="24"/>
+    </resources>
 </document>

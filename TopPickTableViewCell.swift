@@ -12,6 +12,7 @@ class TopPickTableViewCell: UITableViewCell {
 
     @IBOutlet weak var songTitleLabel: UILabel!
     @IBOutlet weak var artistLabel: UILabel!
+    @IBOutlet weak var changeButton: UIButton!
     
     var topPickIndexPath: NSIndexPath?
     

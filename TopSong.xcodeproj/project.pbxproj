@@ -13,6 +13,8 @@
 		7A3E314D1D07083600DC90B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A3E314B1D07083600DC90B0 /* LaunchScreen.storyboard */; };
 		7A3E31551D070A4300DC90B0 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */; };
 		7A3E315B1D07CD7600DC90B0 /* TopPickTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E315A1D07CD7600DC90B0 /* TopPickTableViewCell.swift */; };
+		7A8C412E1D0DDC4E00D45C6B /* SongProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8C412D1D0DDC4E00D45C6B /* SongProtocols.swift */; };
+		7A8C41301D0DDDA500D45C6B /* UIDesignAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8C412F1D0DDDA500D45C6B /* UIDesignAttributes.swift */; };
 		7A8CD6DF1D08613F0010EBD9 /* SongPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8CD6DE1D08613F0010EBD9 /* SongPickerViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +27,8 @@
 		7A3E314E1D07083600DC90B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = ../ProfileViewController.swift; sourceTree = "<group>"; };
 		7A3E315A1D07CD7600DC90B0 /* TopPickTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopPickTableViewCell.swift; path = ../TopPickTableViewCell.swift; sourceTree = "<group>"; };
+		7A8C412D1D0DDC4E00D45C6B /* SongProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongProtocols.swift; sourceTree = "<group>"; };
+		7A8C412F1D0DDDA500D45C6B /* UIDesignAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDesignAttributes.swift; sourceTree = "<group>"; };
 		7A8CD6DE1D08613F0010EBD9 /* SongPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongPickerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -61,6 +65,8 @@
 				7A3E31421D07083600DC90B0 /* AppDelegate.swift */,
 				7A3E315A1D07CD7600DC90B0 /* TopPickTableViewCell.swift */,
 				7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */,
+				7A8C412F1D0DDDA500D45C6B /* UIDesignAttributes.swift */,
+				7A8C412D1D0DDC4E00D45C6B /* SongProtocols.swift */,
 				7A8CD6DE1D08613F0010EBD9 /* SongPickerViewController.swift */,
 				7A3E31461D07083600DC90B0 /* Main.storyboard */,
 				7A3E31491D07083600DC90B0 /* Assets.xcassets */,
@@ -141,8 +147,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A8C41301D0DDDA500D45C6B /* UIDesignAttributes.swift in Sources */,
 				7A3E31551D070A4300DC90B0 /* ProfileViewController.swift in Sources */,
 				7A8CD6DF1D08613F0010EBD9 /* SongPickerViewController.swift in Sources */,
+				7A8C412E1D0DDC4E00D45C6B /* SongProtocols.swift in Sources */,
 				7A3E31431D07083600DC90B0 /* AppDelegate.swift in Sources */,
 				7A3E315B1D07CD7600DC90B0 /* TopPickTableViewCell.swift in Sources */,
 			);
