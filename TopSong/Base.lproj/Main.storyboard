@@ -6,6 +6,67 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
+        <!--Sign In-->
+        <scene sceneID="dxb-IV-WMl">
+            <objects>
+                <viewController id="QeM-x2-ugK" customClass="SignInViewController" customModule="TopSong" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Nkp-1c-gvw"/>
+                        <viewControllerLayoutGuide type="bottom" id="ABR-7M-LYZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ZKP-uq-3DO">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5QM-FI-4eV">
+                                <rect key="frame" x="20" y="152" width="560" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pvz-Ny-iX6">
+                                <rect key="frame" x="277" y="190" width="47" height="30"/>
+                                <state key="normal" title="Sign In"/>
+                                <connections>
+                                    <action selector="signInButtonPressed:" destination="QeM-x2-ugK" eventType="touchUpInside" id="PPh-Z1-IDS"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AB5-uG-oeI">
+                                <rect key="frame" x="236" y="228" width="129" height="30"/>
+                                <state key="normal" title="Create An Account"/>
+                                <connections>
+                                    <action selector="createAnAccountButtonPressed:" destination="QeM-x2-ugK" eventType="touchUpInside" id="j0Y-ik-fLW"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iVI-Vi-Ycj">
+                                <rect key="frame" x="20" y="114" width="560" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="iVI-Vi-Ycj" firstAttribute="top" secondItem="Nkp-1c-gvw" secondAttribute="bottom" constant="50" id="63e-nQ-NOc"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="iVI-Vi-Ycj" secondAttribute="trailing" id="6wH-n4-js2"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="5QM-FI-4eV" secondAttribute="trailing" id="BO5-Xi-2EC"/>
+                            <constraint firstItem="AB5-uG-oeI" firstAttribute="centerX" secondItem="pvz-Ny-iX6" secondAttribute="centerX" id="X7W-Yf-Opf"/>
+                            <constraint firstItem="pvz-Ny-iX6" firstAttribute="centerX" secondItem="5QM-FI-4eV" secondAttribute="centerX" id="XT8-j5-ztx"/>
+                            <constraint firstItem="pvz-Ny-iX6" firstAttribute="top" secondItem="5QM-FI-4eV" secondAttribute="bottom" constant="8" id="k7W-mg-XyV"/>
+                            <constraint firstItem="AB5-uG-oeI" firstAttribute="top" secondItem="pvz-Ny-iX6" secondAttribute="bottom" constant="8" id="kwa-ba-CQl"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="5QM-FI-4eV" secondAttribute="leading" id="pUd-Qr-6qq"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="iVI-Vi-Ycj" secondAttribute="leading" id="rbA-bw-esT"/>
+                            <constraint firstItem="5QM-FI-4eV" firstAttribute="top" secondItem="iVI-Vi-Ycj" secondAttribute="bottom" constant="8" id="x8p-wh-UIt"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Sign In" id="XIk-YE-fvl"/>
+                    <connections>
+                        <outlet property="emailTextField" destination="iVI-Vi-Ycj" id="0Uf-bc-cSC"/>
+                        <outlet property="passwordTextField" destination="5QM-FI-4eV" id="wSX-3h-SWA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rH1-SB-v1w" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2137" y="441"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="0tW-3h-pzf">
             <objects>
@@ -27,7 +88,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wHc-VT-tJo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2391" y="441"/>
+            <point key="canvasLocation" x="3203" y="441"/>
         </scene>
         <!--Profile-->
         <scene sceneID="9kL-wH-xe1">
@@ -156,7 +217,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fuA-H9-Qi3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3944" y="56"/>
+            <point key="canvasLocation" x="4756" y="56"/>
         </scene>
         <!--TopSong-->
         <scene sceneID="gLd-j3-NQm">
@@ -244,7 +305,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wmC-TK-ymt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3132" y="732"/>
+            <point key="canvasLocation" x="3944" y="732"/>
         </scene>
         <!--Profile-->
         <scene sceneID="X2c-OQ-XOK">
@@ -263,7 +324,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="naV-eV-Fqc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3132" y="56"/>
+            <point key="canvasLocation" x="3944" y="56"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="sTJ-81-E0D">
@@ -282,6 +343,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T4I-PJ-G4w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3944" y="-642"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="GaF-ex-in1">
+            <objects>
+                <navigationController storyboardIdentifier="SignIn" automaticallyAdjustsScrollViewInsets="NO" id="kE8-JT-0xC" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="urX-kw-yhM">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="QeM-x2-ugK" kind="relationship" relationship="rootViewController" id="6Fx-fQ-PQ7"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MEz-t1-WaT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1325" y="441"/>
         </scene>
     </scenes>
     <resources>
