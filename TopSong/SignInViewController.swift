@@ -43,10 +43,19 @@ class SignInViewController: UIViewController {
         createAccountButton.translatesAutoresizingMaskIntoConstraints = false
         
         signInButton.addTarget(self, action: #selector(SignInViewController.signIn), forControlEvents: .TouchUpInside)
+        let signInAttributedString = NSAttributedString(string: "Sign In", attributes: [NSFontAttributeName: UIFont.chalkboardFont(withSize: 20.0) ,NSForegroundColorAttributeName: UIColor().lightBlueAppDesign])
+        signInButton.setAttributedTitle(signInAttributedString, forState: .Highlighted)
+        
+        let createAccountAttributedString = NSAttributedString(string: "Create an Account", attributes: [NSFontAttributeName: UIFont.chalkboardFont(withSize: 20.0) ,NSForegroundColorAttributeName: UIColor().lightBlueAppDesign])
+        createAccountButton.setAttributedTitle(createAccountAttributedString, forState: .Highlighted)
         createAccountButton.addTarget(self, action: #selector(SignInViewController.createAccount), forControlEvents: .TouchUpInside)
         
         view.addSubview(signInButton)
         view.addSubview(createAccountButton)
+    }
+    
+    func highlightButtonPressed(sender: UIButton) {
+
     }
     
     func setupBackgroundGradient() {
@@ -69,12 +78,16 @@ class SignInViewController: UIViewController {
         emailTextfield.placeholder = "Email"
         emailTextfield.backgroundColor = UIColor.whiteColor()
         emailTextfield.layer.sublayerTransform = CATransform3DMakeTranslation(10.0, 0, 0)
+        emailTextfield.keyboardType = .EmailAddress
+        emailTextfield.delegate = self
         
         //Password
         passwordTextfield.translatesAutoresizingMaskIntoConstraints = false
         passwordTextfield.placeholder = "Password"
         passwordTextfield.backgroundColor = UIColor.whiteColor()
         passwordTextfield.layer.sublayerTransform = CATransform3DMakeTranslation(10.0, 0, 0)
+        passwordTextfield.secureTextEntry = true
+        passwordTextfield.delegate = self
         
         let colorAttribute = UIColor().darkBlueAppDesign
         let fontAttribute = UIFont.chalkboardFont(withSize: 20.0)
@@ -124,6 +137,7 @@ class SignInViewController: UIViewController {
     }
     
     func signIn() {
+        signInButton.backgroundColor = UIColor.clearColor()
         FIRAuth.auth()?.signInWithEmail(emailTextfield.text!, password: passwordTextfield.text!, completion: { (user, error) in
             guard error == nil else {
                 print("error signing user in: \(error?.localizedDescription)")
@@ -139,12 +153,13 @@ class SignInViewController: UIViewController {
                     print("\(error)")
                 }
                 
-                
                 return
             }
             
             print("Signed in user: \(user)")
             print(user?.email)
+            let profileVC = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfile")
+            self.presentViewController(profileVC!, animated: true, completion: nil)
         })
     }
     
@@ -173,3 +188,37 @@ class SignInViewController: UIViewController {
     }
 
 }
+
+
+
+
+
+
+extension SignInViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if emailTextfield.isFirstResponder() || passwordTextfield.isFirstResponder() {
+            view.endEditing(true)
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

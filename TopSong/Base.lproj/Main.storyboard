@@ -24,7 +24,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TopSongAppIcon" translatesAutoresizingMaskIntoConstraints="NO" id="18b-OF-r0I">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TopSongAppIcon Copy" translatesAutoresizingMaskIntoConstraints="NO" id="18b-OF-r0I">
                                 <rect key="frame" x="229" y="36" width="143" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="Uhk-wt-lzv"/>
@@ -328,7 +328,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="TopSongAppIcon" width="112" height="76"/>
+        <image name="TopSongAppIcon Copy" width="112" height="76"/>
         <image name="ic_account_circle_white" width="24" height="24"/>
     </resources>
 </document>
