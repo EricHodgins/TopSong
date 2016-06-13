@@ -8,9 +8,14 @@
 
 import UIKit
 import MediaPlayer
+import Firebase
+import FirebaseDatabase
 
 
 class ProfileViewController: UIViewController, UITableViewDataSource, UINavigationControllerDelegate {
+    
+    let firDatabaseRef = FIRDatabase.database().reference()
+    var user: FIRUser?
 
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var profileNameTextField: UITextField!
@@ -30,6 +35,8 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("logged in user: \(user?.uid)")
         
         tableView.dataSource = self
         profileNameTextField.delegate = self
@@ -123,6 +130,9 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
 //MARK: Textfield Delegate
 extension ProfileViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        firDatabaseRef.child("users").child(user!.uid).setValue(["username": textField.text!])
+        
         textField.resignFirstResponder()
         return true
     }
@@ -151,6 +161,10 @@ extension ProfileViewController: SongChanging {
 //MARK: SongPicking Protocol
 extension ProfileViewController: SongPicking {
     func pickedNewTopSong(song: MPMediaItem, forIndexPath: NSIndexPath) {
+        
+        //firDatabaseRef.child("topSongs").child(user!.uid).setValue(["songs": ["\(forIndexPath.row)":["songTitle":song.title!, "songArtist": song.artist!]]])
+        firDatabaseRef.child("topSongs").child(user!.uid).child("songs").child("\(forIndexPath.row)").setValue(["songTitle": song.title!, "songArtist": song.artist!])
+        
         userTopPicks[forIndexPath.row] = song
         tableView.reloadData()
     }
@@ -161,7 +175,11 @@ extension ProfileViewController: SongPicking {
 extension ProfileViewController: UIImagePickerControllerDelegate {
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        profileImageView.image = image
+        dispatch_async(dispatch_get_main_queue()) {
+            self.profileImageView.image = image
+        }
+        
+        
         
         dismissViewControllerAnimated(true, completion: nil)
     }

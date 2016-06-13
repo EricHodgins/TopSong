@@ -8,7 +8,6 @@
 
 import UIKit
 import Firebase
-//import FirebaseAuth
 
 class SignInViewController: UIViewController {
     
@@ -137,8 +136,8 @@ class SignInViewController: UIViewController {
     }
     
     func signIn() {
-        signInButton.backgroundColor = UIColor.clearColor()
-        FIRAuth.auth()?.signInWithEmail(emailTextfield.text!, password: passwordTextfield.text!, completion: { (user, error) in
+        // **************   FILLED IN FOR DEBUGGING ************
+        FIRAuth.auth()?.signInWithEmail("hodgins.e@gmail.com", password: "123456", completion: { (user, error) in
             guard error == nil else {
                 print("error signing user in: \(error?.localizedDescription)")
                 
@@ -157,14 +156,16 @@ class SignInViewController: UIViewController {
             }
             
             print("Signed in user: \(user)")
-            print(user?.email)
-            let profileVC = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfile")
-            self.presentViewController(profileVC!, animated: true, completion: nil)
+            let tabBC = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfile")
+            //need to grab the NavigationController and then the nav's ViewController for the ProfileVC
+            let profileVC = (tabBC?.childViewControllers[0] as! UINavigationController).childViewControllers[0] as! ProfileViewController
+            profileVC.user = user
+            self.presentViewController(tabBC!, animated: true, completion: nil)
         })
     }
     
     func createAccount() {
-        FIRAuth.auth()?.createUserWithEmail(emailTextfield.text!, password: passwordTextfield.text!, completion: { (user, error) in
+        FIRAuth.auth()?.createUserWithEmail("hodgins.e@gmail.com", password: "123456", completion: { (user, error) in
             guard error == nil else {
                 print("error creating account: \(error?.localizedDescription)\n")
                 switch error!.code {
