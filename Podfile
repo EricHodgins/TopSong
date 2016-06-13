@@ -4,6 +4,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'TopSong' do
-	pod ‘Firebase’
+	pod 'Firebase'
+	pod 'Firebase/Auth'
 end
 

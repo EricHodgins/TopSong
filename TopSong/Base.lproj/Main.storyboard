@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="sdi-9E-ibG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="QeM-x2-ugK">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -18,49 +18,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5QM-FI-4eV">
-                                <rect key="frame" x="20" y="152" width="560" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pvz-Ny-iX6">
-                                <rect key="frame" x="277" y="190" width="47" height="30"/>
-                                <state key="normal" title="Sign In"/>
-                                <connections>
-                                    <action selector="signInButtonPressed:" destination="QeM-x2-ugK" eventType="touchUpInside" id="PPh-Z1-IDS"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AB5-uG-oeI">
-                                <rect key="frame" x="236" y="228" width="129" height="30"/>
-                                <state key="normal" title="Create An Account"/>
-                                <connections>
-                                    <action selector="createAnAccountButtonPressed:" destination="QeM-x2-ugK" eventType="touchUpInside" id="j0Y-ik-fLW"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iVI-Vi-Ycj">
-                                <rect key="frame" x="20" y="114" width="560" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
-                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TopSong" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QUT-zb-qqd">
+                                <rect key="frame" x="266" y="144" width="69" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TopSongAppIcon" translatesAutoresizingMaskIntoConstraints="NO" id="18b-OF-r0I">
+                                <rect key="frame" x="229" y="36" width="143" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="Uhk-wt-lzv"/>
+                                    <constraint firstAttribute="width" constant="143" id="i2U-mi-62d"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="iVI-Vi-Ycj" firstAttribute="top" secondItem="Nkp-1c-gvw" secondAttribute="bottom" constant="50" id="63e-nQ-NOc"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="iVI-Vi-Ycj" secondAttribute="trailing" id="6wH-n4-js2"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="5QM-FI-4eV" secondAttribute="trailing" id="BO5-Xi-2EC"/>
-                            <constraint firstItem="AB5-uG-oeI" firstAttribute="centerX" secondItem="pvz-Ny-iX6" secondAttribute="centerX" id="X7W-Yf-Opf"/>
-                            <constraint firstItem="pvz-Ny-iX6" firstAttribute="centerX" secondItem="5QM-FI-4eV" secondAttribute="centerX" id="XT8-j5-ztx"/>
-                            <constraint firstItem="pvz-Ny-iX6" firstAttribute="top" secondItem="5QM-FI-4eV" secondAttribute="bottom" constant="8" id="k7W-mg-XyV"/>
-                            <constraint firstItem="AB5-uG-oeI" firstAttribute="top" secondItem="pvz-Ny-iX6" secondAttribute="bottom" constant="8" id="kwa-ba-CQl"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="5QM-FI-4eV" secondAttribute="leading" id="pUd-Qr-6qq"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="iVI-Vi-Ycj" secondAttribute="leading" id="rbA-bw-esT"/>
-                            <constraint firstItem="5QM-FI-4eV" firstAttribute="top" secondItem="iVI-Vi-Ycj" secondAttribute="bottom" constant="8" id="x8p-wh-UIt"/>
+                            <constraint firstItem="QUT-zb-qqd" firstAttribute="top" secondItem="18b-OF-r0I" secondAttribute="bottom" constant="8" id="4AF-wO-q9b"/>
+                            <constraint firstItem="18b-OF-r0I" firstAttribute="centerX" secondItem="ZKP-uq-3DO" secondAttribute="centerX" id="MvT-kv-IQf"/>
+                            <constraint firstItem="QUT-zb-qqd" firstAttribute="centerX" secondItem="18b-OF-r0I" secondAttribute="centerX" id="c8J-wZ-7GS"/>
+                            <constraint firstItem="18b-OF-r0I" firstAttribute="top" secondItem="Nkp-1c-gvw" secondAttribute="bottom" constant="16" id="cJo-Ja-kBY"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Sign In" id="XIk-YE-fvl"/>
                     <connections>
-                        <outlet property="emailTextField" destination="iVI-Vi-Ycj" id="0Uf-bc-cSC"/>
-                        <outlet property="passwordTextField" destination="5QM-FI-4eV" id="wSX-3h-SWA"/>
+                        <outlet property="topSongLabel" destination="QUT-zb-qqd" id="xG7-Ii-jtg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rH1-SB-v1w" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -70,7 +52,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="0tW-3h-pzf">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="sdi-9E-ibG" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="UserProfile" automaticallyAdjustsScrollViewInsets="NO" id="sdi-9E-ibG" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="yG4-oQ-QFt">
                         <autoresizingMask key="autoresizingMask"/>
@@ -344,26 +326,9 @@
             </objects>
             <point key="canvasLocation" x="3944" y="-642"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="GaF-ex-in1">
-            <objects>
-                <navigationController storyboardIdentifier="SignIn" automaticallyAdjustsScrollViewInsets="NO" id="kE8-JT-0xC" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="urX-kw-yhM">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="QeM-x2-ugK" kind="relationship" relationship="rootViewController" id="6Fx-fQ-PQ7"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MEz-t1-WaT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1325" y="441"/>
-        </scene>
     </scenes>
     <resources>
+        <image name="TopSongAppIcon" width="112" height="76"/>
         <image name="ic_account_circle_white" width="24" height="24"/>
     </resources>
 </document>
