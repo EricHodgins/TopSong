@@ -10,6 +10,7 @@ import UIKit
 import MediaPlayer
 import Firebase
 import FirebaseDatabase
+import FirebaseStorage
 
 
 class ProfileViewController: UIViewController, UITableViewDataSource, UINavigationControllerDelegate {
@@ -36,14 +37,13 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        downloadProfileImage()
+        downloadTopSongPicks()
+        
         print("logged in user: \(user?.uid)")
         
         tableView.dataSource = self
         profileNameTextField.delegate = self
-        
-        //Setup Cell Button String Attribute
-        //cellButtonStringAttribute = NSAttributedString(string: "Change", attributes: [NSFontAttributeName: ])
-        
         
         // Top Picks Label
         let fontAttribute = UIFont.chalkboardFont(withSize: 25.0)
@@ -162,7 +162,7 @@ extension ProfileViewController: SongChanging {
 extension ProfileViewController: SongPicking {
     func pickedNewTopSong(song: MPMediaItem, forIndexPath: NSIndexPath) {
         
-        //firDatabaseRef.child("topSongs").child(user!.uid).setValue(["songs": ["\(forIndexPath.row)":["songTitle":song.title!, "songArtist": song.artist!]]])
+        // Save to Firebase database
         firDatabaseRef.child("topSongs").child(user!.uid).child("songs").child("\(forIndexPath.row)").setValue(["songTitle": song.title!, "songArtist": song.artist!])
         
         userTopPicks[forIndexPath.row] = song
@@ -179,13 +179,93 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
             self.profileImageView.image = image
         }
         
+        let imageData : NSData? = UIImageJPEGRepresentation(image, 0.1)
         
+        // Root reference
+        let storageRef = FIRStorage.storage().referenceForURL("gs://project-6981864531344520331.appspot.com")
+        
+        //Points to references
+        let imagesRef = storageRef.child("\(user!.uid)\\images\\profile")
+        
+        //Upload image data to Firebase storage bucket
+        let uploadTask = imagesRef.putData(imageData!, metadata: nil) { metadata, error in
+            guard error == nil else {
+                print("Error uploading profile image.\(error?.localizedDescription)")
+                return
+            }
+        }
+        
+        uploadTask.observeStatus(.Success) { (snapshot) in
+            print("success uploading profile image data.")
+        }
+        
+        uploadTask.observeStatus(.Progress) { (snapshot) in
+            if let progress = snapshot.progress {
+                let percentComplete = 100.0 * Double(progress.completedUnitCount) / Double(progress.totalUnitCount)
+                print(percentComplete)
+            }
+        }
         
         dismissViewControllerAnimated(true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func downloadProfileImage() {
+        let storageRef = FIRStorage.storage().referenceForURL("gs://project-6981864531344520331.appspot.com")
+        let profileImage = storageRef.child("\(user!.uid)\\images\\profile")
+        
+        let downloadTask = profileImage.dataWithMaxSize(1 * 1024 * 1024) { (imageData, error) in
+            guard error == nil else {
+                print("Error downloading profile image: \(error?.localizedDescription)")
+                return
+            }
+            
+            let image : UIImage = UIImage(data: imageData!)!
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self.profileImageView.image = image
+            }
+            
+        }
+        
+        downloadTask.observeStatus(.Success) { (snapshot) in
+            print("completed downloading profile image.")
+        }
+        
+        downloadTask.observeStatus(.Progress) { (snapshot) in
+            if let progress = snapshot.progress {
+                let percentComplete = 100.0 * Double(progress.completedUnitCount) / Double(progress.totalUnitCount)
+                print(percentComplete)
+            }
+        }
+    }
+    
+    
+    func downloadTopSongPicks() {
+        let topSongsRef = firDatabaseRef.child("topSongs").child("\(user!.uid)").child("songs")
+        print(topSongsRef)
+        topSongsRef.observeEventType(FIRDataEventType.Value, withBlock: { (snapshot) in
+            let songArray = snapshot.value as! NSArray
+            for (index, song) in songArray.enumerate() {
+                let songDict = song as! [String : String]
+                print("artist:\(songDict["songArtist"]!) - title:\(songDict["songTitle"]!)")
+                let artistPredicate = MPMediaPropertyPredicate(value: songDict["songArtist"]!, forProperty: MPMediaItemPropertyArtist)
+                let titlePredicate = MPMediaPropertyPredicate(value: songDict["songTitle"], forProperty: MPMediaItemPropertyTitle)
+                
+                let query: MPMediaQuery = MPMediaQuery.songsQuery()
+                query.addFilterPredicate(artistPredicate)
+                query.addFilterPredicate(titlePredicate)
+                let songMediaItem = query.items![0]
+                self.userTopPicks[index] = songMediaItem
+                print("\(query.items![0].artist!) - \(query.items![0].title!)")
+            }
+            
+            self.tableView.reloadData()
+        })
+        
     }
 }
 
