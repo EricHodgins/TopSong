@@ -159,7 +159,9 @@ class SignInViewController: UIViewController {
             let tabBC = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfile")
             //need to grab the NavigationController and then the nav's ViewController for the ProfileVC
             let profileVC = (tabBC?.childViewControllers[0] as! UINavigationController).childViewControllers[0] as! ProfileViewController
+            let friendsVC = (tabBC?.childViewControllers[2] as! UINavigationController).childViewControllers[0] as! FriendsViewController
             profileVC.user = user
+            friendsVC.user = user
             self.presentViewController(tabBC!, animated: true, completion: nil)
         })
     }

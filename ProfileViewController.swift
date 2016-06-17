@@ -9,8 +9,6 @@
 import UIKit
 import MediaPlayer
 import Firebase
-import FirebaseDatabase
-import FirebaseStorage
 
 
 class ProfileViewController: UIViewController, UITableViewDataSource, UINavigationControllerDelegate {
@@ -37,6 +35,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        downloadProfileName()
         downloadProfileImage()
         downloadTopSongPicks()
         
@@ -200,10 +199,11 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
         }
         
         uploadTask.observeStatus(.Progress) { (snapshot) in
-            if let progress = snapshot.progress {
-                let percentComplete = 100.0 * Double(progress.completedUnitCount) / Double(progress.totalUnitCount)
-                print(percentComplete)
-            }
+            //TODO: Maybe do some cool animation with this feature while downloading.
+//            if let progress = snapshot.progress {
+//                let percentComplete = 100.0 * Double(progress.completedUnitCount) / Double(progress.totalUnitCount)
+//                print(percentComplete)
+//            }
         }
         
         dismissViewControllerAnimated(true, completion: nil)
@@ -213,6 +213,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
+    //MARK: Download Profile Image
     func downloadProfileImage() {
         let storageRef = FIRStorage.storage().referenceForURL("gs://project-6981864531344520331.appspot.com")
         let profileImage = storageRef.child("\(user!.uid)\\images\\profile")
@@ -236,31 +237,44 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
         }
         
         downloadTask.observeStatus(.Progress) { (snapshot) in
-            if let progress = snapshot.progress {
-                let percentComplete = 100.0 * Double(progress.completedUnitCount) / Double(progress.totalUnitCount)
-                print(percentComplete)
-            }
+            //TODO: Cool animation with this as well?
+//            if let progress = snapshot.progress {
+//                let percentComplete = 100.0 * Double(progress.completedUnitCount) / Double(progress.totalUnitCount)
+//                print(percentComplete)
+//            }
         }
     }
     
+    //MARK: Download Profile Name
+    func downloadProfileName() {
+        let nameRef = firDatabaseRef.child("users").child("\(user!.uid)")
+        nameRef.observeEventType(FIRDataEventType.Value, withBlock: { (snapshot) in
+            print(snapshot.value)
+            let username = snapshot.value as! [String : String]
+            print(username)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.profileNameTextField.text = username["username"]
+            }
+        })
+    }
     
+    
+    //MARK: Download Top Song Picks
     func downloadTopSongPicks() {
         let topSongsRef = firDatabaseRef.child("topSongs").child("\(user!.uid)").child("songs")
-        print(topSongsRef)
         topSongsRef.observeEventType(FIRDataEventType.Value, withBlock: { (snapshot) in
             let songArray = snapshot.value as! NSArray
             for (index, song) in songArray.enumerate() {
                 let songDict = song as! [String : String]
-                print("artist:\(songDict["songArtist"]!) - title:\(songDict["songTitle"]!)")
                 let artistPredicate = MPMediaPropertyPredicate(value: songDict["songArtist"]!, forProperty: MPMediaItemPropertyArtist)
                 let titlePredicate = MPMediaPropertyPredicate(value: songDict["songTitle"], forProperty: MPMediaItemPropertyTitle)
                 
+                //TODO: Figure out what happens when the query can't find the song.
                 let query: MPMediaQuery = MPMediaQuery.songsQuery()
                 query.addFilterPredicate(artistPredicate)
                 query.addFilterPredicate(titlePredicate)
                 let songMediaItem = query.items![0]
                 self.userTopPicks[index] = songMediaItem
-                print("\(query.items![0].artist!) - \(query.items![0].title!)")
             }
             
             self.tableView.reloadData()
