@@ -42,12 +42,10 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBAction func refreshFriendList(sender: AnyObject) {
         let friendsRef = firDatabaseRef.child("friendsGroup").child("\(user!.uid)")
         friendsRef.observeEventType(.Value, withBlock: {(snapshot) in
-            print(snapshot.value)
             self.friends = []
             let friendsDict = snapshot.value as! [String : AnyObject]
             for friend in friendsDict {
-                print(friend.1["username"]!!)
-                self.friends.append(Friend(id: "\(friend.0)", username: "\(friend.1["username"]!!)"))
+                self.friends.append(Friend(id: "\(friend.0)", username: ""))
             }
              
             self.tableView.reloadData()
@@ -67,9 +65,20 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
         let cell = tableView.dequeueReusableCellWithIdentifier("friendCell", forIndexPath: indexPath)
         
         let friend = friends[indexPath.row]
-        cell.textLabel?.text = "\(friend.username)-\(friend.id)"
+        getFriendInfo(friend, cell: cell)
         
         return cell
+    }
+    
+    func getFriendInfo(friend: Friend, cell: UITableViewCell) {
+        let usersRef = firDatabaseRef.child("users").child(friend.id)
+        usersRef.observeEventType(.Value, withBlock: {(snapshot) in
+            let userDict = snapshot.value as! [String : String]
+            let username = userDict["username"]!
+            dispatch_async(dispatch_get_main_queue()) {
+                cell.textLabel?.text = username
+            }
+        })
     }
 
 }

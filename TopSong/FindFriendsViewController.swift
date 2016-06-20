@@ -67,7 +67,7 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let friendSelected = friends[indexPath.row]
         
-        firDatabaseRef.child("friendsGroup").child("\(user!.uid)").child("\(friendSelected.id)").setValue(["username": friendSelected.username])
+        firDatabaseRef.child("friendsGroup").child("\(user!.uid)").child("\(friendSelected.id)").setValue(["friendId": friendSelected.id])
         
 //        let key = firDatabaseRef.child("friendsGroup").child("anotheruserid").child("friends").childByAutoId().key
 //        let addedFriend = ["uid": friendSelected.id, "username": "\(friendSelected.username)"]

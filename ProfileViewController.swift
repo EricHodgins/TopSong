@@ -131,6 +131,7 @@ extension ProfileViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
         firDatabaseRef.child("users").child(user!.uid).setValue(["username": textField.text!])
+        firDatabaseRef.child("friendsGroup").child(user!.uid)
         
         textField.resignFirstResponder()
         return true

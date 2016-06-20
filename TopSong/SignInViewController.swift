@@ -160,8 +160,11 @@ class SignInViewController: UIViewController {
             //need to grab the NavigationController and then the nav's ViewController for the ProfileVC
             let profileVC = (tabBC?.childViewControllers[0] as! UINavigationController).childViewControllers[0] as! ProfileViewController
             let friendsVC = (tabBC?.childViewControllers[2] as! UINavigationController).childViewControllers[0] as! FriendsViewController
+            let topSongsVC = (tabBC?.childViewControllers[1] as! UINavigationController).childViewControllers[0] as! TopSongsViewController
+            topSongsVC.user = user
             profileVC.user = user
             friendsVC.user = user
+            
             self.presentViewController(tabBC!, animated: true, completion: nil)
         })
     }
