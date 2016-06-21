@@ -82,7 +82,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
 
     
     func pickNewPictureForProfile() {
-        print("picking new picture..")
         presentViewController(imagePicker, animated: true, completion: nil)
     }
     
@@ -130,8 +129,8 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
 extension ProfileViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
-        firDatabaseRef.child("users").child(user!.uid).setValue(["username": textField.text!])
-        firDatabaseRef.child("friendsGroup").child(user!.uid)
+        firDatabaseRef.child("users").child(user!.uid).updateChildValues(["username": textField.text!])
+        //firDatabaseRef.child("users").child(user!.uid).setValue(["username": textField.text!, "imageFilePath": ""])
         
         textField.resignFirstResponder()
         return true
@@ -181,14 +180,14 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
         
         let imageData : NSData? = UIImageJPEGRepresentation(image, 0.1)
         
-        // Root reference
+        // Root Storage reference
         let storageRef = FIRStorage.storage().referenceForURL("gs://project-6981864531344520331.appspot.com")
         
-        //Points to references
-        let imagesRef = storageRef.child("\(user!.uid)\\images\\profile")
+        //Make full Storage reference
+        let imageRef = storageRef.child("\(user!.uid)\\images\\profile")
         
         //Upload image data to Firebase storage bucket
-        let uploadTask = imagesRef.putData(imageData!, metadata: nil) { metadata, error in
+        let uploadTask = imageRef.putData(imageData!, metadata: nil) { metadata, error in
             guard error == nil else {
                 print("Error uploading profile image.\(error?.localizedDescription)")
                 return
@@ -197,6 +196,9 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
         
         uploadTask.observeStatus(.Success) { (snapshot) in
             print("success uploading profile image data.")
+            //Save image full path to database
+            self.firDatabaseRef.child("users").child(self.user!.uid).updateChildValues(["imageFilePath": "\(imageRef)"])
+            //self.firDatabaseRef.child("users").child("\(self.user!.uid)").setValue(["username": "\(self.profileNameTextField.text!)","imageFilePath": "\(imageRef)"])
         }
         
         uploadTask.observeStatus(.Progress) { (snapshot) in
@@ -251,6 +253,9 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
         let nameRef = firDatabaseRef.child("users").child("\(user!.uid)")
         nameRef.observeEventType(FIRDataEventType.Value, withBlock: { (snapshot) in
             print(snapshot.value)
+            guard snapshot.value == nil else {
+                return
+            }
             let username = snapshot.value as! [String : String]
             print(username)
             dispatch_async(dispatch_get_main_queue()) {

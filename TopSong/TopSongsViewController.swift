@@ -33,11 +33,13 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         var heading: String
         var topSongs: [TopSong]
         var uid: String
+        var imagePath: String?
         
-        init(friendName: String, friendSongs: [TopSong], friendID: String) {
+        init(friendName: String, friendSongs: [TopSong], friendID: String, storageImagePath: String?) {
             heading = friendName
             topSongs = friendSongs
             uid = friendID
+            imagePath = storageImagePath
         }
     }
     var friendsArray = [Friend]()
@@ -103,12 +105,11 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func downloadTopSongs(sender: AnyObject) {
-        print("Refreshed pressed.")
         retrieveSongsButton.enabled = false
         for (ref, handle) in firebaseRefHandleTuples {
             ref.removeObserverWithHandle(handle)
         }
-        print(firebaseRefHandleTuples)
+        
         firebaseRefHandleTuples = []
         friendsArray = []
         let friendsRef = firDatabaseRef.child("friendsGroup").child("\(user!.uid)")
@@ -120,6 +121,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
             }
             
             self.delayButtonEnabled()
+            self.tableView.reloadData()
         })
     }
     
@@ -129,30 +131,40 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         usersRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
             let usersDict = snapshot.value as! [String : String]
             let username = usersDict["username"]!
-            self.downloadFriendTopSongs(id, username: username)
+            let storedImagePath = usersDict["imageFilePath"]
+            self.downloadFriendTopSongs(id, username: username, imagePath: storedImagePath)
         })
         
         let handle = usersRef.observeEventType(.ChildChanged, withBlock: {(snapshot) in
-            print("username updated.")
+            print("username or profile image was updated.")
         })
         
         self.firebaseRefHandleTuples.append((usersRef, handle))
     }
     
-    func downloadFriendTopSongs(id: String, username: String) {
+    func downloadFriendTopSongs(id: String, username: String, imagePath: String?) {
         let topSongRef = firDatabaseRef.child("topSongs").child(id).child("songs")
         topSongRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
             let songsArray = snapshot.value as! NSArray
-            var friend = Friend(friendName: username, friendSongs: [], friendID: id)
+            var friend = Friend(friendName: username, friendSongs: [], friendID: id, storageImagePath: imagePath)
+            var topSongIndexes = [NSIndexPath]()
+            var indexPath: NSIndexPath
             for (index, song) in songsArray.enumerate() {
                 let songDict = song as! [String : String]
                 let topSong = TopSong(artist: "\(songDict["songArtist"]!)", title: songDict["songTitle"]!, rank: "\(index)")
                 friend.topSongs.append(topSong)
+                indexPath = NSIndexPath(forRow: friend.topSongs.count - 1, inSection: self.friendsArray.count)
+                topSongIndexes.append(indexPath)
                 print("called again...")
             }
             
+            self.tableView.beginUpdates()
             self.friendsArray.append(friend)
-            self.tableView.reloadData()
+            let section = NSIndexSet(index: self.friendsArray.count - 1)
+            self.tableView.insertSections(section, withRowAnimation: .Automatic)
+            self.tableView.insertRowsAtIndexPaths(topSongIndexes, withRowAnimation: .Automatic)
+            self.tableView.endUpdates()
+            
         })
         
         
