@@ -44,6 +44,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     var friendsArray = [Friend]()
     var firebaseRefHandleTuples = [(FIRDatabaseReference, UInt)]()
+    var downloadGroup = dispatch_group_create()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -106,22 +107,32 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBAction func downloadTopSongs(sender: AnyObject) {
         retrieveSongsButton.enabled = false
+        
         for (ref, handle) in firebaseRefHandleTuples {
             ref.removeObserverWithHandle(handle)
         }
-        
         firebaseRefHandleTuples = []
         friendsArray = []
+        self.tableView.reloadData()
+        
+        
         let friendsRef = firDatabaseRef.child("friendsGroup").child("\(user!.uid)")
         friendsRef.observeEventType(.Value, withBlock: {(snapshot) in
             let friendsDict = snapshot.value as! [String : AnyObject]
+            
+            
+            print("Get info: \(NSDate())")
             for friend in friendsDict {
+                dispatch_group_enter(self.downloadGroup)
                 self.friendUserIDs.append("\(friend.0)")
                 self.downloadFriendInfo(friend.0)
             }
             
-            self.delayButtonEnabled()
-            self.tableView.reloadData()
+            dispatch_group_notify(self.downloadGroup, dispatch_get_main_queue()) {
+                print("completed tasks....")
+                self.delayButtonEnabled()
+            }
+            
         })
     }
     
@@ -143,6 +154,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func downloadFriendTopSongs(id: String, username: String, imagePath: String?) {
+        
         let topSongRef = firDatabaseRef.child("topSongs").child(id).child("songs")
         topSongRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
             let songsArray = snapshot.value as! NSArray
@@ -165,12 +177,12 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
             self.tableView.insertRowsAtIndexPaths(topSongIndexes, withRowAnimation: .Automatic)
             self.tableView.endUpdates()
             
+            dispatch_group_leave(self.downloadGroup)
+            
         })
         
         
         let handle = topSongRef.observeEventType(.ChildChanged, withBlock: {(snapshot) in
-            print("song update.")
-            print(snapshot.ref)
             let songDict = snapshot.value as! [String : AnyObject]
             let refArr = "\(snapshot.ref)".componentsSeparatedByString("/")
             let friendID = refArr[refArr.count - 3]
@@ -200,8 +212,9 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     
     //Not sure if need this...was put in to stop multiple requests made really fast a part.
     func delayButtonEnabled() {
-        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(3 * NSEC_PER_SEC))
+        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(4 * NSEC_PER_SEC))
         dispatch_after(when, dispatch_get_main_queue()) {
+            print("Button Delayed: \(NSDate())")
             self.retrieveSongsButton.enabled = true
         }
     }
