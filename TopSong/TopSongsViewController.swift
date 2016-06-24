@@ -64,21 +64,30 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
+        //Download image file with path to
         let headerView = UIView()
         headerView.backgroundColor = UIColor().lightBlueAppDesign
         
         //title
-        let nameFrame = CGRectMake(10, 0, 200, 40)
+        let fontAttribute = UIFont.chalkboardFont(withSize: 22.0)
+        let colorAttribute = UIColor.whiteColor()
+        let attributedString = NSAttributedString(string: friendsArray[section].heading, attributes: [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: colorAttribute])
+        let nameFrame = CGRectMake(80, 15, 200, 40)
         let nameLabel = UILabel(frame: nameFrame)
-        nameLabel.text = friendsArray[section].heading
+        nameLabel.attributedText = attributedString
         
         //image
-        let imageFrame = CGRectMake(self.view.frame.size.width - 70, 0, 45, 45)
+        let imageFrame = CGRectMake(8, 10, 55, 55)
         let imageView = UIImageView(frame: imageFrame)
         let image: UIImage = UIImage(named: "TopSongAppIcon Copy")!
         imageView.image = image
         imageView.contentMode = .ScaleAspectFit
+        
+        //download profile Image
+        if let path = friendsArray[section].imagePath {
+            downloadProfileImage(path, imageView: imageView)
+        }
+        
         
         headerView.addSubview(imageView)
         headerView.addSubview(nameLabel)
@@ -87,7 +96,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 75
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -98,9 +107,19 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCellWithIdentifier("topSongCell", forIndexPath: indexPath) as! TopSongTableViewCell
         
         let song = friendsArray[indexPath.section].topSongs[indexPath.row]
-        cell.artistLabel.text = song.artist
-        cell.titleLabel.text = song.title
+//        cell.artistLabel.text = song.artist
+//        cell.titleLabel.text = song.title
         cell.rank.text = song.rank
+        
+        let titleFontAttribute = UIFont.chalkboardFont(withSize: 20)
+        let titleColorAttribute = UIColor().darkBlueAppDesign
+        let titleAttributedString = NSAttributedString(string: song.title, attributes: [NSFontAttributeName: titleFontAttribute, NSForegroundColorAttributeName: titleColorAttribute])
+        cell.titleLabel.attributedText = titleAttributedString
+        
+        let artistFontAttribute = UIFont.chalkboardFont(withSize: 15)
+        let artistColorAttribute = UIColor().lightBlueAppDesign
+        let artistAttributedString = NSAttributedString(string: song.artist, attributes: [NSFontAttributeName: artistFontAttribute, NSForegroundColorAttributeName: artistColorAttribute])
+        cell.artistLabel.attributedText = artistAttributedString
         
         return cell
     }
@@ -120,8 +139,6 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         friendsRef.observeEventType(.Value, withBlock: {(snapshot) in
             let friendsDict = snapshot.value as! [String : AnyObject]
             
-            
-            print("Get info: \(NSDate())")
             for friend in friendsDict {
                 dispatch_group_enter(self.downloadGroup)
                 self.friendUserIDs.append("\(friend.0)")
@@ -129,7 +146,6 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
             }
             
             dispatch_group_notify(self.downloadGroup, dispatch_get_main_queue()) {
-                print("completed tasks....")
                 self.delayButtonEnabled()
             }
             
@@ -167,7 +183,6 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
                 friend.topSongs.append(topSong)
                 indexPath = NSIndexPath(forRow: friend.topSongs.count - 1, inSection: self.friendsArray.count)
                 topSongIndexes.append(indexPath)
-                print("called again...")
             }
             
             self.tableView.beginUpdates()
@@ -210,15 +225,51 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     
-    //Not sure if need this...was put in to stop multiple requests made really fast a part.
+    //Not sure if really need this
     func delayButtonEnabled() {
-        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(4 * NSEC_PER_SEC))
+        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * NSEC_PER_SEC))
         dispatch_after(when, dispatch_get_main_queue()) {
-            print("Button Delayed: \(NSDate())")
             self.retrieveSongsButton.enabled = true
         }
     }
     
+}
+
+
+extension TopSongsViewController {
+    func downloadProfileImage(imagePath: String, imageView: UIImageView) {
+        let profileImage = FIRStorage.storage().referenceForURL(imagePath)//storageRef.child("\(user!.uid)\\images\\profile")
+        let downloadTask = profileImage.dataWithMaxSize(1 * 1024 * 1024) { (imageData, error) in
+            guard error == nil else {
+                print("Error downloading profile image: \(error?.localizedDescription)")
+                return
+            }
+            
+            let image : UIImage = UIImage(data: imageData!)!
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                imageView.image = image
+                imageView.layer.cornerRadius = imageView.frame.size.height / 2
+                imageView.layer.masksToBounds = true
+                imageView.contentMode = .ScaleAspectFill
+                imageView.layer.borderWidth = 1
+                imageView.layer.borderColor = UIColor.whiteColor().CGColor
+            }
+            
+        }
+        
+        downloadTask.observeStatus(.Success) { (snapshot) in
+            print("completed downloading profile image.")
+        }
+        
+        downloadTask.observeStatus(.Progress) { (snapshot) in
+            //TODO: Cool animation with this as well?
+            //            if let progress = snapshot.progress {
+            //                let percentComplete = 100.0 * Double(progress.completedUnitCount) / Double(progress.totalUnitCount)
+            //                print(percentComplete)
+            //            }
+        }
+    }
 }
 
 

@@ -252,12 +252,11 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
     func downloadProfileName() {
         let nameRef = firDatabaseRef.child("users").child("\(user!.uid)")
         nameRef.observeEventType(FIRDataEventType.Value, withBlock: { (snapshot) in
-            print(snapshot.value)
-            guard snapshot.value == nil else {
+            guard snapshot.value != nil else {
                 return
             }
+            
             let username = snapshot.value as! [String : String]
-            print(username)
             dispatch_async(dispatch_get_main_queue()) {
                 self.profileNameTextField.text = username["username"]
             }
