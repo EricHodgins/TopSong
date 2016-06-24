@@ -339,16 +339,8 @@
                             <constraint firstItem="mtH-NH-A8E" firstAttribute="top" secondItem="mKJ-W0-Txj" secondAttribute="bottom" id="jN1-gB-ex1"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="4kg-j1-v4I">
-                        <barButtonItem key="rightBarButtonItem" title="Get Songs" id="9Ci-Pb-Sb9">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="downloadTopSongs:" destination="XBF-jN-RrY" id="u3f-rC-ebU"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="4kg-j1-v4I"/>
                     <connections>
-                        <outlet property="retrieveSongsButton" destination="9Ci-Pb-Sb9" id="2wl-O3-eys"/>
                         <outlet property="tableView" destination="mKJ-W0-Txj" id="0Zp-54-AaH"/>
                     </connections>
                 </viewController>

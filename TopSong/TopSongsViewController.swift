@@ -19,7 +19,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     
 
     
-    @IBOutlet weak var retrieveSongsButton: UIBarButtonItem!
+    
     var user: FIRUser?
     var topSongs = [TopSong]()
     var friendUserIDs = [String]()
@@ -46,12 +46,19 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     var firebaseRefHandleTuples = [(FIRDatabaseReference, UInt)]()
     var downloadGroup = dispatch_group_create()
     
+    var refreshControl: UIRefreshControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
         
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull To Refresh", attributes: [NSFontAttributeName: UIFont.chalkboardFont(withSize: 15),NSForegroundColorAttributeName: UIColor().darkBlueAppDesign])
+        refreshControl.addTarget(self, action: #selector(TopSongsViewController.downloadTopSongs), forControlEvents: .ValueChanged)
+        tableView.addSubview(refreshControl)
+        downloadTopSongs()
     }
     
     
@@ -124,8 +131,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     
-    @IBAction func downloadTopSongs(sender: AnyObject) {
-        retrieveSongsButton.enabled = false
+    func downloadTopSongs() {
         
         for (ref, handle) in firebaseRefHandleTuples {
             ref.removeObserverWithHandle(handle)
@@ -229,7 +235,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     func delayButtonEnabled() {
         let when = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * NSEC_PER_SEC))
         dispatch_after(when, dispatch_get_main_queue()) {
-            self.retrieveSongsButton.enabled = true
+            self.refreshControl.endRefreshing()
         }
     }
     
