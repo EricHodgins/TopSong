@@ -114,8 +114,6 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCellWithIdentifier("topSongCell", forIndexPath: indexPath) as! TopSongTableViewCell
         
         let song = friendsArray[indexPath.section].topSongs[indexPath.row]
-//        cell.artistLabel.text = song.artist
-//        cell.titleLabel.text = song.title
         cell.rank.text = song.rank
         
         let titleFontAttribute = UIFont.chalkboardFont(withSize: 20)
@@ -217,11 +215,13 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
                 if friend.uid == friendID {
                     friend.topSongs[songRank]
                     self.friendsArray[index].topSongs[songRank] = newSong
+                    let indexPath = NSIndexPath(forRow: songRank, inSection: index)
+                    self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                     break
                 }
             }
             
-            self.tableView.reloadData()
+            //self.tableView.reloadData()
         })
         
         
