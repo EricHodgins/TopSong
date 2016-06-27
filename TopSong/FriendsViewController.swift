@@ -22,13 +22,20 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
     let firDatabaseRef = FIRDatabase.database().reference()
     
     @IBOutlet weak var tableView: UITableView!
-    
+    var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull To Refresh", attributes: [NSFontAttributeName: UIFont.chalkboardFont(withSize: 15),NSForegroundColorAttributeName: UIColor().darkBlueAppDesign])
+        refreshControl.addTarget(self, action: #selector(FriendsViewController.refreshFriendList), forControlEvents: .ValueChanged)
+        tableView.addSubview(refreshControl)
+        
+        refreshFriendList()
     }
 
     
@@ -39,7 +46,7 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
         findFriendsVC.user = user
     }
 
-    @IBAction func refreshFriendList(sender: AnyObject) {
+    func refreshFriendList() {
         let friendsRef = firDatabaseRef.child("friendsGroup").child("\(user!.uid)")
         friendsRef.observeEventType(.Value, withBlock: {(snapshot) in
             self.friends = []
@@ -49,6 +56,7 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
             }
              
             self.tableView.reloadData()
+            self.refreshControl.endRefreshing()
         })
     }
     
@@ -62,7 +70,7 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("friendCell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("friendCell", forIndexPath: indexPath) as! FriendTableViewCell
         
         let friend = friends[indexPath.row]
         getFriendInfo(friend, cell: cell)
@@ -70,13 +78,16 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
         return cell
     }
     
-    func getFriendInfo(friend: Friend, cell: UITableViewCell) {
+    func getFriendInfo(friend: Friend, cell: FriendTableViewCell) {
         let usersRef = firDatabaseRef.child("users").child(friend.id)
         usersRef.observeEventType(.Value, withBlock: {(snapshot) in
             let userDict = snapshot.value as! [String : String]
             let username = userDict["username"]!
             dispatch_async(dispatch_get_main_queue()) {
-                cell.textLabel?.text = username
+                let fontAttribute = UIFont.chalkboardFont(withSize: 20.0)
+                let colorAttribute = UIColor().darkBlueAppDesign
+                let attributedString = NSAttributedString(string: username, attributes: [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: colorAttribute])
+                cell.friendNameLabel?.attributedText = attributedString
             }
         })
     }

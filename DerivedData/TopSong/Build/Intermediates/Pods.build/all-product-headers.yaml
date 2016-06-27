@@ -1,0 +1,33 @@
+{
+  'version': 0,
+  'case-sensitive': 'false',
+  'roots': [
+    {
+      'type': 'directory',
+      'name': "/Users/erichodgins/UdacityIosNanodegree/FinalProjectTopSong/TopSong/DerivedData/TopSong/Build/Products/Debug-iphoneos/Pods_TopSong.framework/Headers",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "Pods-TopSong-umbrella.h",
+          'external-contents': "/Users/erichodgins/UdacityIosNanodegree/FinalProjectTopSong/TopSong/Pods/Target Support Files/Pods-TopSong/Pods-TopSong-umbrella.h"
+        },
+        {
+          'type': 'file',
+          'name': "Pods_TopSong-Swift.h",
+          'external-contents': "/Users/erichodgins/UdacityIosNanodegree/FinalProjectTopSong/TopSong/DerivedData/TopSong/Build/Products/Debug-iphoneos/Pods_TopSong.framework/Headers/Pods_TopSong-Swift.h"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/erichodgins/UdacityIosNanodegree/FinalProjectTopSong/TopSong/DerivedData/TopSong/Build/Products/Debug-iphoneos/Pods_TopSong.framework/Modules",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "module.modulemap",
+          'external-contents': "/Users/erichodgins/UdacityIosNanodegree/FinalProjectTopSong/TopSong/DerivedData/TopSong/Build/Intermediates/Pods.build/Debug-iphoneos/Pods-TopSong.build/module.modulemap"
+        }
+      ]
+    }
+  ]
+}

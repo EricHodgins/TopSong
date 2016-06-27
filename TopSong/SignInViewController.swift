@@ -18,6 +18,10 @@ class SignInViewController: UIViewController {
     var signInButton: UIButton!
     var createAccountButton: UIButton!
     
+    lazy var firebaseClient = {
+        return FirebaseClient()
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -137,36 +141,25 @@ class SignInViewController: UIViewController {
     
     func signIn() {
         // **************   FILLED IN FOR DEBUGGING ************
-        FIRAuth.auth()?.signInWithEmail("hodgins.e@gmail.com", password: "123456", completion: { (user, error) in
-            guard error == nil else {
-                print("error signing user in: \(error?.localizedDescription)")
+        firebaseClient.signIn("hodgins.e@gmail.com", password: "123456") { (success, user, error) in
+            
+            if success {
+                print("Signed in user: \(user)")
+                let tabBC = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfile")
+                //need to grab the NavigationController and then the nav's ViewController for the ProfileVC
+                let profileVC = (tabBC?.childViewControllers[0] as! UINavigationController).childViewControllers[0] as! ProfileViewController
+                let friendsVC = (tabBC?.childViewControllers[2] as! UINavigationController).childViewControllers[0] as! FriendsViewController
+                let topSongsVC = (tabBC?.childViewControllers[1] as! UINavigationController).childViewControllers[0] as! TopSongsViewController
+                topSongsVC.user = user
+                profileVC.user = user
+                friendsVC.user = user
                 
-                switch error!.code {
-                case FIRAuthErrorCode.ErrorCodeOperationNotAllowed.rawValue:
-                    print("Operation not allowed.")
-                case FIRAuthErrorCode.ErrorCodeUserDisabled.rawValue:
-                    print("User disabled.")
-                case FIRAuthErrorCode.ErrorCodeWrongPassword.rawValue:
-                    print("Wrong password.")
-                default:
-                    print("\(error)")
-                }
-                
-                return
+                self.presentViewController(tabBC!, animated: true, completion: nil)
+            } else {
+                // TODO: Alert User an Error has Occcurred signing in
             }
             
-            print("Signed in user: \(user)")
-            let tabBC = self.storyboard?.instantiateViewControllerWithIdentifier("UserProfile")
-            //need to grab the NavigationController and then the nav's ViewController for the ProfileVC
-            let profileVC = (tabBC?.childViewControllers[0] as! UINavigationController).childViewControllers[0] as! ProfileViewController
-            let friendsVC = (tabBC?.childViewControllers[2] as! UINavigationController).childViewControllers[0] as! FriendsViewController
-            let topSongsVC = (tabBC?.childViewControllers[1] as! UINavigationController).childViewControllers[0] as! TopSongsViewController
-            topSongsVC.user = user
-            profileVC.user = user
-            friendsVC.user = user
-            
-            self.presentViewController(tabBC!, animated: true, completion: nil)
-        })
+        }
     }
     
     func createAccount() {

@@ -14,6 +14,7 @@
 		7A3E31551D070A4300DC90B0 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */; };
 		7A3E315B1D07CD7600DC90B0 /* TopPickTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E315A1D07CD7600DC90B0 /* TopPickTableViewCell.swift */; };
 		7A789D3C1D13BB720048F7C2 /* TopSongsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A789D3B1D13BB720048F7C2 /* TopSongsViewController.swift */; };
+		7A7F2B1F1D1F353B006B85D0 /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7F2B1E1D1F353B006B85D0 /* FriendTableViewCell.swift */; };
 		7A8C412E1D0DDC4E00D45C6B /* SongProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8C412D1D0DDC4E00D45C6B /* SongProtocols.swift */; };
 		7A8C41301D0DDDA500D45C6B /* UIDesignAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8C412F1D0DDDA500D45C6B /* UIDesignAttributes.swift */; };
 		7A8C41321D0E009100D45C6B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7A8C41311D0E009100D45C6B /* GoogleService-Info.plist */; };
@@ -22,6 +23,7 @@
 		7A922CEB1D125CE1002CBE7B /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A922CEA1D125CE1002CBE7B /* FriendsViewController.swift */; };
 		7AA0A8421D0E20B1009324D9 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA0A8411D0E20B1009324D9 /* SignInViewController.swift */; };
 		7AB265361D15EC8A00EF8E59 /* TopSongTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB265351D15EC8A00EF8E59 /* TopSongTableViewCell.swift */; };
+		7AC2CC231D20CB9C002FCC5D /* FirebaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC2CC221D20CB9C002FCC5D /* FirebaseClient.swift */; };
 		AD737317D12B4FA3CD029F1C /* Pods_TopSong.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B05838AB879D3A25810C130 /* Pods_TopSong.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +38,7 @@
 		7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = ../ProfileViewController.swift; sourceTree = "<group>"; };
 		7A3E315A1D07CD7600DC90B0 /* TopPickTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopPickTableViewCell.swift; path = ../TopPickTableViewCell.swift; sourceTree = "<group>"; };
 		7A789D3B1D13BB720048F7C2 /* TopSongsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopSongsViewController.swift; sourceTree = "<group>"; };
+		7A7F2B1E1D1F353B006B85D0 /* FriendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
 		7A8C412D1D0DDC4E00D45C6B /* SongProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongProtocols.swift; sourceTree = "<group>"; };
 		7A8C412F1D0DDDA500D45C6B /* UIDesignAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDesignAttributes.swift; sourceTree = "<group>"; };
 		7A8C41311D0E009100D45C6B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -44,6 +47,7 @@
 		7A922CEA1D125CE1002CBE7B /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		7AA0A8411D0E20B1009324D9 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		7AB265351D15EC8A00EF8E59 /* TopSongTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopSongTableViewCell.swift; sourceTree = "<group>"; };
+		7AC2CC221D20CB9C002FCC5D /* FirebaseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseClient.swift; sourceTree = "<group>"; };
 		8B0A7FCA8DB0EC9761B1C8C7 /* Pods-TopSong.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TopSong.release.xcconfig"; path = "Pods/Target Support Files/Pods-TopSong/Pods-TopSong.release.xcconfig"; sourceTree = "<group>"; };
 		9B05838AB879D3A25810C130 /* Pods_TopSong.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TopSong.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -91,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				7A3E31421D07083600DC90B0 /* AppDelegate.swift */,
+				7AC2CC221D20CB9C002FCC5D /* FirebaseClient.swift */,
 				7A8C412F1D0DDDA500D45C6B /* UIDesignAttributes.swift */,
 				7A8C412D1D0DDC4E00D45C6B /* SongProtocols.swift */,
 				7A3E315A1D07CD7600DC90B0 /* TopPickTableViewCell.swift */,
@@ -101,6 +106,7 @@
 				7AB265351D15EC8A00EF8E59 /* TopSongTableViewCell.swift */,
 				7A789D3B1D13BB720048F7C2 /* TopSongsViewController.swift */,
 				7A922CEA1D125CE1002CBE7B /* FriendsViewController.swift */,
+				7A7F2B1E1D1F353B006B85D0 /* FriendTableViewCell.swift */,
 				7A8FDABC1D110E0E0053BEF7 /* FindFriendsViewController.swift */,
 				7A3E31491D07083600DC90B0 /* Assets.xcassets */,
 				7A3E314B1D07083600DC90B0 /* LaunchScreen.storyboard */,
@@ -245,12 +251,14 @@
 				7AA0A8421D0E20B1009324D9 /* SignInViewController.swift in Sources */,
 				7A789D3C1D13BB720048F7C2 /* TopSongsViewController.swift in Sources */,
 				7A922CEB1D125CE1002CBE7B /* FriendsViewController.swift in Sources */,
+				7A7F2B1F1D1F353B006B85D0 /* FriendTableViewCell.swift in Sources */,
 				7AB265361D15EC8A00EF8E59 /* TopSongTableViewCell.swift in Sources */,
 				7A8C41301D0DDDA500D45C6B /* UIDesignAttributes.swift in Sources */,
 				7A3E31551D070A4300DC90B0 /* ProfileViewController.swift in Sources */,
 				7A8CD6DF1D08613F0010EBD9 /* SongPickerViewController.swift in Sources */,
 				7A8C412E1D0DDC4E00D45C6B /* SongProtocols.swift in Sources */,
 				7A8FDABD1D110E0E0053BEF7 /* FindFriendsViewController.swift in Sources */,
+				7AC2CC231D20CB9C002FCC5D /* FirebaseClient.swift in Sources */,
 				7A3E31431D07083600DC90B0 /* AppDelegate.swift in Sources */,
 				7A3E315B1D07CD7600DC90B0 /* TopPickTableViewCell.swift in Sources */,
 			);
