@@ -11,6 +11,8 @@ import Firebase
 
 public let EAHFirbaseSignInErrorDomain = "com.erichodgins.TopSong.SignInError"
 public let SignInError: Int = 10
+public let EAHFirbaseCreateAccountErrorDomain = "com.erichodgins.TopSong.CreateAccountError"
+public let CreateAccountError: Int = 20
 
 class FirebaseClient {
     
@@ -40,8 +42,73 @@ class FirebaseClient {
                 return
             }
             
+            //Signed Successfully
+            completionHandler(success: true, user: user, error: nil)
+        })
+    }
+    
+    
+    func createAccount(email: String, password: String, completionHandler: (success: Bool, user: FIRUser?, error: NSError?) -> Void) {
+        
+        FIRAuth.auth()?.createUserWithEmail(email, password: password, completion: { (user, error) in
+            guard error == nil else {
+                print("error creating account: \(error?.localizedDescription)\n")
+                let localizedErrorMessage: String
+                switch error!.code {
+                case FIRAuthErrorCode.ErrorCodeInvalidEmail.rawValue:
+                    print("Invalid email.")
+                    localizedErrorMessage = "Invalid email."
+                case FIRAuthErrorCode.ErrorCodeEmailAlreadyInUse.rawValue:
+                    print("Email already in use")
+                    localizedErrorMessage = "Email already in use."
+                case FIRAuthErrorCode.ErrorCodeOperationNotAllowed.rawValue:
+                    print("Operation now allowed.")
+                    localizedErrorMessage = "Operation now allowed."
+                case FIRAuthErrorCode.ErrorCodeWeakPassword.rawValue:
+                    print("Weak password.")
+                    localizedErrorMessage = "Weak password."
+                default:
+                    print("\(error)")
+                    localizedErrorMessage = "\(error?.localizedDescription)"
+                }
+                
+                let userInfo = [NSLocalizedDescriptionKey: localizedErrorMessage]
+                let createAccountError = NSError(domain: EAHFirbaseCreateAccountErrorDomain, code: CreateAccountError, userInfo: userInfo)
+                completionHandler(success: false, user: nil, error: createAccountError)
+                return
+            }
+            
             completionHandler(success: true, user: user, error: nil)
         })
     }
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

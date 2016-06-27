@@ -163,27 +163,13 @@ class SignInViewController: UIViewController {
     }
     
     func createAccount() {
-        FIRAuth.auth()?.createUserWithEmail("hodgins.e@gmail.com", password: "123456", completion: { (user, error) in
-            guard error == nil else {
-                print("error creating account: \(error?.localizedDescription)\n")
-                switch error!.code {
-                case FIRAuthErrorCode.ErrorCodeInvalidEmail.rawValue:
-                    print("Invalid email.")
-                case FIRAuthErrorCode.ErrorCodeEmailAlreadyInUse.rawValue:
-                    print("Email already in use")
-                case FIRAuthErrorCode.ErrorCodeOperationNotAllowed.rawValue:
-                    print("Operation now allowed.")
-                case FIRAuthErrorCode.ErrorCodeWeakPassword.rawValue:
-                    print("Weak password.")
-                default:
-                    print("\(error)")
-                }
-                
-                return
+        firebaseClient.createAccount("hodgins.e@gmail.com", password: "123456") { (success, user, error) in
+            if success {
+                print("user successfully created.")
+            } else {
+                //TODO: Alert user account not created.
             }
-            
-            print(user)
-        })
+        }
     }
 
 }
