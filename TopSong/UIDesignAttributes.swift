@@ -8,6 +8,32 @@
 
 import UIKit
 
+
+class UIDesign {
+    
+    class func lightStyleAttributedString(text: String, fontSize: CGFloat) -> NSAttributedString {
+        let colorAttribute = UIColor().lightBlueAppDesign
+        let fontAttribute = UIFont.chalkboardFont(withSize: fontSize)
+        
+        return NSAttributedString(string: text, attributes: [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: colorAttribute])
+    }
+    
+    class func darkStyleAttributedString(text: String, fontSize: CGFloat) -> NSAttributedString {
+        let colorAttribute = UIColor().darkBlueAppDesign
+        let fontAttribute = UIFont.chalkboardFont(withSize: fontSize)
+        
+        return NSAttributedString(string: text, attributes: [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: colorAttribute])
+    }
+    
+    class func highlightedAttributedString(text: String, fontSize: CGFloat) -> NSAttributedString {
+        let colorAttribute = UIColor().redAppDesign
+        let fontAttribute = UIFont.chalkboardFont(withSize: fontSize)
+        
+        return NSAttributedString(string: text, attributes: [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: colorAttribute])
+    }
+}
+
+
 extension UIColor {
     
     var lightBlueAppDesign: UIColor {

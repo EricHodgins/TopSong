@@ -15,12 +15,16 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
     
     let firDatabaseRef = FIRDatabase.database().reference()
     var user: FIRUser?
+    
+    lazy var firebaseClient: FirebaseClient = {
+        return FirebaseClient()
+    }()
 
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var profileNameTextField: UITextField!
     @IBOutlet weak var topPicksLabel: UILabel!
     
-    var userTopPicks = [MPMediaItem?](count: 3, repeatedValue: nil)
+    var userTopPicks = [TopSong?](count: 3, repeatedValue: nil)
     
     let imagePicker = UIImagePickerController()
     
@@ -45,10 +49,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
         profileNameTextField.delegate = self
         
         // Top Picks Label
-        let fontAttribute = UIFont.chalkboardFont(withSize: 25.0)
-        let colorAttribute = UIColor().lightBlueAppDesign
-        let mutableString = NSMutableAttributedString(string: topPicksLabel.text!, attributes: [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: colorAttribute])
-        topPicksLabel.attributedText = mutableString
+        topPicksLabel.attributedText = UIDesign.lightStyleAttributedString(topPicksLabel.text!, fontSize: 25.0)
         
         //Profile Name Textfield
         let fontTextfieldAttribute = UIFont.chalkboardFont(withSize: 18.0)
@@ -109,11 +110,9 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
             cell.artistLabel.text = ""
         }
         
-        let songAttributedString = NSMutableAttributedString(string: cell.songTitleLabel.text!, attributes: [NSFontAttributeName: cellSongTitleAttribute, NSForegroundColorAttributeName: cellSongTitleColorAttribute])
-        let artistAttributedString = NSMutableAttributedString(string: cell.artistLabel.text!, attributes: [NSFontAttributeName: cellArtistFontAttribute, NSForegroundColorAttributeName: cellArtistColorAttribute])
-        cell.songTitleLabel.attributedText = songAttributedString
-        cell.artistLabel.attributedText = artistAttributedString
-        cell.changeButton.setAttributedTitle(cellButtonStringAttribute, forState: .Normal)
+        cell.songTitleLabel.attributedText = UIDesign.darkStyleAttributedString(cell.songTitleLabel.text!, fontSize: 20.0)//songAttributedString
+        cell.artistLabel.attributedText = UIDesign.lightStyleAttributedString(cell.artistLabel.text!, fontSize: 15.0)//artistAttributedString
+        cell.changeButton.setAttributedTitle(UIDesign.highlightedAttributedString("Change", fontSize: 15.0), forState: .Normal)
         
         cell.topPickIndexPath = indexPath
         cell.delegate = self
@@ -129,8 +128,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
 extension ProfileViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
-        firDatabaseRef.child("users").child(user!.uid).updateChildValues(["username": textField.text!])
-        //firDatabaseRef.child("users").child(user!.uid).setValue(["username": textField.text!, "imageFilePath": ""])
+        firebaseClient.updateUsername(user!, name: profileNameTextField.text!)
         
         textField.resignFirstResponder()
         return true
@@ -139,6 +137,7 @@ extension ProfileViewController: UITextFieldDelegate {
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if profileNameTextField.isFirstResponder() {
+            firebaseClient.updateUsername(user!, name: profileNameTextField.text!)
             profileNameTextField.resignFirstResponder()
         }
     }
@@ -159,11 +158,12 @@ extension ProfileViewController: SongChanging {
 
 //MARK: SongPicking Protocol
 extension ProfileViewController: SongPicking {
-    func pickedNewTopSong(song: MPMediaItem, forIndexPath: NSIndexPath) {
+    func pickedNewTopSong(song: TopSong, forIndexPath: NSIndexPath) {
         
         // Save to Firebase database
-        firDatabaseRef.child("topSongs").child(user!.uid).child("songs").child("\(forIndexPath.row)").setValue(["songTitle": song.title!, "songArtist": song.artist!])
+        firebaseClient.updateTopSong(user!, indexPath: forIndexPath, song: song)
         
+        //update tableview
         userTopPicks[forIndexPath.row] = song
         tableView.reloadData()
     }
@@ -178,35 +178,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
             self.profileImageView.image = image
         }
         
-        let imageData : NSData? = UIImageJPEGRepresentation(image, 0.1)
-        
-        // Root Storage reference
-        let storageRef = FIRStorage.storage().referenceForURL("gs://project-6981864531344520331.appspot.com")
-        
-        //Make full Storage reference
-        let imageRef = storageRef.child("\(user!.uid)\\images\\profile")
-        
-        //Upload image data to Firebase storage bucket
-        let uploadTask = imageRef.putData(imageData!, metadata: nil) { metadata, error in
-            guard error == nil else {
-                print("Error uploading profile image.\(error?.localizedDescription)")
-                return
-            }
-        }
-        
-        uploadTask.observeStatus(.Success) { (snapshot) in
-            print("success uploading profile image data.")
-            //Save image full path to database
-            self.firDatabaseRef.child("users").child(self.user!.uid).updateChildValues(["imageFilePath": "\(imageRef)"])
-            //self.firDatabaseRef.child("users").child("\(self.user!.uid)").setValue(["username": "\(self.profileNameTextField.text!)","imageFilePath": "\(imageRef)"])
-        }
-        
-        uploadTask.observeStatus(.Progress) { (snapshot) in
-            //TODO: Maybe do some cool animation with this feature while downloading.
-//            if let progress = snapshot.progress {
-//                let percentComplete = 100.0 * Double(progress.completedUnitCount) / Double(progress.totalUnitCount)
-//                print(percentComplete)
-//            }
+        firebaseClient.uploadUserProfileImage(user!, image: image) { (success) in
+            print("finished uploading image data.")
         }
         
         dismissViewControllerAnimated(true, completion: nil)
@@ -218,78 +191,51 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
     
     //MARK: Download Profile Image
     func downloadProfileImage() {
-        let storageRef = FIRStorage.storage().referenceForURL("gs://project-6981864531344520331.appspot.com")
-        let profileImage = storageRef.child("\(user!.uid)\\images\\profile")
-        
-        let downloadTask = profileImage.dataWithMaxSize(1 * 1024 * 1024) { (imageData, error) in
-            guard error == nil else {
-                print("Error downloading profile image: \(error?.localizedDescription)")
+        firebaseClient.fetchUserImage(user!) { (success, image) in
+            guard success == true else {
                 return
             }
             
-            let image : UIImage = UIImage(data: imageData!)!
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                self.profileImageView.image = image
-            }
-            
-        }
-        
-        downloadTask.observeStatus(.Success) { (snapshot) in
-            print("completed downloading profile image.")
-        }
-        
-        downloadTask.observeStatus(.Progress) { (snapshot) in
-            //TODO: Cool animation with this as well?
-//            if let progress = snapshot.progress {
-//                let percentComplete = 100.0 * Double(progress.completedUnitCount) / Double(progress.totalUnitCount)
-//                print(percentComplete)
-//            }
+            self.profileImageView.image = image
         }
     }
     
     //MARK: Download Profile Name
     func downloadProfileName() {
-        let nameRef = firDatabaseRef.child("users").child("\(user!.uid)")
-        nameRef.observeEventType(FIRDataEventType.Value, withBlock: { (snapshot) in
-            guard snapshot.value != nil else {
+        firebaseClient.fetchUsername(user!) { (success, username) in
+            guard success == true else {
                 return
             }
-            
-            let username = snapshot.value as! [String : String]
-            dispatch_async(dispatch_get_main_queue()) {
-                self.profileNameTextField.text = username["username"]
-            }
-        })
+            self.profileNameTextField.text = username
+        }
     }
     
     
     //MARK: Download Top Song Picks
     func downloadTopSongPicks() {
-        let topSongsRef = firDatabaseRef.child("topSongs").child("\(user!.uid)").child("songs")
-        topSongsRef.observeEventType(FIRDataEventType.Value, withBlock: { (snapshot) in
-            let songArray = snapshot.value as! NSArray
-            for (index, song) in songArray.enumerate() {
-                let songDict = song as! [String : String]
-                let artistPredicate = MPMediaPropertyPredicate(value: songDict["songArtist"]!, forProperty: MPMediaItemPropertyArtist)
-                let titlePredicate = MPMediaPropertyPredicate(value: songDict["songTitle"], forProperty: MPMediaItemPropertyTitle)
-                
-                //TODO: Figure out what happens when the query can't find the song.
-                let query: MPMediaQuery = MPMediaQuery.songsQuery()
-                query.addFilterPredicate(artistPredicate)
-                query.addFilterPredicate(titlePredicate)
-                let songMediaItem = query.items![0]
-                self.userTopPicks[index] = songMediaItem
+        
+        firebaseClient.fetchUserTopSongs(user!) { (success, topSongsArray) in
+            guard success == true else {
+                print("error fetching top songs for user.")
+                return
+            }
+            
+            for (index, song) in topSongsArray.enumerate() {
+                self.userTopPicks[index] = song
             }
             
             self.tableView.reloadData()
-        })
-        
+        }
     }
 }
 
 
-
+extension ProfileViewController {
+    //TODO: Finish proper logging out
+    @IBAction func logoutPressed(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+}
 
 
 

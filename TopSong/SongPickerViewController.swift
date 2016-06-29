@@ -11,7 +11,6 @@ import MediaPlayer
 
 class SongPickerViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    var songPickedCallback: ((String, String, NSIndexPath) -> ())?
     weak var delegate: SongPicking?
     var pickedNumberAtIndexPath: NSIndexPath?
     
@@ -104,7 +103,8 @@ class SongPickerViewController: UIViewController, UITableViewDataSource, UITable
         }
         
         dispatch_async(dispatch_get_main_queue()) {
-            self.delegate?.pickedNewTopSong(song, forIndexPath: self.pickedNumberAtIndexPath!)
+            let topSong = TopSong(artist: song.artist!, title: song.title!, rank: "\(self.pickedNumberAtIndexPath!)", mediaItem: song, isSongPlayable: true)
+            self.delegate?.pickedNewTopSong(topSong, forIndexPath: self.pickedNumberAtIndexPath!)
             
             if self.searchController.active {
                 self.searchController.dismissViewControllerAnimated(true, completion: nil)

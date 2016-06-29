@@ -35,6 +35,10 @@ class SignInViewController: UIViewController {
         setupTextFields()
     }
     
+    deinit {
+        print("SignIn viewcontroller deinit.")
+    }
+    
     func signIn() {
         // **************   FILLED IN FOR DEBUGGING ************
         firebaseClient.signIn("hodgins.e@gmail.com", password: "123456") { (success, user, error) in

@@ -14,5 +14,5 @@ protocol SongChanging: class {
 }
 
 protocol SongPicking: class {
-    func pickedNewTopSong(song: MPMediaItem, forIndexPath: NSIndexPath)
+    func pickedNewTopSong(song: TopSong, forIndexPath: NSIndexPath)
 }

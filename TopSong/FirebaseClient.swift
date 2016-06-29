@@ -16,6 +16,14 @@ public let CreateAccountError: Int = 20
 
 class FirebaseClient {
     
+    deinit {
+        print("Firebase Client was deinitialized.")
+    }
+    
+    let firDatabaseRef = FIRDatabase.database().reference()
+    let storageRef = FIRStorage.storage().referenceForURL("gs://project-6981864531344520331.appspot.com")
+    
+    //MARK: Sign In
     func signIn(email: String, password: String, completionHandler: (success: Bool, user: FIRUser?, error: NSError?) -> Void) {
         FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (user, error) in
             guard error == nil else {
@@ -42,7 +50,7 @@ class FirebaseClient {
                 return
             }
             
-            //Signed Successfully
+            //Signed in Successfully
             completionHandler(success: true, user: user, error: nil)
         })
     }
@@ -80,6 +88,108 @@ class FirebaseClient {
             
             completionHandler(success: true, user: user, error: nil)
         })
+    }
+    
+    //MARK Downloading
+    func fetchUserTopSongs(user: FIRUser, completionHanlder: (success: Bool, topSongs: [TopSong]) -> Void) {
+        let topSongsRef = firDatabaseRef.child("topSongs").child("\(user.uid)").child("songs")
+        topSongsRef.observeEventType(.Value, withBlock: { (snapshot) in
+            let songsArray = snapshot.value as! NSArray
+            
+            let songConverter = SongConverter()
+            let topSongsArray = songConverter.getAudioFileFromSystemWithSongsArray(songsArray)
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                completionHanlder(success: true, topSongs: topSongsArray)
+            }
+
+        })
+    }
+    
+    func fetchUsername(user: FIRUser, completionHandler: (success: Bool, username: String) -> Void) {
+        let nameRef = firDatabaseRef.child("users").child("\(user.uid)")
+        nameRef.observeEventType(.Value, withBlock: { (snapshot) in
+            guard snapshot.value != nil else {
+                print("could not retrived username")
+                completionHandler(success: false, username: "")
+                return
+            }
+            
+            let username = snapshot.value as! [String : String]
+            dispatch_async(dispatch_get_main_queue()) {
+                completionHandler(success: true, username: username["username"]!)
+            }
+        })
+    }
+
+    
+    func fetchUserImage(user: FIRUser, completionHandler: (success: Bool, image: UIImage?) -> Void) {
+        let imageRef = storageRef.child("\(user.uid)\\images\\profile")
+        
+        let downloadTask = imageRef.dataWithMaxSize(1 * 1024 * 1024) { (imageData, error) in
+            guard error == nil else {
+                print("Error downloading profile image: \(error?.localizedDescription)")
+                completionHandler(success: false, image: nil)
+                return
+            }
+
+            let image : UIImage = UIImage(data: imageData!)!
+
+            dispatch_async(dispatch_get_main_queue()) {
+                completionHandler(success: true, image: image)
+            }
+        }
+        
+        downloadTask.observeStatus(.Progress) { (snapshot) in
+        //TODO: Cool animation with this as well?
+        //            if let progress = snapshot.progress {
+        //                let percentComplete = 100.0 * Double(progress.completedUnitCount) / Double(progress.totalUnitCount)
+        //                print(percentComplete)
+        //            }
+        }
+    }
+
+    
+    //MARK: Uploading
+    
+    func uploadUserProfileImage(user: FIRUser, image: UIImage, completionHandler: (success: Bool) -> Void) {
+        
+        //compress Image data
+        let imageData : NSData? = UIImageJPEGRepresentation(image, 0.1)
+        
+        let imageRef = self.storageRef.child("\(user.uid)\\images\\profile")
+        
+        //upload image data to imageRef path
+        let uploadTask = imageRef.putData(imageData!, metadata: nil) { (metadata, error) in
+            print("putting image data.")
+            guard error == nil else {
+                completionHandler(success: false)
+                return
+            }
+        }
+        
+        uploadTask.observeStatus(.Success) { (snapshot) in
+            print("success putting image data.")
+            self.firDatabaseRef.child("users").child(user.uid).updateChildValues(["imageFilePath": "\(imageRef)"])
+            completionHandler(success: true)
+        }
+        
+//        uploadTask.observeStatus(.Progress) { (snapshot) in
+//            //TODO: Maybe do some cool animation with this feature while downloading.
+//            if let progress = snapshot.progress {
+//                let percentComplete = 100.0 * Double(progress.completedUnitCount) / Double(progress.totalUnitCount)
+//                print(percentComplete)
+//            }
+//        }
+    }
+    
+    
+    func updateTopSong(user: FIRUser, indexPath: NSIndexPath, song: TopSong) {
+        firDatabaseRef.child("topSongs").child(user.uid).child("songs").child("\(indexPath.row)").setValue(["songTitle": song.title, "songArtist": song.artist])
+    }
+    
+    func updateUsername(user: FIRUser, name: String) {
+        firDatabaseRef.child("users").child(user.uid).updateChildValues(["username": name])
     }
     
 }

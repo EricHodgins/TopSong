@@ -10,16 +10,7 @@ import UIKit
 import Firebase
 
 class TopSongsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    struct TopSong {
-        var artist: String
-        var title: String
-        var rank: String
-    }
-    
 
-    
-    
     var user: FIRUser?
     var topSongs = [TopSong]()
     var friendUserIDs = [String]()
@@ -175,58 +166,56 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func downloadFriendTopSongs(id: String, username: String, imagePath: String?) {
         
-        let topSongRef = firDatabaseRef.child("topSongs").child(id).child("songs")
-        topSongRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
-            let songsArray = snapshot.value as! NSArray
-            var friend = Friend(friendName: username, friendSongs: [], friendID: id, storageImagePath: imagePath)
-            var topSongIndexes = [NSIndexPath]()
-            var indexPath: NSIndexPath
-            for (index, song) in songsArray.enumerate() {
-                let songDict = song as! [String : String]
-                let topSong = TopSong(artist: "\(songDict["songArtist"]!)", title: songDict["songTitle"]!, rank: "\(index)")
-                friend.topSongs.append(topSong)
-                indexPath = NSIndexPath(forRow: friend.topSongs.count - 1, inSection: self.friendsArray.count)
-                topSongIndexes.append(indexPath)
-            }
-            
-            self.tableView.beginUpdates()
-            self.friendsArray.append(friend)
-            let section = NSIndexSet(index: self.friendsArray.count - 1)
-            self.tableView.insertSections(section, withRowAnimation: .Automatic)
-            self.tableView.insertRowsAtIndexPaths(topSongIndexes, withRowAnimation: .Automatic)
-            self.tableView.endUpdates()
-            
-            dispatch_group_leave(self.downloadGroup)
-            
-        })
+//        let topSongRef = firDatabaseRef.child("topSongs").child(id).child("songs")
+//        topSongRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+//            let songsArray = snapshot.value as! NSArray
+//            var friend = Friend(friendName: username, friendSongs: [], friendID: id, storageImagePath: imagePath)
+//            var topSongIndexes = [NSIndexPath]()
+//            var indexPath: NSIndexPath
+//            for (index, song) in songsArray.enumerate() {
+//                let songDict = song as! [String : String]
+//                let topSong = TopSong(artist: "\(songDict["songArtist"]!)", title: songDict["songTitle"]!, rank: "\(index)")
+//                friend.topSongs.append(topSong)
+//                indexPath = NSIndexPath(forRow: friend.topSongs.count - 1, inSection: self.friendsArray.count)
+//                topSongIndexes.append(indexPath)
+//            }
+//            
+//            self.tableView.beginUpdates()
+//            self.friendsArray.append(friend)
+//            let section = NSIndexSet(index: self.friendsArray.count - 1)
+//            self.tableView.insertSections(section, withRowAnimation: .Automatic)
+//            self.tableView.insertRowsAtIndexPaths(topSongIndexes, withRowAnimation: .Automatic)
+//            self.tableView.endUpdates()
+//            
+//            dispatch_group_leave(self.downloadGroup)
+//            
+//        })
         
         
-        let handle = topSongRef.observeEventType(.ChildChanged, withBlock: {(snapshot) in
-            let songDict = snapshot.value as! [String : AnyObject]
-            let refArr = "\(snapshot.ref)".componentsSeparatedByString("/")
-            let friendID = refArr[refArr.count - 3]
-            let songRank = Int(refArr.last!)!
-            let artist = songDict["songArtist"] as! String
-            let title = songDict["songTitle"] as! String
-            //Make new song
-            let newSong = TopSong(artist: artist, title: title, rank: "\(songRank)")
-            
-            for (index, friend) in self.friendsArray.enumerate() {
-                if friend.uid == friendID {
-                    friend.topSongs[songRank]
-                    self.friendsArray[index].topSongs[songRank] = newSong
-                    let indexPath = NSIndexPath(forRow: songRank, inSection: index)
-                    self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                    break
-                }
-            }
-            
-            //self.tableView.reloadData()
-        })
-        
-        
-        //Need to get references and handles to remove them if refreshed is pressed. Otherwise multiple calls are made.
-        self.firebaseRefHandleTuples.append((topSongRef, handle))
+//        let handle = topSongRef.observeEventType(.ChildChanged, withBlock: {(snapshot) in
+//            let songDict = snapshot.value as! [String : AnyObject]
+//            let refArr = "\(snapshot.ref)".componentsSeparatedByString("/")
+//            let friendID = refArr[refArr.count - 3]
+//            let songRank = Int(refArr.last!)!
+//            let artist = songDict["songArtist"] as! String
+//            let title = songDict["songTitle"] as! String
+//            //Make new song
+//            let newSong = TopSong(artist: artist, title: title, rank: "\(songRank)")
+//            
+//            for (index, friend) in self.friendsArray.enumerate() {
+//                if friend.uid == friendID {
+//                    friend.topSongs[songRank]
+//                    self.friendsArray[index].topSongs[songRank] = newSong
+//                    let indexPath = NSIndexPath(forRow: songRank, inSection: index)
+//                    self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+//                    break
+//                }
+//            }
+//        })
+//        
+//        
+//        //Need to get references and handles to remove them if a refresh is made. Otherwise multiple calls are made.
+//        self.firebaseRefHandleTuples.append((topSongRef, handle))
         
     }
     
