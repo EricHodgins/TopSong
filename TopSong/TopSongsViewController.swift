@@ -74,8 +74,19 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         imageView.contentMode = .ScaleAspectFit
         
         //download profile Image
-        if let path = friendsArray[section].imagePath {
-            downloadProfileImage(path, imageView: imageView)
+        if friendsArray[section].imagePath != nil {
+            //downloadProfileImage(path, imageView: imageView)
+            let userId = friendsArray[section].uid
+            firebaseClient.fetchUserImage(userId, completionHandler: { (success, image) in
+                if success {
+                    imageView.image = image
+                    imageView.layer.cornerRadius = imageView.frame.size.height / 2
+                    imageView.layer.masksToBounds = true
+                    imageView.contentMode = .ScaleAspectFill
+                    imageView.layer.borderWidth = 1
+                    imageView.layer.borderColor = UIColor.whiteColor().CGColor
+                }
+            })
         }
         
         

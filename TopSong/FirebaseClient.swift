@@ -128,8 +128,8 @@ class FirebaseClient {
     }
 
     
-    func fetchUserImage(user: FIRUser, completionHandler: (success: Bool, image: UIImage?) -> Void) {
-        let imageRef = storageRef.child("\(user.uid)\\images\\profile")
+    func fetchUserImage(userId: String, completionHandler: (success: Bool, image: UIImage?) -> Void) {
+        let imageRef = storageRef.child("\(userId)\\images\\profile")
         
         let downloadTask = imageRef.dataWithMaxSize(1 * 1024 * 1024) { (imageData, error) in
             guard error == nil else {
@@ -168,6 +168,8 @@ class FirebaseClient {
                 self.downloadFriendInfo(friend.0, forSection: section, delegate: delegate, completionHandler: completionHandler)
             }
             
+            // May need to create a dispatch_group in case of multiple network requests when updating the UI.
+            // Also Firebase handles may need to be removed.  But for now it looks okay.
             delegate.endTableViewRefreshing()
         })
     }

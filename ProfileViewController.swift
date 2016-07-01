@@ -191,7 +191,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
     
     //MARK: Download Profile Image
     func downloadProfileImage() {
-        firebaseClient.fetchUserImage(user!) { (success, image) in
+        firebaseClient.fetchUserImage(user!.uid) { (success, image) in
             guard success == true else {
                 return
             }
