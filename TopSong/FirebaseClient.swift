@@ -20,6 +20,10 @@ class FirebaseClient {
         print("Firebase Client was deinitialized.")
     }
     
+    init() {
+        print("FirebaseClient was init.")
+    }
+    
     let firDatabaseRef = FIRDatabase.database().reference()
     let storageRef = FIRStorage.storage().referenceForURL("gs://project-6981864531344520331.appspot.com")
     
@@ -91,6 +95,7 @@ class FirebaseClient {
     }
     
     //MARK Downloading
+    /// For logged in user
     func fetchUserTopSongs(user: FIRUser, completionHanlder: (success: Bool, topSongs: [TopSong]) -> Void) {
         let topSongsRef = firDatabaseRef.child("topSongs").child("\(user.uid)").child("songs")
         topSongsRef.observeEventType(.Value, withBlock: { (snapshot) in
@@ -148,7 +153,75 @@ class FirebaseClient {
         //            }
         }
     }
-
+    
+    //MARK: Downloading user's friends top songs
+    typealias DownloadedFriendTopSongs = (friend: Friend, newSongIndexPaths: [NSIndexPath]) -> Void
+    
+    func downloadFriendsTopSongs(user: FIRUser, delegate: TopSongsViewController, completionHandler: DownloadedFriendTopSongs) {
+        
+        // GET all friends id's
+        let friendsRef = firDatabaseRef.child("friendsGroup").child("\(user.uid)")
+        friendsRef.observeEventType(.Value, withBlock: {(snapshot) in
+            let friendsDict = snapshot.value as! [String : AnyObject]
+            
+            for (section, friend) in friendsDict.enumerate() {
+                self.downloadFriendInfo(friend.0, forSection: section, delegate: delegate, completionHandler: completionHandler)
+            }
+            
+            delegate.endTableViewRefreshing()
+        })
+    }
+    
+    func downloadFriendInfo(friendID: String, forSection section: Int, delegate: TopSongsViewController, completionHandler: DownloadedFriendTopSongs) {
+        let usersRef = firDatabaseRef.child("users").child(friendID)
+        usersRef.observeEventType(.Value, withBlock: {(snapshot) in
+            let usersDict = snapshot.value as! [String : String]
+            let username = usersDict["username"]
+            let storedImagePath = usersDict["imageFilePath"]
+            self.downloadTopSongsForFriend(withID: friendID, username: username, imagePath: storedImagePath, section: section, delegate: delegate, completionHandler: completionHandler)
+        })
+    }
+    
+    func downloadTopSongsForFriend(withID id: String, username: String?, imagePath: String?, section: Int, delegate: TopSongsViewController, completionHandler: DownloadedFriendTopSongs) {
+        let topSongRef = firDatabaseRef.child("topSongs").child(id).child("songs")
+        topSongRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+            let songsArray = snapshot.value as! NSArray
+            var friend = Friend(friendName: username, friendSongs: [], friendID: id, storageImagePath: imagePath)
+            var tableViewFriendIndexes = [NSIndexPath]()
+            
+            let songConverter = SongConverter() // Make a TopSong
+            
+            var indexPath: NSIndexPath
+            for (index, song) in songsArray.enumerate() {
+                let songDict = song as! [String : String]
+                let topSong = songConverter.generateTopSong(songDict["songArtist"]!, title: songDict["songTitle"]!, rank: "\(index)")
+                friend.topSongs.append(topSong)
+                indexPath = NSIndexPath(forRow: friend.topSongs.count - 1, inSection: section)
+                tableViewFriendIndexes.append(indexPath)
+            }
+            
+            completionHandler(friend: friend, newSongIndexPaths: tableViewFriendIndexes)
+            
+        })
+        
+        topSongRef.observeEventType(.ChildChanged, withBlock: {(snapshot) in
+            let songDict = snapshot.value as! [String : AnyObject]
+            let refArr = "\(snapshot.ref)".componentsSeparatedByString("/")
+            let friendID = refArr[refArr.count - 3]
+            let songRank = Int(refArr.last!)!
+            let artist = songDict["songArtist"] as! String
+            let title = songDict["songTitle"] as! String
+            
+            //Make new Song
+            let songConverter = SongConverter()
+            let updatedSong = songConverter.generateTopSong(artist, title: title, rank: "\(songRank)")
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                delegate.updateFriendSongChange(friendID, newTopSong: updatedSong, rank: songRank)
+            }
+        })
+    }
+    
     
     //MARK: Uploading
     

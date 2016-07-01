@@ -29,7 +29,8 @@ class SongConverter {
             query.addFilterPredicate(titlePredicate)
             query.addFilterPredicate(artistPredicate)
             
-            if let songMediaItem = query.items?[0] {
+            if query.items?.count > 0 {
+                let songMediaItem = query.items![0]
                 let topSong = TopSong(artist: artist, title: title, rank: "\(index)", mediaItem: songMediaItem, isSongPlayable: true)
                 audioReferences.append(topSong)
             } else {
@@ -41,6 +42,26 @@ class SongConverter {
         }
         
         return audioReferences
+    }
+    
+    /// generateTopSong: Creates a TopSong.  Tries to find a song on the device. If it doesn't then it's marked as unplayable.
+    func generateTopSong(artist: String, title: String, rank: String) -> TopSong {
+        let titlePredicate = MPMediaPropertyPredicate(value: title, forProperty: MPMediaItemPropertyTitle)
+        let artistPredicate = MPMediaPropertyPredicate(value: artist, forProperty: MPMediaItemPropertyArtist)
+        let query = MPMediaQuery.songsQuery()
+        query.addFilterPredicate(titlePredicate)
+        query.addFilterPredicate(artistPredicate)
+        
+        let topSong: TopSong
+        
+        if query.items?.count > 0 {
+            let songMediaItem = query.items?[0]
+            topSong = TopSong(artist: artist, title: title, rank: "", mediaItem: songMediaItem, isSongPlayable: true)
+        } else {
+            topSong = TopSong(artist: artist, title: title, rank: "", mediaItem: nil, isSongPlayable: false)
+        }
+        
+        return topSong
     }
 }
 

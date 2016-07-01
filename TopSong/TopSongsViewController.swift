@@ -10,6 +10,10 @@ import UIKit
 import Firebase
 
 class TopSongsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    lazy var firebaseClient: FirebaseClient = {
+        return FirebaseClient()
+    }()
 
     var user: FIRUser?
     var topSongs = [TopSong]()
@@ -19,20 +23,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     let firDatabaseRef = FIRDatabase.database().reference()
     
     @IBOutlet weak var tableView: UITableView!
-    
-    struct Friend {
-        var heading: String
-        var topSongs: [TopSong]
-        var uid: String
-        var imagePath: String?
-        
-        init(friendName: String, friendSongs: [TopSong], friendID: String, storageImagePath: String?) {
-            heading = friendName
-            topSongs = friendSongs
-            uid = friendID
-            imagePath = storageImagePath
-        }
-    }
+
     var friendsArray = [Friend]()
     var firebaseRefHandleTuples = [(FIRDatabaseReference, UInt)]()
     var downloadGroup = dispatch_group_create()
@@ -49,6 +40,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         refreshControl.attributedTitle = NSAttributedString(string: "Pull To Refresh", attributes: [NSFontAttributeName: UIFont.chalkboardFont(withSize: 15),NSForegroundColorAttributeName: UIColor().darkBlueAppDesign])
         refreshControl.addTarget(self, action: #selector(TopSongsViewController.downloadTopSongs), forControlEvents: .ValueChanged)
         tableView.addSubview(refreshControl)
+        
         downloadTopSongs()
     }
     
@@ -69,7 +61,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         //title
         let fontAttribute = UIFont.chalkboardFont(withSize: 22.0)
         let colorAttribute = UIColor.whiteColor()
-        let attributedString = NSAttributedString(string: friendsArray[section].heading, attributes: [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: colorAttribute])
+        let attributedString = NSAttributedString(string: friendsArray[section].heading!, attributes: [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: colorAttribute])
         let nameFrame = CGRectMake(80, 15, 200, 40)
         let nameLabel = UILabel(frame: nameFrame)
         nameLabel.attributedText = attributedString
@@ -120,31 +112,64 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     
+    
+    //MARK: Download Songs/Friend Info
+    
+    func endTableViewRefreshing() {
+        print("ended table view refreshing.")
+        self.refreshControl.endRefreshing()
+    }
+    
+    func updateFriendSongChange(friendID: String, newTopSong: TopSong, rank: Int) {
+        print("friend updated a new top song.")
+        for (index, friend) in self.friendsArray.enumerate() {
+            if friend.uid == friendID {
+                friend.topSongs[rank]
+                self.friendsArray[index].topSongs[rank] = newTopSong
+                let indexPath = NSIndexPath(forRow: rank, inSection: index)
+                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                break
+            }
+        }
+    }
+    
     func downloadTopSongs() {
         
-        for (ref, handle) in firebaseRefHandleTuples {
-            ref.removeObserverWithHandle(handle)
-        }
-        firebaseRefHandleTuples = []
         friendsArray = []
-        self.tableView.reloadData()
+        tableView.reloadData()
         
+        firebaseClient.downloadFriendsTopSongs(user!, delegate: self) { (friend, newSongIndexPaths) in
+            self.tableView.beginUpdates()
+            self.friendsArray.append(friend)
+            let section = NSIndexSet(index: self.friendsArray.count - 1)
+            self.tableView.insertSections(section, withRowAnimation: .Automatic)
+            self.tableView.insertRowsAtIndexPaths(newSongIndexPaths, withRowAnimation: .Automatic)
+            self.tableView.endUpdates()
+        }
         
-        let friendsRef = firDatabaseRef.child("friendsGroup").child("\(user!.uid)")
-        friendsRef.observeEventType(.Value, withBlock: {(snapshot) in
-            let friendsDict = snapshot.value as! [String : AnyObject]
-            
-            for friend in friendsDict {
-                dispatch_group_enter(self.downloadGroup)
-                self.friendUserIDs.append("\(friend.0)")
-                self.downloadFriendInfo(friend.0)
-            }
-            
-            dispatch_group_notify(self.downloadGroup, dispatch_get_main_queue()) {
-                self.delayButtonEnabled()
-            }
-            
-        })
+//        for (ref, handle) in firebaseRefHandleTuples {
+//            ref.removeObserverWithHandle(handle)
+//        }
+//        firebaseRefHandleTuples = []
+//        friendsArray = []
+//        self.tableView.reloadData()
+//        
+//        
+//        let friendsRef = firDatabaseRef.child("friendsGroup").child("\(user!.uid)")
+//        friendsRef.observeEventType(.Value, withBlock: {(snapshot) in
+//            let friendsDict = snapshot.value as! [String : AnyObject]
+//            
+//            for friend in friendsDict {
+//                dispatch_group_enter(self.downloadGroup)
+//                self.friendUserIDs.append("\(friend.0)")
+//                self.downloadFriendInfo(friend.0)
+//            }
+//            
+//            dispatch_group_notify(self.downloadGroup, dispatch_get_main_queue()) {
+//                self.delayButtonEnabled()
+//            }
+//            
+//        })
     }
     
     //username
@@ -220,7 +245,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     
-    //Not sure if really need this
+    //Not sure if really need this...kind of nice for refreshing UI
     func delayButtonEnabled() {
         let when = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * NSEC_PER_SEC))
         dispatch_after(when, dispatch_get_main_queue()) {
