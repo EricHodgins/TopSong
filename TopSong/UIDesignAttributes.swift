@@ -31,6 +31,13 @@ class UIDesign {
         
         return NSAttributedString(string: text, attributes: [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: colorAttribute])
     }
+    
+    class func customColorStyleAttributedString(text: String, fontSize: CGFloat, color: UIColor) -> NSAttributedString {
+        let colorAttribute = color
+        let fontAttribute = UIFont.chalkboardFont(withSize: fontSize)
+        
+        return NSAttributedString(string: text, attributes: [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: colorAttribute])
+    }
 }
 
 

@@ -197,8 +197,8 @@ class FirebaseClient {
             for (index, song) in songsArray.enumerate() {
                 let songDict = song as! [String : String]
                 let topSong = songConverter.generateTopSong(songDict["songArtist"]!, title: songDict["songTitle"]!, rank: "\(index)")
-                friend.topSongs.append(topSong)
-                indexPath = NSIndexPath(forRow: friend.topSongs.count - 1, inSection: section)
+                friend.topSongs?.append(topSong)
+                indexPath = NSIndexPath(forRow: friend.topSongs!.count - 1, inSection: section)
                 tableViewFriendIndexes.append(indexPath)
             }
             
@@ -222,6 +222,38 @@ class FirebaseClient {
                 delegate.updateFriendSongChange(friendID, newTopSong: updatedSong, rank: songRank)
             }
         })
+    }
+    
+    
+    //MARK: Getting friends
+    func downloadUsersFriends(userID: String, delegate: FriendsViewController, completionHandler:(friend: Friend) -> Void) {
+        let friendsRef = firDatabaseRef.child("friendsGroup").child(userID)
+        friendsRef.observeEventType(.Value, withBlock: {(snapshot) in
+            let friendsDict = snapshot.value as! [String : AnyObject]
+            for friend in friendsDict {
+                self.downloadUserFriendInfo(friend.0, delegate: delegate, completionHandler: completionHandler)
+            }
+            
+            delegate.endRefreshing()
+        })
+    }
+    
+    func downloadUserFriendInfo(userID: String, delegate: FriendsViewController, completionHandler: (friend: Friend) -> Void) {
+        let usersRef = firDatabaseRef.child("users").child(userID)
+        usersRef.observeEventType(.Value, withBlock: {(snapshot) in
+            let usersDict = snapshot.value as! [String : String]
+            let username = usersDict["username"]!
+            let imagePath = usersDict["imageFilePath"]
+            let friend = Friend(friendName: username, friendSongs: nil, friendID: userID, storageImagePath: imagePath)
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                completionHandler(friend: friend)
+            }
+        })
+    }
+    
+    func fetchFriendProfileImage(friend: Friend) {
+        
     }
     
     

@@ -11,12 +11,10 @@ import Firebase
 
 class FriendsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    struct Friend {
-        var id: String
-        var username: String
-    }
-    
     var friends = [Friend]()
+    lazy var firebaseClient: FirebaseClient = {
+        return FirebaseClient()
+    }()
     
     var user: FIRUser?
     let firDatabaseRef = FIRDatabase.database().reference()
@@ -31,7 +29,7 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.dataSource = self
         
         refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull To Refresh", attributes: [NSFontAttributeName: UIFont.chalkboardFont(withSize: 15),NSForegroundColorAttributeName: UIColor().darkBlueAppDesign])
+        refreshControl.attributedTitle = UIDesign.lightStyleAttributedString("Pull To Refresh", fontSize: 15.0)
         refreshControl.addTarget(self, action: #selector(FriendsViewController.refreshFriendList), forControlEvents: .ValueChanged)
         tableView.addSubview(refreshControl)
         
@@ -45,19 +43,22 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
         let findFriendsVC = segue.destinationViewController as! FindFriendsViewController
         findFriendsVC.user = user
     }
+    
+    func endRefreshing() {
+        refreshControl.endRefreshing()
+    }
 
     func refreshFriendList() {
-        let friendsRef = firDatabaseRef.child("friendsGroup").child("\(user!.uid)")
-        friendsRef.observeEventType(.Value, withBlock: {(snapshot) in
-            self.friends = []
-            let friendsDict = snapshot.value as! [String : AnyObject]
-            for friend in friendsDict {
-                self.friends.append(Friend(id: "\(friend.0)", username: ""))
-            }
-             
-            self.tableView.reloadData()
-            self.refreshControl.endRefreshing()
-        })
+        self.friends = []
+        self.tableView.reloadData()
+        
+        firebaseClient.downloadUsersFriends(user!.uid, delegate: self) { (friend) in
+            self.friends.append(friend)
+            self.tableView.beginUpdates()
+            let indexPath = NSIndexPath(forRow: self.friends.count - 1, inSection: 0)
+            self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            self.tableView.endUpdates()
+        }
     }
     
     
@@ -73,25 +74,23 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
         let cell = tableView.dequeueReusableCellWithIdentifier("friendCell", forIndexPath: indexPath) as! FriendTableViewCell
         
         let friend = friends[indexPath.row]
-        getFriendInfo(friend, cell: cell)
+        cell.friendNameLabel.attributedText = UIDesign.darkStyleAttributedString(friend.heading!, fontSize: 20.0)
+        fetchFriendsProfileImage(friend, cell: cell)
         
         return cell
     }
     
-    func getFriendInfo(friend: Friend, cell: FriendTableViewCell) {
-        let usersRef = firDatabaseRef.child("users").child(friend.id)
-        usersRef.observeEventType(.Value, withBlock: {(snapshot) in
-            let userDict = snapshot.value as! [String : String]
-            let username = userDict["username"]!
-            dispatch_async(dispatch_get_main_queue()) {
-                let fontAttribute = UIFont.chalkboardFont(withSize: 20.0)
-                let colorAttribute = UIColor().darkBlueAppDesign
-                let attributedString = NSAttributedString(string: username, attributes: [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: colorAttribute])
-                cell.friendNameLabel?.attributedText = attributedString
+    func fetchFriendsProfileImage(friend: Friend, cell: FriendTableViewCell) {
+        firebaseClient.fetchUserImage(friend.uid) { (success, image) in
+            if success {
+                cell.friendProfileImageVIew.image = image
+                cell.friendProfileImageVIew.layer.cornerRadius = (cell.friendProfileImageView?.frame.size.height)! / 2
+                cell.friendProfileImageVIew.layer.masksToBounds = true
+                cell.friendProfileImageView.layer.borderWidth = 1
+                cell.friendProfileImageVIew.layer.borderColor = UIColor.whiteColor().CGColor
             }
-        })
+        }
     }
-
 }
 
 

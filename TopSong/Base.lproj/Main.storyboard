@@ -378,23 +378,23 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="78"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y5Y-AM-54G">
-                                                    <rect key="frame" x="8" y="3" width="108" height="72"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y5Y-AM-54G">
+                                                    <rect key="frame" x="8" y="3" width="72" height="72"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="108" id="ZNQ-qw-zmP"/>
+                                                        <constraint firstAttribute="width" constant="72" id="ZNQ-qw-zmP"/>
                                                         <constraint firstAttribute="height" constant="72" id="dn8-wv-ssc"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RUM-4l-Kvf">
-                                                    <rect key="frame" x="124" y="28" width="468" height="21"/>
+                                                    <rect key="frame" x="91" y="28" width="468" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="RUM-4l-Kvf" firstAttribute="leading" secondItem="Y5Y-AM-54G" secondAttribute="trailing" constant="8" symbolic="YES" id="8Vu-GI-poJ"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="RUM-4l-Kvf" secondAttribute="trailing" id="bLn-i2-60G"/>
+                                                <constraint firstItem="RUM-4l-Kvf" firstAttribute="leading" secondItem="Y5Y-AM-54G" secondAttribute="trailing" constant="11" id="8Vu-GI-poJ"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="RUM-4l-Kvf" secondAttribute="trailing" constant="33" id="bLn-i2-60G"/>
                                                 <constraint firstAttribute="leadingMargin" secondItem="Y5Y-AM-54G" secondAttribute="leading" id="c54-kr-Pal"/>
                                                 <constraint firstItem="Y5Y-AM-54G" firstAttribute="centerY" secondItem="RUM-4l-Kvf" secondAttribute="centerY" id="l6A-Bf-1SF"/>
                                                 <constraint firstItem="Y5Y-AM-54G" firstAttribute="centerY" secondItem="b5p-2O-1we" secondAttribute="centerY" id="qdj-4I-tYw"/>
@@ -403,6 +403,7 @@
                                         <connections>
                                             <outlet property="friendNameLabel" destination="RUM-4l-Kvf" id="6HS-wx-DOg"/>
                                             <outlet property="friendProfileImageVIew" destination="Y5Y-AM-54G" id="GhY-gD-7Ty"/>
+                                            <outlet property="friendProfileImageView" destination="Y5Y-AM-54G" id="7dN-kg-Bhd"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
