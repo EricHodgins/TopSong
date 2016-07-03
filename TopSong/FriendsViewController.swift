@@ -40,7 +40,8 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
     // MARK: - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let findFriendsVC = segue.destinationViewController as! FindFriendsViewController
+        let findFriendsNav = segue.destinationViewController as! UINavigationController
+        let findFriendsVC = findFriendsNav.viewControllers.first as! FindFriendsViewController
         findFriendsVC.user = user
     }
     

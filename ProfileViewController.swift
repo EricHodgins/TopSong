@@ -22,6 +22,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
 
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var profileNameTextField: UITextField!
+    @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var topPicksLabel: UILabel!
     
     var userTopPicks = [TopSong?](count: 3, repeatedValue: nil)
@@ -47,6 +48,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
         
         tableView.dataSource = self
         profileNameTextField.delegate = self
+        usernameTextField.delegate = self
         
         // Top Picks Label
         topPicksLabel.attributedText = UIDesign.lightStyleAttributedString(topPicksLabel.text!, fontSize: 25.0)
@@ -60,6 +62,11 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
         profileNameTextField.defaultTextAttributes = [NSFontAttributeName : fontTextfieldAttribute, NSForegroundColorAttributeName: colorTextfieldAttribute]
         profileNameTextField.textAlignment = .Center
         
+        
+        // Username
+        usernameTextField.attributedPlaceholder = UIDesign.lightStyleAttributedString("Username", fontSize: 18.0)
+        usernameTextField.defaultTextAttributes = [NSFontAttributeName: fontTextfieldAttribute, NSForegroundColorAttributeName: colorTextfieldAttribute]
+        usernameTextField.textAlignment = .Center
         
         // Picking Profile Image
         
@@ -128,7 +135,13 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
 extension ProfileViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
-        firebaseClient.updateUsername(user!, name: profileNameTextField.text!)
+        if textField == profileNameTextField {
+            firebaseClient.updateUsername(user!, name: profileNameTextField.text!)
+        }
+        
+        if textField == usernameTextField {
+            firebaseClient.generateUsername(textField.text!, id: user!.uid)
+        }
         
         textField.resignFirstResponder()
         return true
@@ -139,6 +152,11 @@ extension ProfileViewController: UITextFieldDelegate {
         if profileNameTextField.isFirstResponder() {
             firebaseClient.updateUsername(user!, name: profileNameTextField.text!)
             profileNameTextField.resignFirstResponder()
+        }
+        
+        if usernameTextField.isFirstResponder() {
+            firebaseClient.generateUsername(usernameTextField.text!, id: user!.uid)
+            usernameTextField.resignFirstResponder()
         }
     }
 }

@@ -94,11 +94,33 @@ class FirebaseClient {
         })
     }
     
+    func generateUsername(username: String, id: String) {
+        
+        firDatabaseRef.child("registered-users").child(username).observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+            if snapshot.exists() {
+                //check if ID is the users ID.  If so they can change it.
+                let userID = snapshot.value as! String
+                if userID == id {
+                    self.firDatabaseRef.child("registered-users").setValue([username : id])
+                }
+            } else {
+                self.firDatabaseRef.child("registered-users").setValue([username : id])
+            }
+        })
+    }
+    
     //MARK Downloading
     /// For logged in user
     func fetchUserTopSongs(user: FIRUser, completionHanlder: (success: Bool, topSongs: [TopSong]) -> Void) {
         let topSongsRef = firDatabaseRef.child("topSongs").child("\(user.uid)").child("songs")
         topSongsRef.observeEventType(.Value, withBlock: { (snapshot) in
+            
+            guard snapshot.exists() == true else {
+                print("No top songs made.")
+                completionHanlder(success: false, topSongs: [])
+                return
+            }
+            
             let songsArray = snapshot.value as! NSArray
             
             let songConverter = SongConverter()
@@ -114,7 +136,7 @@ class FirebaseClient {
     func fetchUsername(user: FIRUser, completionHandler: (success: Bool, username: String) -> Void) {
         let nameRef = firDatabaseRef.child("users").child("\(user.uid)")
         nameRef.observeEventType(.Value, withBlock: { (snapshot) in
-            guard snapshot.value != nil else {
+            guard snapshot.value != nil && snapshot.exists() == true else {
                 print("could not retrived username")
                 completionHandler(success: false, username: "")
                 return
@@ -162,6 +184,12 @@ class FirebaseClient {
         // GET all friends id's
         let friendsRef = firDatabaseRef.child("friendsGroup").child("\(user.uid)")
         friendsRef.observeEventType(.Value, withBlock: {(snapshot) in
+            
+            guard snapshot.exists() == true else {
+                delegate.endTableViewRefreshing()
+                return
+            }
+            
             let friendsDict = snapshot.value as! [String : AnyObject]
             
             for (section, friend) in friendsDict.enumerate() {
@@ -229,6 +257,12 @@ class FirebaseClient {
     func downloadUsersFriends(userID: String, delegate: FriendsViewController, completionHandler:(friend: Friend) -> Void) {
         let friendsRef = firDatabaseRef.child("friendsGroup").child(userID)
         friendsRef.observeEventType(.Value, withBlock: {(snapshot) in
+            
+            guard snapshot.exists() == true else {
+                delegate.endRefreshing()
+                return
+            }
+            
             let friendsDict = snapshot.value as! [String : AnyObject]
             for friend in friendsDict {
                 self.downloadUserFriendInfo(friend.0, delegate: delegate, completionHandler: completionHandler)
