@@ -41,6 +41,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
         super.viewDidLoad()
         
         downloadProfileName()
+        downloadUsername()
         downloadProfileImage()
         downloadTopSongPicks()
         
@@ -217,6 +218,16 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
             self.profileImageView.image = image
         }
     }
+    
+    //MARK: Download username
+    func downloadUsername() {
+        firebaseClient.fetchUsername(user!.uid) { (success, username) in
+            if success {
+                self.usernameTextField.text = username
+            }
+        }
+    }
+    
     
     //MARK: Download Profile Name
     func downloadProfileName() {

@@ -99,18 +99,37 @@ class FirebaseClient {
         firDatabaseRef.child("registered-users").child(username).observeSingleEventOfType(.Value, withBlock: {(snapshot) in
             if snapshot.exists() {
                 //check if ID is the users ID.  If so they can change it.
-                let userID = snapshot.value as! String
-                if userID == id {
-                    self.firDatabaseRef.child("registered-users").setValue([username : id])
+                let userID = snapshot.value as! [String : String]
+                if userID["id"] == id {
+                    self.firDatabaseRef.child("registered-users").child(username).setValue(["id" : id])
                 }
             } else {
-                self.firDatabaseRef.child("registered-users").setValue([username : id])
+                self.firDatabaseRef.child("registered-users").child(username).setValue(["id" : id])
             }
         })
     }
     
     //MARK Downloading
     /// For logged in user
+    func fetchUsername(id: String, completionHandler: (success: Bool, username: String?) -> Void) {
+        let usernameRef = firDatabaseRef.child("registered-users").queryOrderedByChild("id").queryEqualToValue(id) //child("id").queryEqualToValue(id)
+        usernameRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                guard snapshot.exists() == true else {
+                    completionHandler(success: false, username: nil)
+                    return
+                }
+                
+                let usernameDict = snapshot.value as! [String : AnyObject]
+                let username = usernameDict.keys.first!
+                completionHandler(success: true, username: username)
+            }
+        })
+    }
+    
+    
+    
     func fetchUserTopSongs(user: FIRUser, completionHanlder: (success: Bool, topSongs: [TopSong]) -> Void) {
         let topSongsRef = firDatabaseRef.child("topSongs").child("\(user.uid)").child("songs")
         topSongsRef.observeEventType(.Value, withBlock: { (snapshot) in
@@ -142,9 +161,9 @@ class FirebaseClient {
                 return
             }
             
-            let username = snapshot.value as! [String : String]
+            let user = snapshot.value as! [String : String]
             dispatch_async(dispatch_get_main_queue()) {
-                completionHandler(success: true, username: username["username"]!)
+                completionHandler(success: true, username: user["profile-name"]!)
             }
         })
     }
@@ -206,9 +225,9 @@ class FirebaseClient {
         let usersRef = firDatabaseRef.child("users").child(friendID)
         usersRef.observeEventType(.Value, withBlock: {(snapshot) in
             let usersDict = snapshot.value as! [String : String]
-            let username = usersDict["username"]
+            let profileName = usersDict["profile-name"]
             let storedImagePath = usersDict["imageFilePath"]
-            self.downloadTopSongsForFriend(withID: friendID, username: username, imagePath: storedImagePath, section: section, delegate: delegate, completionHandler: completionHandler)
+            self.downloadTopSongsForFriend(withID: friendID, username: profileName, imagePath: storedImagePath, section: section, delegate: delegate, completionHandler: completionHandler)
         })
     }
     
@@ -253,7 +272,7 @@ class FirebaseClient {
     }
     
     
-    //MARK: Getting friends
+    //MARK: Getting friends for signed in user
     func downloadUsersFriends(userID: String, delegate: FriendsViewController, completionHandler:(friend: Friend) -> Void) {
         let friendsRef = firDatabaseRef.child("friendsGroup").child(userID)
         friendsRef.observeEventType(.Value, withBlock: {(snapshot) in
@@ -276,9 +295,9 @@ class FirebaseClient {
         let usersRef = firDatabaseRef.child("users").child(userID)
         usersRef.observeEventType(.Value, withBlock: {(snapshot) in
             let usersDict = snapshot.value as! [String : String]
-            let username = usersDict["username"]!
+            let profileName = usersDict["profile-name"]!
             let imagePath = usersDict["imageFilePath"]
-            let friend = Friend(friendName: username, friendSongs: nil, friendID: userID, storageImagePath: imagePath)
+            let friend = Friend(friendName: profileName, friendSongs: nil, friendID: userID, storageImagePath: imagePath)
             
             dispatch_async(dispatch_get_main_queue()) {
                 completionHandler(friend: friend)
@@ -286,10 +305,11 @@ class FirebaseClient {
         })
     }
     
-    func fetchFriendProfileImage(friend: Friend) {
-        
-    }
+    //MARK: Finding friends to add 
     
+    func findFriendWithText(text: String) {
+        firDatabaseRef.queryOrderedByChild("registered-users")
+    }
     
     //MARK: Uploading
     
@@ -330,7 +350,7 @@ class FirebaseClient {
     }
     
     func updateUsername(user: FIRUser, name: String) {
-        firDatabaseRef.child("users").child(user.uid).updateChildValues(["username": name])
+        firDatabaseRef.child("users").child(user.uid).updateChildValues(["profile-name": name])
     }
     
 }

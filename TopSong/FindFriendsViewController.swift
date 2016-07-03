@@ -11,6 +11,9 @@ import Firebase
 
 class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    lazy var firebaseClient: FirebaseClient = {
+        return FirebaseClient()
+    }()
     
     var friends = [Friend]()
     var user: FIRUser?
@@ -34,7 +37,6 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
         tableView.delegate = self
         tableView.dataSource = self
         
-        getAllUsers()
     }
     
     func getAllUsers() {
