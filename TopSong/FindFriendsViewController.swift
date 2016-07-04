@@ -92,7 +92,8 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
 
 extension FindFriendsViewController: UISearchResultsUpdating {
     func updateSearchResultsForSearchController(searchController: UISearchController) {
-        
+        print(searchController.searchBar.text!)
+        firebaseClient.findFriendWithText(user!.uid, text: searchController.searchBar.text!)
     }
 }
 

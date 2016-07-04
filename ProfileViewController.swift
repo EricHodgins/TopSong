@@ -141,7 +141,11 @@ extension ProfileViewController: UITextFieldDelegate {
         }
         
         if textField == usernameTextField {
-            firebaseClient.generateUsername(textField.text!, id: user!.uid)
+            firebaseClient.generateUsername(textField.text!, id: user!.uid) { (success, message) in
+                if !success {
+                    print(message)
+                }
+            }
         }
         
         textField.resignFirstResponder()
@@ -156,7 +160,11 @@ extension ProfileViewController: UITextFieldDelegate {
         }
         
         if usernameTextField.isFirstResponder() {
-            firebaseClient.generateUsername(usernameTextField.text!, id: user!.uid)
+            firebaseClient.generateUsername(usernameTextField.text!, id: user!.uid) { (success, message) in
+                if !success {
+                    print(message)
+                }
+            }
             usernameTextField.resignFirstResponder()
         }
     }

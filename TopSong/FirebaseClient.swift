@@ -94,17 +94,15 @@ class FirebaseClient {
         })
     }
     
-    func generateUsername(username: String, id: String) {
+    //MARK: Generate unique username
+    func generateUsername(username: String, id: String, completionHandler: (success: Bool, errorMessage: String?) -> Void) {
         
-        firDatabaseRef.child("registered-users").child(username).observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+        let registeredUsersRef = firDatabaseRef.child("registered-users").queryOrderedByChild("username").queryEqualToValue(username)
+        registeredUsersRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
             if snapshot.exists() {
-                //check if ID is the users ID.  If so they can change it.
-                let userID = snapshot.value as! [String : String]
-                if userID["id"] == id {
-                    self.firDatabaseRef.child("registered-users").child(username).setValue(["id" : id])
-                }
+                completionHandler(success: false, errorMessage: "Username is already being used.")
             } else {
-                self.firDatabaseRef.child("registered-users").child(username).setValue(["id" : id])
+                self.firDatabaseRef.child("registered-users").child(id).setValue(["username" : username])
             }
         })
     }
@@ -112,17 +110,18 @@ class FirebaseClient {
     //MARK Downloading
     /// For logged in user
     func fetchUsername(id: String, completionHandler: (success: Bool, username: String?) -> Void) {
-        let usernameRef = firDatabaseRef.child("registered-users").queryOrderedByChild("id").queryEqualToValue(id) //child("id").queryEqualToValue(id)
-        usernameRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+        let registeresUsersRef = firDatabaseRef.child("registered-users").child(id)
+        registeresUsersRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+            
+            guard snapshot.exists() == true else {
+                completionHandler(success: false, username: nil)
+                return
+            }
+            
+            let userDict = snapshot.value as! [String : AnyObject]
+            let username = userDict["username"] as! String
             
             dispatch_async(dispatch_get_main_queue()) {
-                guard snapshot.exists() == true else {
-                    completionHandler(success: false, username: nil)
-                    return
-                }
-                
-                let usernameDict = snapshot.value as! [String : AnyObject]
-                let username = usernameDict.keys.first!
                 completionHandler(success: true, username: username)
             }
         })
@@ -307,8 +306,12 @@ class FirebaseClient {
     
     //MARK: Finding friends to add 
     
-    func findFriendWithText(text: String) {
-        firDatabaseRef.queryOrderedByChild("registered-users")
+    func findFriendWithText(id: String, text: String) {
+        let friendsRef = firDatabaseRef.child("TEST").queryOrderedByChild("profile-name").queryEqualToValue(text)
+        friendsRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+            
+            
+        })
     }
     
     //MARK: Uploading
