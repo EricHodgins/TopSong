@@ -143,6 +143,7 @@ extension ProfileViewController: UITextFieldDelegate {
         if textField == usernameTextField {
             firebaseClient.generateUsername(textField.text!, id: user!.uid) { (success, message) in
                 if !success {
+                    //TODO: Notify user could not update
                     print(message)
                 }
             }
@@ -162,6 +163,7 @@ extension ProfileViewController: UITextFieldDelegate {
         if usernameTextField.isFirstResponder() {
             firebaseClient.generateUsername(usernameTextField.text!, id: user!.uid) { (success, message) in
                 if !success {
+                    //TODO: Notify user could not update
                     print(message)
                 }
             }

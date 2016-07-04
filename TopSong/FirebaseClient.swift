@@ -223,6 +223,11 @@ class FirebaseClient {
     func downloadFriendInfo(friendID: String, forSection section: Int, delegate: TopSongsViewController, completionHandler: DownloadedFriendTopSongs) {
         let usersRef = firDatabaseRef.child("users").child(friendID)
         usersRef.observeEventType(.Value, withBlock: {(snapshot) in
+            
+            guard snapshot.exists() == true else {
+                return
+            }
+            
             let usersDict = snapshot.value as! [String : String]
             let profileName = usersDict["profile-name"]
             let storedImagePath = usersDict["imageFilePath"]
@@ -233,6 +238,11 @@ class FirebaseClient {
     func downloadTopSongsForFriend(withID id: String, username: String?, imagePath: String?, section: Int, delegate: TopSongsViewController, completionHandler: DownloadedFriendTopSongs) {
         let topSongRef = firDatabaseRef.child("topSongs").child(id).child("songs")
         topSongRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+            
+            guard snapshot.exists() == true else {
+                return
+            }
+            
             let songsArray = snapshot.value as! NSArray
             var friend = Friend(friendName: username, friendSongs: [], friendID: id, storageImagePath: imagePath)
             var tableViewFriendIndexes = [NSIndexPath]()
@@ -306,10 +316,15 @@ class FirebaseClient {
     
     //MARK: Finding friends to add 
     
-    func findFriendWithText(id: String, text: String) {
-        let friendsRef = firDatabaseRef.child("TEST").queryOrderedByChild("profile-name").queryEqualToValue(text)
+    func findFriendWithText(id: String, text: String, completionHandler: (friendID: String, username: String) -> Void) {
+        let friendsRef = firDatabaseRef.child("registered-users").queryOrderedByChild("username").queryEqualToValue(text)
         friendsRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
-            
+            if snapshot.exists() {
+                let userDict = snapshot.value as! [String : AnyObject]
+                let friendID = userDict.keys.first!
+                let username = userDict[friendID]!["username"] as! String
+                completionHandler(friendID: friendID ,username: username)
+            }
             
         })
     }

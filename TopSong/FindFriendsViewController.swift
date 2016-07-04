@@ -64,7 +64,7 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
         
         let cell = tableView.dequeueReusableCellWithIdentifier("findFriendCell", forIndexPath: indexPath)
         let friend = friends[indexPath.row]
-        //cell.textLabel?.text = "\(friend.username)-\(friend.id)"
+        cell.textLabel?.text = friend.heading!
         
         return cell
         
@@ -74,7 +74,7 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let friendSelected = friends[indexPath.row]
         
-        //firDatabaseRef.child("friendsGroup").child("\(user!.uid)").child("\(friendSelected.id)").setValue(["friendId": friendSelected.id])
+        firDatabaseRef.child("friendsGroup").child("\(user!.uid)").child(friendSelected.uid).setValue(["friendId": friendSelected.uid])
         
 //        let key = firDatabaseRef.child("friendsGroup").child("anotheruserid").child("friends").childByAutoId().key
 //        let addedFriend = ["uid": friendSelected.id, "username": "\(friendSelected.username)"]
@@ -92,8 +92,14 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
 
 extension FindFriendsViewController: UISearchResultsUpdating {
     func updateSearchResultsForSearchController(searchController: UISearchController) {
-        print(searchController.searchBar.text!)
-        firebaseClient.findFriendWithText(user!.uid, text: searchController.searchBar.text!)
+        self.friends = []
+        self.tableView.reloadData()
+        firebaseClient.findFriendWithText(user!.uid, text: searchController.searchBar.text!) { (id, username) in
+            print("found: \(username)")
+            let friendFound = Friend(friendName: username, friendSongs: nil, friendID: id, storageImagePath: nil)
+            self.friends.append(friendFound)
+            self.tableView.reloadData()
+        }
     }
 }
 

@@ -136,7 +136,14 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
             self.friendsArray.append(friend)
             let section = NSIndexSet(index: self.friendsArray.count - 1)
             self.tableView.insertSections(section, withRowAnimation: .Automatic)
-            self.tableView.insertRowsAtIndexPaths(newSongIndexPaths, withRowAnimation: .Automatic)
+            var indexPaths = [NSIndexPath]()
+            if friend.topSongs != nil {
+                for (index, _) in friend.topSongs!.enumerate() {
+                    let ip = NSIndexPath(forRow: index, inSection: self.friendsArray.count - 1)
+                    indexPaths.append(ip)
+                }
+            }
+            self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
             self.tableView.endUpdates()
         }
     }
