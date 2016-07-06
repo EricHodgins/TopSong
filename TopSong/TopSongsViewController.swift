@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class TopSongsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TopSongsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UserInfoUpdating {
     
     lazy var firebaseClient: FirebaseClient = {
         return FirebaseClient()
@@ -111,6 +111,20 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     func endTableViewRefreshing() {
         print("ended table view refreshing.")
         self.refreshControl.endRefreshing()
+    }
+    
+    func upatedFriendProfileNameAndImage(friendID: String, newName: String?) {
+        
+        for (index, friend) in friendsArray.enumerate() {
+            if friend.uid == friendID {
+                if let name = newName {
+                    self.friendsArray[index].heading = name
+                }
+                let section = NSIndexSet(index: index)
+                self.tableView.reloadSections(section, withRowAnimation: .Automatic)
+            }
+        }
+
     }
     
     func updateFriendSongChange(friendID: String, newTopSong: TopSong, rank: Int) {

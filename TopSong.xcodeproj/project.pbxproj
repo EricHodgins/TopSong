@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A3DB2671D2CB69500A7C9D9 /* ProfileProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3DB2661D2CB69500A7C9D9 /* ProfileProtocols.swift */; };
 		7A3E31431D07083600DC90B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E31421D07083600DC90B0 /* AppDelegate.swift */; };
 		7A3E31481D07083600DC90B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A3E31461D07083600DC90B0 /* Main.storyboard */; };
 		7A3E314A1D07083600DC90B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A3E31491D07083600DC90B0 /* Assets.xcassets */; };
@@ -33,6 +34,7 @@
 
 /* Begin PBXFileReference section */
 		6FEDB98A7AB1D580C4BCCF45 /* Pods-TopSong.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TopSong.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TopSong/Pods-TopSong.debug.xcconfig"; sourceTree = "<group>"; };
+		7A3DB2661D2CB69500A7C9D9 /* ProfileProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileProtocols.swift; sourceTree = "<group>"; };
 		7A3E313F1D07083600DC90B0 /* TopSong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TopSong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A3E31421D07083600DC90B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7A3E31471D07083600DC90B0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				7A8D6B181D24BBBD004DB5B6 /* Friend.swift */,
 				7AC2CC241D20E37D002FCC5D /* LoggingIn */,
 				7A8C412D1D0DDC4E00D45C6B /* SongProtocols.swift */,
+				7A3DB2661D2CB69500A7C9D9 /* ProfileProtocols.swift */,
 				7A3E315A1D07CD7600DC90B0 /* TopPickTableViewCell.swift */,
 				7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */,
 				7A8CD6DE1D08613F0010EBD9 /* SongPickerViewController.swift */,
@@ -281,6 +284,7 @@
 				7AC2CC261D20E3B0002FCC5D /* SignInViewController+UI.swift in Sources */,
 				7A8C412E1D0DDC4E00D45C6B /* SongProtocols.swift in Sources */,
 				7A8FDABD1D110E0E0053BEF7 /* FindFriendsViewController.swift in Sources */,
+				7A3DB2671D2CB69500A7C9D9 /* ProfileProtocols.swift in Sources */,
 				7AC2CC231D20CB9C002FCC5D /* FirebaseClient.swift in Sources */,
 				7A8D6B191D24BBBD004DB5B6 /* Friend.swift in Sources */,
 				7A3E31431D07083600DC90B0 /* AppDelegate.swift in Sources */,

@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class FriendsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class FriendsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UserInfoUpdating {
     
     var friends = [Friend]()
     lazy var firebaseClient: FirebaseClient = {
@@ -45,8 +45,25 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
         findFriendsVC.user = user
     }
     
-    func endRefreshing() {
+    func endTableViewRefreshing() {
         refreshControl.endRefreshing()
+    }
+    
+    func upatedFriendProfileNameAndImage(friendID: String, newName: String?) {
+        for (index, friend) in friends.enumerate() {
+            if friend.uid == friendID {
+                if let name = newName {
+                    self.friends[index].heading = name
+                }
+                let indexPath = NSIndexPath(forRow: index, inSection: 0)
+                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                break
+            }
+        }
+    }
+    
+    func updateFriendSongChange(friendID: String, newTopSong: TopSong, rank: Int) {
+        //Do not need this method for the moment.  Just fullfilling the protocol requirements for now
     }
 
     func refreshFriendList() {

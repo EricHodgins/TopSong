@@ -197,7 +197,7 @@ class FirebaseClient {
     //MARK: Downloading user's friends top songs
     typealias DownloadedFriendTopSongs = (friend: Friend, newSongIndexPaths: [NSIndexPath]) -> Void
     
-    func downloadFriendsTopSongs(user: FIRUser, delegate: TopSongsViewController, completionHandler: DownloadedFriendTopSongs) {
+    func downloadFriendsTopSongs(user: FIRUser, delegate: UserInfoUpdating, completionHandler: DownloadedFriendTopSongs) {
         
         // GET all friends id's
         let friendsRef = firDatabaseRef.child("friendsGroup").child("\(user.uid)")
@@ -220,9 +220,9 @@ class FirebaseClient {
         })
     }
     
-    func downloadFriendInfo(friendID: String, forSection section: Int, delegate: TopSongsViewController, completionHandler: DownloadedFriendTopSongs) {
+    func downloadFriendInfo(friendID: String, forSection section: Int, delegate: UserInfoUpdating, completionHandler: DownloadedFriendTopSongs) {
         let usersRef = firDatabaseRef.child("users").child(friendID)
-        usersRef.observeEventType(.Value, withBlock: {(snapshot) in
+        usersRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
             
             guard snapshot.exists() == true else {
                 return
@@ -233,9 +233,25 @@ class FirebaseClient {
             let storedImagePath = usersDict["imageFilePath"]
             self.downloadTopSongsForFriend(withID: friendID, username: profileName, imagePath: storedImagePath, section: section, delegate: delegate, completionHandler: completionHandler)
         })
+        
+        usersRef.observeEventType(.ChildChanged, withBlock: {(snapshot) in
+            let key = snapshot.key
+            
+            switch key {
+            case "image-updated":
+                delegate.upatedFriendProfileNameAndImage(friendID, newName: nil)
+                return
+            case "profile-name":
+                let newProfileName = snapshot.value as! String
+                delegate.upatedFriendProfileNameAndImage(friendID, newName: newProfileName)
+                return
+            default:
+                print("no idea what changed: \(key)")
+            }
+        })
     }
     
-    func downloadTopSongsForFriend(withID id: String, username: String?, imagePath: String?, section: Int, delegate: TopSongsViewController, completionHandler: DownloadedFriendTopSongs) {
+    func downloadTopSongsForFriend(withID id: String, username: String?, imagePath: String?, section: Int, delegate: UserInfoUpdating, completionHandler: DownloadedFriendTopSongs) {
         let topSongRef = firDatabaseRef.child("topSongs").child(id).child("songs")
         topSongRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
             
@@ -282,12 +298,12 @@ class FirebaseClient {
     
     
     //MARK: Getting friends for signed in user
-    func downloadUsersFriends(userID: String, delegate: FriendsViewController, completionHandler:(friend: Friend) -> Void) {
+    func downloadUsersFriends(userID: String, delegate: UserInfoUpdating, completionHandler:(friend: Friend) -> Void) {
         let friendsRef = firDatabaseRef.child("friendsGroup").child(userID)
-        friendsRef.observeEventType(.Value, withBlock: {(snapshot) in
+        friendsRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
             
             guard snapshot.exists() == true else {
-                delegate.endRefreshing()
+                delegate.endTableViewRefreshing()
                 return
             }
             
@@ -296,13 +312,13 @@ class FirebaseClient {
                 self.downloadUserFriendInfo(friend.0, delegate: delegate, completionHandler: completionHandler)
             }
             
-            delegate.endRefreshing()
+            delegate.endTableViewRefreshing()
         })
     }
     
-    func downloadUserFriendInfo(userID: String, delegate: FriendsViewController, completionHandler: (friend: Friend) -> Void) {
+    func downloadUserFriendInfo(userID: String, delegate: UserInfoUpdating, completionHandler: (friend: Friend) -> Void) {
         let usersRef = firDatabaseRef.child("users").child(userID)
-        usersRef.observeEventType(.Value, withBlock: {(snapshot) in
+        usersRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
             let usersDict = snapshot.value as! [String : String]
             let profileName = usersDict["profile-name"]!
             let imagePath = usersDict["imageFilePath"]
@@ -310,6 +326,23 @@ class FirebaseClient {
             
             dispatch_async(dispatch_get_main_queue()) {
                 completionHandler(friend: friend)
+            }
+        })
+        
+        usersRef.observeEventType(.ChildChanged, withBlock: {(snapshot) in
+            let key = snapshot.key
+            
+            switch key {
+            case "profile-name":
+                let name = snapshot.value as! String
+                delegate.upatedFriendProfileNameAndImage(userID, newName: name)
+                return
+            case "image-updated":
+                delegate.upatedFriendProfileNameAndImage(userID, newName: nil)
+                return
+            default:
+                return
+                
             }
         })
     }
@@ -349,9 +382,11 @@ class FirebaseClient {
         
         uploadTask.observeStatus(.Success) { (snapshot) in
             print("success putting image data.")
+            self.firDatabaseRef.child("users").child(user.uid).updateChildValues(["image-updated": "\(NSDate())"])
             self.firDatabaseRef.child("users").child(user.uid).updateChildValues(["imageFilePath": "\(imageRef)"])
             completionHandler(success: true)
         }
+        
         
 //        uploadTask.observeStatus(.Progress) { (snapshot) in
 //            //TODO: Maybe do some cool animation with this feature while downloading.

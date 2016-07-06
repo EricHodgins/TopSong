@@ -75,11 +75,7 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
         let friendSelected = friends[indexPath.row]
         
         firDatabaseRef.child("friendsGroup").child("\(user!.uid)").child(friendSelected.uid).setValue(["friendId": friendSelected.uid])
-        
-//        let key = firDatabaseRef.child("friendsGroup").child("anotheruserid").child("friends").childByAutoId().key
-//        let addedFriend = ["uid": friendSelected.id, "username": "\(friendSelected.username)"]
-//        let childUpdates = ["/friendsGroup/anotheruserid/friends/\(key)": addedFriend]
-//        firDatabaseRef.updateChildValues(childUpdates)
+
     }
     
     
