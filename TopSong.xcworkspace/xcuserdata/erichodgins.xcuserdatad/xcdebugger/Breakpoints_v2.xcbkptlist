@@ -9,12 +9,60 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TopSong/FirebaseClient.swift"
-            timestampString = "489422854.381176"
+            filePath = "TopSong/FriendsViewController.swift"
+            timestampString = "489507273.618399"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "upatedFriendProfileNameAndImage(_:newName:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TopSong/FirebaseClient.swift"
+            timestampString = "489553639.582094"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "281"
+            endingLineNumber = "281"
+            landmarkName = "downloadTopSongsForFriend(withID:username:imagePath:section:delegate:completionHandler:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TopSong/FirebaseClient.swift"
+            timestampString = "489553639.582094"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "305"
+            endingLineNumber = "305"
+            landmarkName = "downloadTopSongsForFriend(withID:username:imagePath:section:delegate:completionHandler:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TopSong/FirebaseClient.swift"
+            timestampString = "489553639.582094"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
             landmarkName = "downloadFriendInfo(_:forSection:delegate:completionHandler:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopSong/FirebaseClient.swift"
-            timestampString = "489470352.215017"
+            timestampString = "489553639.582094"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "322"
-            endingLineNumber = "322"
-            landmarkName = "downloadUserFriendInfo(_:delegate:completionHandler:)"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
+            landmarkName = "downloadFriendInfo(_:forSection:delegate:completionHandler:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -42,12 +90,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TopSong/FirebaseClient.swift"
-            timestampString = "489472333.070656"
+            timestampString = "489553639.582094"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "334"
-            endingLineNumber = "334"
-            landmarkName = "downloadUserFriendInfo(_:delegate:completionHandler:)"
+            startingLineNumber = "231"
+            endingLineNumber = "231"
+            landmarkName = "downloadFriendsTopSongs(_:delegate:completionHandler:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,14 +105,62 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TopSong/FriendsViewController.swift"
-            timestampString = "489472433.131863"
+            filePath = "TopSong/FirebaseClient.swift"
+            timestampString = "489553639.582094"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "upatedFriendProfileNameAndImage(_:newName:)"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
+            landmarkName = "downloadFriendsTopSongs(_:delegate:completionHandler:)"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TopSong/FirebaseClient.swift"
+            timestampString = "489553639.582094"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "304"
+            endingLineNumber = "304"
+            landmarkName = "downloadTopSongsForFriend(withID:username:imagePath:section:delegate:completionHandler:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TopSong.FirebaseClient.downloadTopSongsForFriend (withID : Swift.String, username : Swift.Optional&lt;Swift.String&gt;, imagePath : Swift.Optional&lt;Swift.String&gt;, section : Swift.Int, delegate : TopSong.UserInfoUpdating, completionHandler : (friend : TopSong.Friend, newSongIndexPaths : Swift.Array&lt;__ObjC.NSIndexPath&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "TopSong"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/erichodgins/UdacityIosNanodegree/FinalProjectTopSong/TopSong/TopSong/FirebaseClient.swift"
+                  timestampString = "489553639.818163"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "304"
+                  endingLineNumber = "304"
+                  offsetFromSymbolStart = "876">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TopSong.FirebaseClient.(downloadTopSongsForFriend (withID : Swift.String, username : Swift.Optional&lt;Swift.String&gt;, imagePath : Swift.Optional&lt;Swift.String&gt;, section : Swift.Int, delegate : TopSong.UserInfoUpdating, completionHandler : (friend : TopSong.Friend, newSongIndexPaths : Swift.Array&lt;__ObjC.NSIndexPath&gt;) -&gt; ()) -&gt; ()).(closure #2)"
+                  moduleName = "TopSong"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/erichodgins/UdacityIosNanodegree/FinalProjectTopSong/TopSong/TopSong/FirebaseClient.swift"
+                  timestampString = "489553639.818283"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "276"
+                  endingLineNumber = "276"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

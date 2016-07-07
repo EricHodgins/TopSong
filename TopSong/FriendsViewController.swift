@@ -12,9 +12,8 @@ import Firebase
 class FriendsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UserInfoUpdating {
     
     var friends = [Friend]()
-    lazy var firebaseClient: FirebaseClient = {
-        return FirebaseClient()
-    }()
+    let firebaseClient = FirebaseClient.sharedInstance
+
     
     var user: FIRUser?
     let firDatabaseRef = FIRDatabase.database().reference()

@@ -18,10 +18,11 @@ class SignInViewController: UIViewController {
     var signInButton: UIButton!
     var createAccountButton: UIButton!
     
-    lazy var firebaseClient = {
-        return FirebaseClient()
+    lazy var firebaseClient: FirebaseClient = {
+        return FirebaseClient.sharedInstance
     }()
     
+//    let firebaseClient = FirebaseClient.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()

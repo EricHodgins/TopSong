@@ -16,9 +16,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
     let firDatabaseRef = FIRDatabase.database().reference()
     var user: FIRUser?
     
-    lazy var firebaseClient: FirebaseClient = {
-        return FirebaseClient()
-    }()
+    let firebaseClient = FirebaseClient.sharedInstance
 
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var profileNameTextField: UITextField!

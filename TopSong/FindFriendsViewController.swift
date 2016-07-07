@@ -11,9 +11,7 @@ import Firebase
 
 class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    lazy var firebaseClient: FirebaseClient = {
-        return FirebaseClient()
-    }()
+    let firebaseClient = FirebaseClient.sharedInstance
     
     var friends = [Friend]()
     var user: FIRUser?
@@ -39,19 +37,6 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
         
     }
     
-    func getAllUsers() {
-        let usersRef = firDatabaseRef.child("users")
-        usersRef.observeEventType(.Value, withBlock:{ (snapshot) in
-            let users = snapshot.value as! [String : [String : AnyObject]]
-            for user in users {
-                print("\(user.1["username"]!) - id: \(user.0)")
-                //self.friends.append(Friend(id: user.0, username: user.1["username"]! as! String))
-            }
-            
-            self.tableView.reloadData()
-        })
-    }
-    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
@@ -75,7 +60,7 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
         let friendSelected = friends[indexPath.row]
         
         firDatabaseRef.child("friendsGroup").child("\(user!.uid)").child(friendSelected.uid).setValue(["friendId": friendSelected.uid])
-
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     

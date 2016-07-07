@@ -16,11 +16,15 @@ public let CreateAccountError: Int = 20
 
 class FirebaseClient {
     
+    static let sharedInstance = FirebaseClient()
+    var firebaseTopSongHandles = [String : UInt]()
+    var firebaseImageUsernameHandles = [String : UInt]()
+    
     deinit {
         print("Firebase Client was deinitialized.")
     }
     
-    init() {
+    private init() {
         print("FirebaseClient was init.")
     }
     
@@ -195,13 +199,29 @@ class FirebaseClient {
     }
     
     //MARK: Downloading user's friends top songs
+    
+    func removeFirebaseHandles() {
+        //remove all handles on TopSongViewController refresh to prevent multiple calls for song change
+        for (id, handle) in firebaseTopSongHandles {
+            firDatabaseRef.child("topSongs").child(id).child("songs").removeObserverWithHandle(handle)
+        }
+        firebaseTopSongHandles.removeAll()
+        
+        for (id, handle) in firebaseImageUsernameHandles {
+            firDatabaseRef.child("users").child(id).removeObserverWithHandle(handle)
+        }
+        firebaseImageUsernameHandles.removeAll()
+    }
+    
     typealias DownloadedFriendTopSongs = (friend: Friend, newSongIndexPaths: [NSIndexPath]) -> Void
     
     func downloadFriendsTopSongs(user: FIRUser, delegate: UserInfoUpdating, completionHandler: DownloadedFriendTopSongs) {
+        //Refreshing
+        removeFirebaseHandles()
         
         // GET all friends id's
         let friendsRef = firDatabaseRef.child("friendsGroup").child("\(user.uid)")
-        friendsRef.observeEventType(.Value, withBlock: {(snapshot) in
+        friendsRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
             
             guard snapshot.exists() == true else {
                 delegate.endTableViewRefreshing()
@@ -234,7 +254,7 @@ class FirebaseClient {
             self.downloadTopSongsForFriend(withID: friendID, username: profileName, imagePath: storedImagePath, section: section, delegate: delegate, completionHandler: completionHandler)
         })
         
-        usersRef.observeEventType(.ChildChanged, withBlock: {(snapshot) in
+        let handle = usersRef.observeEventType(.ChildChanged, withBlock: {(snapshot) in
             let key = snapshot.key
             
             switch key {
@@ -249,9 +269,12 @@ class FirebaseClient {
                 print("no idea what changed: \(key)")
             }
         })
+        
+        firebaseImageUsernameHandles[friendID] = handle
     }
     
     func downloadTopSongsForFriend(withID id: String, username: String?, imagePath: String?, section: Int, delegate: UserInfoUpdating, completionHandler: DownloadedFriendTopSongs) {
+        
         let topSongRef = firDatabaseRef.child("topSongs").child(id).child("songs")
         topSongRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
             
@@ -278,7 +301,7 @@ class FirebaseClient {
             
         })
         
-        topSongRef.observeEventType(.ChildChanged, withBlock: {(snapshot) in
+        let handle = topSongRef.observeEventType(.ChildChanged, withBlock: {(snapshot) in
             let songDict = snapshot.value as! [String : AnyObject]
             let refArr = "\(snapshot.ref)".componentsSeparatedByString("/")
             let friendID = refArr[refArr.count - 3]
@@ -294,6 +317,9 @@ class FirebaseClient {
                 delegate.updateFriendSongChange(friendID, newTopSong: updatedSong, rank: songRank)
             }
         })
+        
+        self.firebaseTopSongHandles[id] = handle
+        
     }
     
     
@@ -331,7 +357,6 @@ class FirebaseClient {
         
         usersRef.observeEventType(.ChildChanged, withBlock: {(snapshot) in
             let key = snapshot.key
-            
             switch key {
             case "profile-name":
                 let name = snapshot.value as! String
@@ -342,7 +367,6 @@ class FirebaseClient {
                 return
             default:
                 return
-                
             }
         })
     }

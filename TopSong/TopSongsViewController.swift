@@ -11,9 +11,8 @@ import Firebase
 
 class TopSongsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UserInfoUpdating {
     
-    lazy var firebaseClient: FirebaseClient = {
-        return FirebaseClient()
-    }()
+    let firebaseClient = FirebaseClient.sharedInstance
+
 
     var user: FIRUser?
     
