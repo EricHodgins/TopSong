@@ -19,19 +19,29 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
     let searchController = UISearchController(searchResultsController: nil)
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
     
     let firDatabaseRef = FIRDatabase.database().reference()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        doneButton.setTitleTextAttributes([NSFontAttributeName: UIFont.chalkboardFont(withSize: 20.0)], forState: .Normal)
+        
         searchController.searchResultsUpdater = self
         searchController.loadViewIfNeeded()
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
-        searchController.searchBar.barTintColor = UIColor().lightBlueAppDesign
+        searchController.searchBar.barTintColor = UIColor().lightBlueAppDesign //background color for search bar
         searchController.searchBar.tintColor = UIColor.whiteColor()
-        UITextField.appearanceWhenContainedInInstancesOfClasses([searchController.searchBar.dynamicType]).tintColor = UIColor.blackColor()
+        UITextField.appearanceWhenContainedInInstancesOfClasses([searchController.searchBar.dynamicType]).tintColor = UIColor().darkBlueAppDesign //Cursor color
+        UIBarButtonItem.appearanceWhenContainedInInstancesOfClasses([searchController.searchBar.dynamicType]).setTitleTextAttributes([NSFontAttributeName : UIFont.chalkboardFont(withSize: 20.0)], forState: .Normal) //Cancel Font
+
+        
+        let tf = searchController.searchBar.valueForKey("searchField") as? UITextField
+        tf?.defaultTextAttributes = [NSFontAttributeName: UIFont.chalkboardFont(withSize: 20.0), NSForegroundColorAttributeName: UIColor().darkBlueAppDesign] //Font & Color type for search textfield
+        let tfPlaceholder = tf!.valueForKey("placeholderLabel") as? UILabel
+        tfPlaceholder?.textColor = UIColor().lightBlueAppDesign // placeholder attribute Font
         
         tableView.tableHeaderView = searchController.searchBar
         tableView.delegate = self
