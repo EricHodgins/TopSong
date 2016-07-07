@@ -30,6 +30,8 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
         searchController.searchBar.barTintColor = UIColor().lightBlueAppDesign
+        searchController.searchBar.tintColor = UIColor.whiteColor()
+        UITextField.appearanceWhenContainedInInstancesOfClasses([searchController.searchBar.dynamicType]).tintColor = UIColor.blackColor()
         
         tableView.tableHeaderView = searchController.searchBar
         tableView.delegate = self
@@ -49,7 +51,7 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
         
         let cell = tableView.dequeueReusableCellWithIdentifier("findFriendCell", forIndexPath: indexPath)
         let friend = friends[indexPath.row]
-        cell.textLabel?.text = friend.heading!
+        cell.textLabel?.attributedText = UIDesign.darkStyleAttributedString(friend.heading!, fontSize: 25.0)
         
         return cell
         
