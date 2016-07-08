@@ -426,7 +426,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Xx7-24-lcn">
-                        <barButtonItem key="rightBarButtonItem" title="Find Friends" id="XUf-Mq-NPl">
+                        <barButtonItem key="rightBarButtonItem" image="ic_person_add_white" id="XUf-Mq-NPl">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <segue destination="gtH-Nc-q2M" kind="presentation" id="4fz-T0-zlB"/>
@@ -548,7 +548,7 @@
         <scene sceneID="Dn5-eS-vrH">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="AHj-1J-5vc" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Friends" id="ysu-zy-pl5"/>
+                    <tabBarItem key="tabBarItem" title="Friends" image="ic_friends_white" id="ysu-zy-pl5"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hbh-KY-Lhl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -604,5 +604,7 @@
     <resources>
         <image name="TopSongAppIcon Copy" width="112" height="76"/>
         <image name="ic_account_circle_white" width="24" height="24"/>
+        <image name="ic_friends_white" width="24" height="24"/>
+        <image name="ic_person_add_white" width="24" height="24"/>
     </resources>
 </document>

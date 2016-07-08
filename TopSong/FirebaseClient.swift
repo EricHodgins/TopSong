@@ -430,6 +430,14 @@ class FirebaseClient {
         firDatabaseRef.child("users").child(user.uid).updateChildValues(["profile-name": name])
     }
     
+    
+    
+    //MARK:Delete Data
+    
+    func deleteFriendWithID(userID:String, friendID: String) {
+        firDatabaseRef.child("friendsGroup").child(userID).child(friendID).removeValue()
+    }
+    
 }
 
 

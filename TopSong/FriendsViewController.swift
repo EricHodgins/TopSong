@@ -13,16 +13,17 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
     
     var friends = [Friend]()
     let firebaseClient = FirebaseClient.sharedInstance
-
     
     var user: FIRUser?
-    let firDatabaseRef = FIRDatabase.database().reference()
     
     @IBOutlet weak var tableView: UITableView!
     var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = "Friends"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : UIFont.chalkboardFont(withSize: 20.0), NSForegroundColorAttributeName: UIColor.whiteColor()]
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -96,6 +97,17 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
         
         return cell
     }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            let friend = friends[indexPath.row]
+            firebaseClient.deleteFriendWithID(user!.uid, friendID: friend.uid)
+            friends.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        }
+    }
+    
+    
     
     func fetchFriendsProfileImage(friend: Friend, cell: FriendTableViewCell) {
         firebaseClient.fetchUserImage(friend.uid) { (success, image) in

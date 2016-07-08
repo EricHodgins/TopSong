@@ -45,6 +45,8 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
         
         print("logged in user: \(user?.uid)")
         
+        self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : UIFont.chalkboardFont(withSize: 20.0), NSForegroundColorAttributeName: UIColor.whiteColor()]
+        
         tableView.dataSource = self
         profileNameTextField.delegate = self
         usernameTextField.delegate = self
