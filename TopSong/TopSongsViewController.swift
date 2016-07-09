@@ -53,12 +53,12 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         headerView.backgroundColor = UIColor().lightBlueAppDesign
         
         //title (user name)
-        let nameFrame = CGRectMake(80, 15, 200, 40)
+        let nameFrame = CGRectMake(80, 3, 200, 40)
         let nameLabel = UILabel(frame: nameFrame)
         nameLabel.attributedText = UIDesign.customColorStyleAttributedString(friendsArray[section].heading!, fontSize: 22.0, color: UIColor.whiteColor())
         
         //image
-        let imageFrame = CGRectMake(8, 10, 55, 55)
+        let imageFrame = CGRectMake(8, -6, 60, 60)
         let imageView = UIImageView(frame: imageFrame)
         let image: UIImage = UIImage(named: "TopSongAppIcon Copy")!
         imageView.image = image
@@ -88,7 +88,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 75
+        return 50
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -99,12 +99,31 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCellWithIdentifier("topSongCell", forIndexPath: indexPath) as! TopSongTableViewCell
         
         let song = friendsArray[indexPath.section].topSongs![indexPath.row]
-        cell.rank.text = song.rank
-
+        
+        drawStars(song.rank, cell: cell)
         cell.titleLabel.attributedText = UIDesign.darkStyleAttributedString(song.title, fontSize: 20.0)
         cell.artistLabel.attributedText = UIDesign.lightStyleAttributedString(song.artist, fontSize: 15.0)
         
         return cell
+    }
+    
+    func drawStars(rank: String, cell: TopSongTableViewCell) {
+        let rankNumber = Int(rank)!
+        let starImage = UIImage(named: "ic_star")
+        var rightAnchorConstant: CGFloat = 0
+        
+        for _ in 0...rankNumber {
+            let starImageView = UIImageView(image: starImage)
+            starImageView.translatesAutoresizingMaskIntoConstraints = false
+            starImageView.contentMode = .ScaleAspectFill
+            cell.addSubview(starImageView)
+            
+            rightAnchorConstant -= 8
+            starImageView.rightAnchor.constraintEqualToAnchor(cell.rightAnchor, constant: rightAnchorConstant).active = true
+            starImageView.topAnchor.constraintEqualToAnchor(cell.topAnchor, constant: 5).active = true
+            starImageView.heightAnchor.constraintEqualToConstant(10).active = true
+            starImageView.widthAnchor.constraintEqualToConstant(10).active = true
+        }
     }
     
     

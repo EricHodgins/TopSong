@@ -56,9 +56,9 @@ class SongConverter {
         
         if query.items?.count > 0 {
             let songMediaItem = query.items?[0]
-            topSong = TopSong(artist: artist, title: title, rank: "", mediaItem: songMediaItem, isSongPlayable: true)
+            topSong = TopSong(artist: artist, title: title, rank: rank, mediaItem: songMediaItem, isSongPlayable: true)
         } else {
-            topSong = TopSong(artist: artist, title: title, rank: "", mediaItem: nil, isSongPlayable: false)
+            topSong = TopSong(artist: artist, title: title, rank: rank, mediaItem: nil, isSongPlayable: false)
         }
         
         return topSong

@@ -309,20 +309,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="82"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Jo-mf-F1r">
-                                                    <rect key="frame" x="16" y="8" width="34" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L7b-2h-cxL">
                                                     <rect key="frame" x="16" y="34" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rank" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LrG-rl-g4N">
-                                                    <rect key="frame" x="553" y="8" width="39" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Jo-mf-F1r">
+                                                    <rect key="frame" x="16" y="8" width="34" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -333,13 +327,10 @@
                                                 <constraint firstItem="L7b-2h-cxL" firstAttribute="top" secondItem="8Jo-mf-F1r" secondAttribute="bottom" constant="5" id="eII-TA-pmc"/>
                                                 <constraint firstItem="8Jo-mf-F1r" firstAttribute="leading" secondItem="e0k-QO-VRh" secondAttribute="leadingMargin" constant="8" id="fqv-v6-bRo"/>
                                                 <constraint firstAttribute="topMargin" secondItem="8Jo-mf-F1r" secondAttribute="top" id="o4f-Af-Sfa"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="LrG-rl-g4N" secondAttribute="trailing" id="qNc-0Y-U9h"/>
-                                                <constraint firstAttribute="topMargin" secondItem="LrG-rl-g4N" secondAttribute="top" id="v8K-A1-NZa"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="artistLabel" destination="L7b-2h-cxL" id="lrQ-jo-GRm"/>
-                                            <outlet property="rank" destination="LrG-rl-g4N" id="IbD-fE-2c1"/>
                                             <outlet property="titleLabel" destination="8Jo-mf-F1r" id="4dn-P9-Udj"/>
                                         </connections>
                                     </tableViewCell>
