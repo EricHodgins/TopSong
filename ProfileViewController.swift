@@ -88,7 +88,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
         imagePicker.allowsEditing = false
         
     }
-
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
+    }
+    
     
     func pickNewPictureForProfile() {
         presentViewController(imagePicker, animated: true, completion: nil)

@@ -308,6 +308,9 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SP8-gz-HxY" id="e0k-QO-VRh">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="82"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <userGuides>
+                                                <userLayoutGuide location="41" affinity="minY"/>
+                                            </userGuides>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Artist" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L7b-2h-cxL">
                                                     <rect key="frame" x="16" y="34" width="42" height="21"/>
@@ -321,16 +324,46 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star" translatesAutoresizingMaskIntoConstraints="NO" id="els-CA-L2a">
+                                                    <rect key="frame" x="582" y="8" width="10" height="10"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="10" id="hqL-Zr-x2v"/>
+                                                        <constraint firstAttribute="width" constant="10" id="tUd-h9-XZJ"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star" translatesAutoresizingMaskIntoConstraints="NO" id="Lts-8i-zta">
+                                                    <rect key="frame" x="571" y="8" width="10" height="10"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="10" id="luE-pp-XPb"/>
+                                                        <constraint firstAttribute="width" constant="10" id="r7G-ni-LyM"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star" translatesAutoresizingMaskIntoConstraints="NO" id="Brb-JW-mg2">
+                                                    <rect key="frame" x="560" y="8" width="10" height="10"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="10" id="D3n-kA-JsJ"/>
+                                                        <constraint firstAttribute="width" constant="10" id="T7s-yv-Oki"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="topMargin" secondItem="els-CA-L2a" secondAttribute="top" id="5j4-Pa-bww"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="els-CA-L2a" secondAttribute="trailing" id="7Vb-a8-46G"/>
+                                                <constraint firstAttribute="topMargin" secondItem="Lts-8i-zta" secondAttribute="top" id="K7b-Wd-Uaa"/>
                                                 <constraint firstItem="L7b-2h-cxL" firstAttribute="leading" secondItem="e0k-QO-VRh" secondAttribute="leadingMargin" constant="8" id="XKq-3f-e9e"/>
+                                                <constraint firstItem="els-CA-L2a" firstAttribute="leading" secondItem="Lts-8i-zta" secondAttribute="trailing" constant="1" id="d6Z-D7-6ej"/>
                                                 <constraint firstItem="L7b-2h-cxL" firstAttribute="top" secondItem="8Jo-mf-F1r" secondAttribute="bottom" constant="5" id="eII-TA-pmc"/>
+                                                <constraint firstAttribute="topMargin" secondItem="Brb-JW-mg2" secondAttribute="top" id="eRI-hk-Blm"/>
                                                 <constraint firstItem="8Jo-mf-F1r" firstAttribute="leading" secondItem="e0k-QO-VRh" secondAttribute="leadingMargin" constant="8" id="fqv-v6-bRo"/>
+                                                <constraint firstItem="Lts-8i-zta" firstAttribute="leading" secondItem="Brb-JW-mg2" secondAttribute="trailing" constant="1" id="hQQ-Wd-7mR"/>
                                                 <constraint firstAttribute="topMargin" secondItem="8Jo-mf-F1r" secondAttribute="top" id="o4f-Af-Sfa"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="artistLabel" destination="L7b-2h-cxL" id="lrQ-jo-GRm"/>
+                                            <outlet property="star1" destination="els-CA-L2a" id="2QR-li-SvG"/>
+                                            <outlet property="star2" destination="Lts-8i-zta" id="Qyr-YR-pt0"/>
+                                            <outlet property="star3" destination="Brb-JW-mg2" id="brv-4O-egf"/>
                                             <outlet property="titleLabel" destination="8Jo-mf-F1r" id="4dn-P9-Udj"/>
                                         </connections>
                                     </tableViewCell>
@@ -597,5 +630,6 @@
         <image name="ic_account_circle_white" width="24" height="24"/>
         <image name="ic_friends_white" width="24" height="24"/>
         <image name="ic_person_add_white" width="24" height="24"/>
+        <image name="ic_star" width="24" height="24"/>
     </resources>
 </document>

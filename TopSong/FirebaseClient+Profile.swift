@@ -70,9 +70,17 @@ extension FirebaseClient {
     }
     
     
+    
+    //MARK: Getting Profile Images
     func fetchUserImage(userId: String, completionHandler: (success: Bool, image: UIImage?) -> Void) {
-        let imageRef = storageRef.child("\(userId)\\images\\profile")
         
+        //Check to see if Image is cached already
+        if let profileImage = FirebaseClient.Caches.imageCache.imageWithIdentifier(userId) {
+            completionHandler(success: true, image: profileImage)
+            return
+        }
+        
+        let imageRef = storageRef.child("\(userId)\\images\\profile")
         let downloadTask = imageRef.dataWithMaxSize(1 * 1024 * 1024) { (imageData, error) in
             guard error == nil else {
                 print("Error downloading profile image: \(error?.localizedDescription)")
@@ -81,6 +89,7 @@ extension FirebaseClient {
             }
             
             let image : UIImage = UIImage(data: imageData!)!
+            FirebaseClient.Caches.imageCache.storeImage(image, withIdentifier: userId)
             
             dispatch_async(dispatch_get_main_queue()) {
                 completionHandler(success: true, image: image)
@@ -119,6 +128,7 @@ extension FirebaseClient {
         
         uploadTask.observeStatus(.Success) { (snapshot) in
             print("success putting image data.")
+            FirebaseClient.Caches.imageCache.removeImage(forPath: user.uid)
             self.firDatabaseRef.child("users").child(user.uid).updateChildValues(["image-updated": "\(NSDate())"])
             self.firDatabaseRef.child("users").child(user.uid).updateChildValues(["imageFilePath": "\(imageRef)"])
             completionHandler(success: true)

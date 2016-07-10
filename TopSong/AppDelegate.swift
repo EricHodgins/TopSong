@@ -21,14 +21,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FIRApp.configure()
         
         //UI Style
-        UIApplication.sharedApplication().statusBarStyle = .LightContent
-        
+//        UIApplication.sharedApplication().statusBarStyle = .LightContent
+//        
         let navigationBarAppearance = UINavigationBar.appearance()
         navigationBarAppearance.tintColor = UIColor.whiteColor()
         navigationBarAppearance.barTintColor = UIColor().lightBlueAppDesign
         navigationBarAppearance.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-        
-        print("appdelegate")
         
         return true
     }

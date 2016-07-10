@@ -16,9 +16,17 @@ public let CreateAccountError: Int = 20
 
 class FirebaseClient {
     
+    //Singleton
     static let sharedInstance = FirebaseClient()
+    
+    //Store Handles.  Need to remove on refresh.  Or Multiple Network calls are made for the same Firebase path, which is uneccessary and a waste of network data.
     var firebaseTopSongHandles = [String : UInt]()
     var firebaseImageUsernameHandles = [String : UInt]()
+    
+    //Shared Image Cache
+    struct Caches {
+        static let imageCache = ImageCache()
+    }
     
     deinit {
         print("Firebase Client was deinitialized.")
@@ -110,19 +118,7 @@ class FirebaseClient {
             }
         })
     }
-    
-    //MARK Downloading
 
-    
-    //MARK: Downloading user's friends top songs
-    
-    
-    
-    
-    //MARK: Uploading
-    
-    
-    
     
     //MARK:Delete Data
     

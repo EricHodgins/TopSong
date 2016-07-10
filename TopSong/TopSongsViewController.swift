@@ -97,14 +97,39 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("topSongCell", forIndexPath: indexPath) as! TopSongTableViewCell
+        hideStars(cell)
+        
         
         let song = friendsArray[indexPath.section].topSongs![indexPath.row]
         
-        drawStars(song.rank, cell: cell)
         cell.titleLabel.attributedText = UIDesign.darkStyleAttributedString(song.title, fontSize: 20.0)
         cell.artistLabel.attributedText = UIDesign.lightStyleAttributedString(song.artist, fontSize: 15.0)
         
+        unHideStars(song.rank, cell: cell)
+        
+        
         return cell
+    }
+    
+    func hideStars(cell: TopSongTableViewCell) {
+        cell.star1.hidden = true
+        cell.star2.hidden = true
+        cell.star3.hidden = true
+    }
+    
+    func unHideStars(rankString: String, cell: TopSongTableViewCell) {
+        let rank = Int(rankString)!
+        
+        if rank == 0 {
+            cell.star1.hidden = false
+        } else if rank == 1 {
+            cell.star1.hidden = false
+            cell.star2.hidden = false
+        } else {
+            cell.star1.hidden = false
+            cell.star2.hidden = false
+            cell.star3.hidden = false
+        }
     }
     
     func drawStars(rank: String, cell: TopSongTableViewCell) {

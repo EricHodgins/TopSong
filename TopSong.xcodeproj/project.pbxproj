@@ -14,6 +14,7 @@
 		7A3E314D1D07083600DC90B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A3E314B1D07083600DC90B0 /* LaunchScreen.storyboard */; };
 		7A3E31551D070A4300DC90B0 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */; };
 		7A3E315B1D07CD7600DC90B0 /* TopPickTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E315A1D07CD7600DC90B0 /* TopPickTableViewCell.swift */; };
+		7A5DE2ED1D316CE300B7C2F1 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5DE2EC1D316CE300B7C2F1 /* ImageCache.swift */; };
 		7A789D3C1D13BB720048F7C2 /* TopSongsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A789D3B1D13BB720048F7C2 /* TopSongsViewController.swift */; };
 		7A7F2B1F1D1F353B006B85D0 /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7F2B1E1D1F353B006B85D0 /* FriendTableViewCell.swift */; };
 		7A8C412E1D0DDC4E00D45C6B /* SongProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8C412D1D0DDC4E00D45C6B /* SongProtocols.swift */; };
@@ -46,6 +47,7 @@
 		7A3E314E1D07083600DC90B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = ../ProfileViewController.swift; sourceTree = "<group>"; };
 		7A3E315A1D07CD7600DC90B0 /* TopPickTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopPickTableViewCell.swift; path = ../TopPickTableViewCell.swift; sourceTree = "<group>"; };
+		7A5DE2EC1D316CE300B7C2F1 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		7A789D3B1D13BB720048F7C2 /* TopSongsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopSongsViewController.swift; sourceTree = "<group>"; };
 		7A7F2B1E1D1F353B006B85D0 /* FriendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
 		7A8C412D1D0DDC4E00D45C6B /* SongProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongProtocols.swift; sourceTree = "<group>"; };
@@ -119,21 +121,38 @@
 				7AC2CC241D20E37D002FCC5D /* LoggingIn */,
 				7A8C412D1D0DDC4E00D45C6B /* SongProtocols.swift */,
 				7A3DB2661D2CB69500A7C9D9 /* ProfileProtocols.swift */,
-				7A3E315A1D07CD7600DC90B0 /* TopPickTableViewCell.swift */,
+				7A5DE2EA1D31680B00B7C2F1 /* TableViewCells */,
 				7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */,
 				7A8CD6DE1D08613F0010EBD9 /* SongPickerViewController.swift */,
-				7A3E31461D07083600DC90B0 /* Main.storyboard */,
-				7AB265351D15EC8A00EF8E59 /* TopSongTableViewCell.swift */,
 				7A789D3B1D13BB720048F7C2 /* TopSongsViewController.swift */,
 				7A922CEA1D125CE1002CBE7B /* FriendsViewController.swift */,
-				7A7F2B1E1D1F353B006B85D0 /* FriendTableViewCell.swift */,
 				7A8FDABC1D110E0E0053BEF7 /* FindFriendsViewController.swift */,
+				7A5DE2EB1D316CC100B7C2F1 /* Cache */,
+				7A3E31461D07083600DC90B0 /* Main.storyboard */,
 				7A3E31491D07083600DC90B0 /* Assets.xcassets */,
 				7A3E314B1D07083600DC90B0 /* LaunchScreen.storyboard */,
 				7A3E314E1D07083600DC90B0 /* Info.plist */,
 				7A8C41311D0E009100D45C6B /* GoogleService-Info.plist */,
 			);
 			path = TopSong;
+			sourceTree = "<group>";
+		};
+		7A5DE2EA1D31680B00B7C2F1 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				7A3E315A1D07CD7600DC90B0 /* TopPickTableViewCell.swift */,
+				7AB265351D15EC8A00EF8E59 /* TopSongTableViewCell.swift */,
+				7A7F2B1E1D1F353B006B85D0 /* FriendTableViewCell.swift */,
+			);
+			name = TableViewCells;
+			sourceTree = "<group>";
+		};
+		7A5DE2EB1D316CC100B7C2F1 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				7A5DE2EC1D316CE300B7C2F1 /* ImageCache.swift */,
+			);
+			name = Cache;
 			sourceTree = "<group>";
 		};
 		7A9332521D2FEB99005FCED1 /* FirebaseClient */ = {
@@ -288,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A5DE2ED1D316CE300B7C2F1 /* ImageCache.swift in Sources */,
 				7AA0A8421D0E20B1009324D9 /* SignInViewController.swift in Sources */,
 				7A789D3C1D13BB720048F7C2 /* TopSongsViewController.swift in Sources */,
 				7AA009CE1D231106008DBDFF /* TopSong.swift in Sources */,
