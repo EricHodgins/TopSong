@@ -66,10 +66,12 @@ class ImageCache {
         let fullImagePath = pathForIdentifier(path)
         
         do {
+            //Remove from storage
             try fileManager.removeItemAtPath(fullImagePath)
+            //If that works, remove from cache as well.
             inMemoryCache.removeObjectForKey(fullImagePath)
-        } catch {
-            print("could not delete imaget for path: \(fullImagePath)")
+        } catch let error as NSError {
+            print("could not delete imaget for path: \(fullImagePath) - \(error)")
         }
     }
     

@@ -17,6 +17,11 @@
 		7A5DE2ED1D316CE300B7C2F1 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5DE2EC1D316CE300B7C2F1 /* ImageCache.swift */; };
 		7A789D3C1D13BB720048F7C2 /* TopSongsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A789D3B1D13BB720048F7C2 /* TopSongsViewController.swift */; };
 		7A7F2B1F1D1F353B006B85D0 /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7F2B1E1D1F353B006B85D0 /* FriendTableViewCell.swift */; };
+		7A8740A11D35DC75009D507E /* TopSongDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7A87409F1D35DC75009D507E /* TopSongDataModel.xcdatamodeld */; };
+		7A8740A41D35F7CD009D507E /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8740A31D35F7CD009D507E /* CoreDataStackManager.swift */; };
+		7A8740A61D35F92E009D507E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8740A51D35F92E009D507E /* User.swift */; };
+		7A8740A81D35FDC0009D507E /* TopSongFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8740A71D35FDC0009D507E /* TopSongFriend.swift */; };
+		7A8740AA1D35FDD1009D507E /* HitListSong.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8740A91D35FDD1009D507E /* HitListSong.swift */; };
 		7A8C412E1D0DDC4E00D45C6B /* SongProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8C412D1D0DDC4E00D45C6B /* SongProtocols.swift */; };
 		7A8C41301D0DDDA500D45C6B /* UIDesignAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8C412F1D0DDDA500D45C6B /* UIDesignAttributes.swift */; };
 		7A8C41321D0E009100D45C6B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7A8C41311D0E009100D45C6B /* GoogleService-Info.plist */; };
@@ -50,6 +55,11 @@
 		7A5DE2EC1D316CE300B7C2F1 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		7A789D3B1D13BB720048F7C2 /* TopSongsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopSongsViewController.swift; sourceTree = "<group>"; };
 		7A7F2B1E1D1F353B006B85D0 /* FriendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
+		7A8740A01D35DC75009D507E /* TopSongDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TopSongDataModel.xcdatamodel; sourceTree = "<group>"; };
+		7A8740A31D35F7CD009D507E /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
+		7A8740A51D35F92E009D507E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		7A8740A71D35FDC0009D507E /* TopSongFriend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopSongFriend.swift; sourceTree = "<group>"; };
+		7A8740A91D35FDD1009D507E /* HitListSong.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HitListSong.swift; sourceTree = "<group>"; };
 		7A8C412D1D0DDC4E00D45C6B /* SongProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongProtocols.swift; sourceTree = "<group>"; };
 		7A8C412F1D0DDDA500D45C6B /* UIDesignAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDesignAttributes.swift; sourceTree = "<group>"; };
 		7A8C41311D0E009100D45C6B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -112,13 +122,14 @@
 		7A3E31411D07083600DC90B0 /* TopSong */ = {
 			isa = PBXGroup;
 			children = (
+				7A8740A21D35DC7D009D507E /* Core Data */,
 				7A3E31421D07083600DC90B0 /* AppDelegate.swift */,
 				7A8C412F1D0DDDA500D45C6B /* UIDesignAttributes.swift */,
 				7A9332521D2FEB99005FCED1 /* FirebaseClient */,
 				7AA009CB1D2309DD008DBDFF /* SongConverter.swift */,
 				7AA009CD1D231106008DBDFF /* TopSong.swift */,
 				7A8D6B181D24BBBD004DB5B6 /* Friend.swift */,
-				7AC2CC241D20E37D002FCC5D /* LoggingIn */,
+				7AC2CC241D20E37D002FCC5D /* Logging In */,
 				7A8C412D1D0DDC4E00D45C6B /* SongProtocols.swift */,
 				7A3DB2661D2CB69500A7C9D9 /* ProfileProtocols.swift */,
 				7A5DE2EA1D31680B00B7C2F1 /* TableViewCells */,
@@ -155,6 +166,18 @@
 			name = Cache;
 			sourceTree = "<group>";
 		};
+		7A8740A21D35DC7D009D507E /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				7A87409F1D35DC75009D507E /* TopSongDataModel.xcdatamodeld */,
+				7A8740A91D35FDD1009D507E /* HitListSong.swift */,
+				7A8740A71D35FDC0009D507E /* TopSongFriend.swift */,
+				7A8740A31D35F7CD009D507E /* CoreDataStackManager.swift */,
+				7A8740A51D35F92E009D507E /* User.swift */,
+			);
+			name = "Core Data";
+			sourceTree = "<group>";
+		};
 		7A9332521D2FEB99005FCED1 /* FirebaseClient */ = {
 			isa = PBXGroup;
 			children = (
@@ -166,13 +189,13 @@
 			name = FirebaseClient;
 			sourceTree = "<group>";
 		};
-		7AC2CC241D20E37D002FCC5D /* LoggingIn */ = {
+		7AC2CC241D20E37D002FCC5D /* Logging In */ = {
 			isa = PBXGroup;
 			children = (
 				7AA0A8411D0E20B1009324D9 /* SignInViewController.swift */,
 				7AC2CC251D20E3B0002FCC5D /* SignInViewController+UI.swift */,
 			);
-			name = LoggingIn;
+			name = "Logging In";
 			sourceTree = "<group>";
 		};
 		CF82D1152811018CC6523DBC /* Frameworks */ = {
@@ -310,6 +333,7 @@
 				7A5DE2ED1D316CE300B7C2F1 /* ImageCache.swift in Sources */,
 				7AA0A8421D0E20B1009324D9 /* SignInViewController.swift in Sources */,
 				7A789D3C1D13BB720048F7C2 /* TopSongsViewController.swift in Sources */,
+				7A8740A61D35F92E009D507E /* User.swift in Sources */,
 				7AA009CE1D231106008DBDFF /* TopSong.swift in Sources */,
 				7A922CEB1D125CE1002CBE7B /* FriendsViewController.swift in Sources */,
 				7A9332561D2FECB1005FCED1 /* FirebaseClient+TopSongs.swift in Sources */,
@@ -321,11 +345,15 @@
 				7A3E31551D070A4300DC90B0 /* ProfileViewController.swift in Sources */,
 				7A8CD6DF1D08613F0010EBD9 /* SongPickerViewController.swift in Sources */,
 				7A9332581D2FED4A005FCED1 /* FirebaseClient+Friends.swift in Sources */,
+				7A8740AA1D35FDD1009D507E /* HitListSong.swift in Sources */,
 				7AC2CC261D20E3B0002FCC5D /* SignInViewController+UI.swift in Sources */,
+				7A8740A11D35DC75009D507E /* TopSongDataModel.xcdatamodeld in Sources */,
 				7A8C412E1D0DDC4E00D45C6B /* SongProtocols.swift in Sources */,
+				7A8740A41D35F7CD009D507E /* CoreDataStackManager.swift in Sources */,
 				7A8FDABD1D110E0E0053BEF7 /* FindFriendsViewController.swift in Sources */,
 				7A3DB2671D2CB69500A7C9D9 /* ProfileProtocols.swift in Sources */,
 				7AC2CC231D20CB9C002FCC5D /* FirebaseClient.swift in Sources */,
+				7A8740A81D35FDC0009D507E /* TopSongFriend.swift in Sources */,
 				7A8D6B191D24BBBD004DB5B6 /* Friend.swift in Sources */,
 				7A3E31431D07083600DC90B0 /* AppDelegate.swift in Sources */,
 				7A3E315B1D07CD7600DC90B0 /* TopPickTableViewCell.swift in Sources */,
@@ -485,6 +513,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		7A87409F1D35DC75009D507E /* TopSongDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				7A8740A01D35DC75009D507E /* TopSongDataModel.xcdatamodel */,
+			);
+			currentVersion = 7A8740A01D35DC75009D507E /* TopSongDataModel.xcdatamodel */;
+			path = TopSongDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 7A3E31371D07083600DC90B0 /* Project object */;
 }

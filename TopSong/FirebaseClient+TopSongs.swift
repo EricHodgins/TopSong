@@ -69,6 +69,7 @@ extension FirebaseClient {
             
             switch key {
             case "image-updated":
+                FirebaseClient.Caches.imageCache.removeImage(forPath: friendID)
                 delegate.upatedFriendProfileNameAndImage(friendID, newName: nil)
                 return
             case "profile-name":

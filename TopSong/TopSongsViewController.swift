@@ -132,25 +132,6 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    func drawStars(rank: String, cell: TopSongTableViewCell) {
-        let rankNumber = Int(rank)!
-        let starImage = UIImage(named: "ic_star")
-        var rightAnchorConstant: CGFloat = 0
-        
-        for _ in 0...rankNumber {
-            let starImageView = UIImageView(image: starImage)
-            starImageView.translatesAutoresizingMaskIntoConstraints = false
-            starImageView.contentMode = .ScaleAspectFill
-            cell.addSubview(starImageView)
-            
-            rightAnchorConstant -= 8
-            starImageView.rightAnchor.constraintEqualToAnchor(cell.rightAnchor, constant: rightAnchorConstant).active = true
-            starImageView.topAnchor.constraintEqualToAnchor(cell.topAnchor, constant: 5).active = true
-            starImageView.heightAnchor.constraintEqualToConstant(10).active = true
-            starImageView.widthAnchor.constraintEqualToConstant(10).active = true
-        }
-    }
-    
     
     //MARK: Download Songs/Friend Info
     

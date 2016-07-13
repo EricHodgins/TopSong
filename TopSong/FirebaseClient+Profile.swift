@@ -129,6 +129,7 @@ extension FirebaseClient {
         uploadTask.observeStatus(.Success) { (snapshot) in
             print("success putting image data.")
             FirebaseClient.Caches.imageCache.removeImage(forPath: user.uid)
+            FirebaseClient.Caches.imageCache.storeImage(image, withIdentifier: user.uid)
             self.firDatabaseRef.child("users").child(user.uid).updateChildValues(["image-updated": "\(NSDate())"])
             self.firDatabaseRef.child("users").child(user.uid).updateChildValues(["imageFilePath": "\(imageRef)"])
             completionHandler(success: true)
