@@ -13,6 +13,7 @@ class TopSongFriend: NSManagedObject {
     
     @NSManaged var imageFilePath : String
     @NSManaged var lastImageUpdate : NSDate
+    @NSManaged var friendId: String
     @NSManaged var user : User
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {

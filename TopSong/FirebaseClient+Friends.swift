@@ -35,7 +35,16 @@ extension FirebaseClient {
             let usersDict = snapshot.value as! [String : String]
             let profileName = usersDict["profile-name"]!
             let imagePath = usersDict["imageFilePath"]
-            let friend = Friend(friendName: profileName, friendSongs: nil, friendID: userID, storageImagePath: imagePath)
+            let imageUpdate = usersDict["image-updated"]
+            
+            var date: NSDate? = nil
+            if let dateString = imageUpdate {
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                date = dateFormatter.dateFromString(dateString)
+            }
+            
+            let friend = Friend(friendName: profileName, friendSongs: nil, friendID: userID, storageImagePath: imagePath, imageUpdate: date)
             
             dispatch_async(dispatch_get_main_queue()) {
                 completionHandler(friend: friend)

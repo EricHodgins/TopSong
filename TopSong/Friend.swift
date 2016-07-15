@@ -13,11 +13,13 @@ struct Friend {
     var topSongs: [TopSong]?
     var uid: String
     var imagePath: String?
+    var lastImageUpdate: NSDate?
     
-    init(friendName: String?, friendSongs: [TopSong]?, friendID: String, storageImagePath: String?) {
+    init(friendName: String?, friendSongs: [TopSong]?, friendID: String, storageImagePath: String?, imageUpdate: NSDate?) {
         heading = friendName
         topSongs = friendSongs
         uid = friendID
         imagePath = storageImagePath
+        lastImageUpdate = imageUpdate
     }
 }

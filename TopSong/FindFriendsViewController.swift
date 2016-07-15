@@ -89,7 +89,7 @@ extension FindFriendsViewController: UISearchResultsUpdating {
         self.tableView.reloadData()
         firebaseClient.findFriendWithText(user!.uid, text: searchController.searchBar.text!) { (id, username) in
             print("found: \(username)")
-            let friendFound = Friend(friendName: username, friendSongs: nil, friendID: id, storageImagePath: nil)
+            let friendFound = Friend(friendName: username, friendSongs: nil, friendID: id, storageImagePath: nil, imageUpdate: nil)
             self.friends.append(friendFound)
             self.tableView.reloadData()
         }

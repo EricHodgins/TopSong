@@ -130,7 +130,10 @@ extension FirebaseClient {
             print("success putting image data.")
             FirebaseClient.Caches.imageCache.removeImage(forPath: user.uid)
             FirebaseClient.Caches.imageCache.storeImage(image, withIdentifier: user.uid)
-            self.firDatabaseRef.child("users").child(user.uid).updateChildValues(["image-updated": "\(NSDate())"])
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            let dateImageUpdated = dateFormatter.stringFromDate(NSDate())
+            self.firDatabaseRef.child("users").child(user.uid).updateChildValues(["image-updated": "\(dateImageUpdated)"])
             self.firDatabaseRef.child("users").child(user.uid).updateChildValues(["imageFilePath": "\(imageRef)"])
             completionHandler(success: true)
         }

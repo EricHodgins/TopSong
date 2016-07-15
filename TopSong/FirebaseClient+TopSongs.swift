@@ -61,7 +61,8 @@ extension FirebaseClient {
             let usersDict = snapshot.value as! [String : String]
             let profileName = usersDict["profile-name"]
             let storedImagePath = usersDict["imageFilePath"]
-            self.downloadTopSongsForFriend(withID: friendID, username: profileName, imagePath: storedImagePath, section: section, delegate: delegate, completionHandler: completionHandler)
+            let imageUpdated = usersDict["image-updated"]
+            self.downloadTopSongsForFriend(withID: friendID, username: profileName, imagePath: storedImagePath, lastImageUpdate: imageUpdated, section: section, delegate: delegate, completionHandler: completionHandler)
         })
         
         let handle = usersRef.observeEventType(.ChildChanged, withBlock: {(snapshot) in
@@ -84,7 +85,7 @@ extension FirebaseClient {
         firebaseImageUsernameHandles[friendID] = handle
     }
     
-    func downloadTopSongsForFriend(withID id: String, username: String?, imagePath: String?, section: Int, delegate: UserInfoUpdating, completionHandler: DownloadedFriendTopSongs) {
+    func downloadTopSongsForFriend(withID id: String, username: String?, imagePath: String?, lastImageUpdate: String?, section: Int, delegate: UserInfoUpdating, completionHandler: DownloadedFriendTopSongs) {
         
         let topSongRef = firDatabaseRef.child("topSongs").child(id).child("songs")
         topSongRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
@@ -94,7 +95,15 @@ extension FirebaseClient {
             }
             
             let songsArray = snapshot.value as! NSArray
-            var friend = Friend(friendName: username, friendSongs: [], friendID: id, storageImagePath: imagePath)
+            
+            var date: NSDate? = nil
+            if let dateString = lastImageUpdate {
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                date = dateFormatter.dateFromString(dateString)
+            }
+            
+            var friend = Friend(friendName: username, friendSongs: [], friendID: id, storageImagePath: imagePath, imageUpdate: date)
             var tableViewFriendIndexes = [NSIndexPath]()
             
             let songConverter = SongConverter() // Make a TopSong

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 import MediaPlayer
 import Firebase
 
@@ -15,6 +16,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
     
     let firDatabaseRef = FIRDatabase.database().reference()
     var user: FIRUser?
+    var loggedInUser: User?
     
     let firebaseClient = FirebaseClient.sharedInstance
 
@@ -87,11 +89,39 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
         imagePicker.sourceType = .PhotoLibrary
         imagePicker.allowsEditing = false
         
+        //Check if user is saved already on the device.  If not save the user's id
+        findUser()
+        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
         UIApplication.sharedApplication().statusBarStyle = .LightContent
+    }
+    
+    //MARK: Find User
+    lazy var sharedContext: NSManagedObjectContext = {
+        return CoreDataStackManager.sharedInstance.managedObjectContext
+    }()
+    
+    func findUser() {
+        let fetchRequest = NSFetchRequest(entityName:"User")
+        let predicate = NSPredicate(format: "userId = %@", user!.uid)
+        fetchRequest.predicate = predicate
+        do {
+            let fetchResults = try sharedContext.executeFetchRequest(fetchRequest)
+            print(fetchResults)
+            if fetchResults.count == 0 {
+                //Make a Logged In User Entity
+                let _ = User(userId: user!.uid, context: sharedContext)
+                
+                //Save The User
+                CoreDataStackManager.sharedInstance.saveContext()
+                
+            }
+        } catch let error as NSError {
+            print("Error occurred querying for logged in user: \(error.localizedDescription)")
+        }
     }
     
     

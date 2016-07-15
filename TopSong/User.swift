@@ -12,6 +12,7 @@ import CoreData
 class User : NSManagedObject {
     
     @NSManaged var userId : String
+    @NSManaged var topSongFriends : [TopSongFriend]
     
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {

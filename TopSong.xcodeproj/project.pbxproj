@@ -122,9 +122,9 @@
 		7A3E31411D07083600DC90B0 /* TopSong */ = {
 			isa = PBXGroup;
 			children = (
-				7A8740A21D35DC7D009D507E /* Core Data */,
 				7A3E31421D07083600DC90B0 /* AppDelegate.swift */,
 				7A8C412F1D0DDDA500D45C6B /* UIDesignAttributes.swift */,
+				7A8740A21D35DC7D009D507E /* Core Data */,
 				7A9332521D2FEB99005FCED1 /* FirebaseClient */,
 				7AA009CB1D2309DD008DBDFF /* SongConverter.swift */,
 				7AA009CD1D231106008DBDFF /* TopSong.swift */,
