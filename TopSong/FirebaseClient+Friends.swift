@@ -37,12 +37,8 @@ extension FirebaseClient {
             let imagePath = usersDict["imageFilePath"]
             let imageUpdate = usersDict["image-updated"]
             
-            var date: NSDate? = nil
-            if let dateString = imageUpdate {
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                date = dateFormatter.dateFromString(dateString)
-            }
+            //Format Date
+            let date: NSDate? = self.makeDateFromString(imageUpdate)
             
             let friend = Friend(friendName: profileName, friendSongs: nil, friendID: userID, storageImagePath: imagePath, imageUpdate: date)
             

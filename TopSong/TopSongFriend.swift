@@ -20,11 +20,12 @@ class TopSongFriend: NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
-    init(imageFilePath: String, lastImageUpdate: NSDate, context: NSManagedObjectContext) {
+    init(friendId: String, imageFilePath: String, lastImageUpdate: NSDate, context: NSManagedObjectContext) {
         
         let entity = NSEntityDescription.entityForName("TopSongFriend", inManagedObjectContext: context)!
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         
+        self.friendId = friendId
         self.imageFilePath = imageFilePath
         self.lastImageUpdate = lastImageUpdate
     }

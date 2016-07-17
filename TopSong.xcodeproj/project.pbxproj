@@ -170,9 +170,9 @@
 			isa = PBXGroup;
 			children = (
 				7A87409F1D35DC75009D507E /* TopSongDataModel.xcdatamodeld */,
+				7A8740A31D35F7CD009D507E /* CoreDataStackManager.swift */,
 				7A8740A91D35FDD1009D507E /* HitListSong.swift */,
 				7A8740A71D35FDC0009D507E /* TopSongFriend.swift */,
-				7A8740A31D35F7CD009D507E /* CoreDataStackManager.swift */,
 				7A8740A51D35F92E009D507E /* User.swift */,
 			);
 			name = "Core Data";

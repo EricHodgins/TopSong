@@ -110,7 +110,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
         fetchRequest.predicate = predicate
         do {
             let fetchResults = try sharedContext.executeFetchRequest(fetchRequest)
-            print(fetchResults)
             if fetchResults.count == 0 {
                 //Make a Logged In User Entity
                 let _ = User(userId: user!.uid, context: sharedContext)
@@ -118,6 +117,9 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
                 //Save The User
                 CoreDataStackManager.sharedInstance.saveContext()
                 
+            } else {
+                loggedInUser = fetchResults[0] as? User
+                print("found user: \(loggedInUser)")
             }
         } catch let error as NSError {
             print("Error occurred querying for logged in user: \(error.localizedDescription)")

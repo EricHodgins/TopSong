@@ -126,6 +126,22 @@ class FirebaseClient {
         firDatabaseRef.child("friendsGroup").child(userID).child(friendID).removeValue()
     }
     
+    
+    //MARK: Helper Methods
+    
+    func makeDateFromString(jsonDateString: String?) -> NSDate? {
+        
+        guard let dateString = jsonDateString else {
+            return nil
+        }
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let date = dateFormatter.dateFromString(dateString)
+        
+        return date
+    }
+    
 }
 
 

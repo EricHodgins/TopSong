@@ -7,14 +7,15 @@
 //
 
 import UIKit
+import CoreData
 import Firebase
 
 class TopSongsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UserInfoUpdating {
     
     let firebaseClient = FirebaseClient.sharedInstance
 
-
     var user: FIRUser?
+    var loggedInUser: User?
     
     @IBOutlet weak var tableView: UITableView!
 
@@ -35,10 +36,31 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         refreshControl.addTarget(self, action: #selector(TopSongsViewController.downloadTopSongs), forControlEvents: .ValueChanged)
         tableView.addSubview(refreshControl)
         
+        findUser()
         downloadTopSongs()
     }
     
+    //MARK: Context
+    lazy var sharedContext: NSManagedObjectContext = {
+        return CoreDataStackManager.sharedInstance.managedObjectContext
+    }()
     
+    func findUser() {
+        let fetchRequest = NSFetchRequest(entityName:"User")
+        let predicate = NSPredicate(format: "userId = %@", user!.uid)
+        fetchRequest.predicate = predicate
+        do {
+            let fetchResults = try sharedContext.executeFetchRequest(fetchRequest)
+            if fetchResults.count != 0 {
+                loggedInUser = fetchResults[0] as? User
+            }
+        } catch let error as NSError {
+            print("Error occurred querying for logged in user: \(error.localizedDescription)")
+        }
+    }
+    
+    
+    //MARK: Tableview Delegate/DataSource
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return friendsArray.count
     }
@@ -186,6 +208,34 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
             }
             self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
             self.tableView.endUpdates()
+            
+            self.updateFriend(friend)
+        }
+    }
+    
+    
+    //MARK: Update Friend for Core Data
+    func updateFriend(friend: Friend) {
+        let fetchRequest = NSFetchRequest(entityName: "TopSongFriend")
+        let predicate = NSPredicate(format: "user = %@", loggedInUser!)
+        let predicate2 = NSPredicate(format: "friendId = %@", friend.uid)
+        let compound = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate, predicate2])
+        fetchRequest.predicate = compound
+
+        do {
+            let fetchedResults = try sharedContext.executeFetchRequest(fetchRequest)
+            if fetchedResults.count == 0 {
+                let topSongFriend = TopSongFriend(friendId: friend.uid ,imageFilePath: friend.imagePath!, lastImageUpdate: friend.lastImageUpdate!, context: sharedContext)
+                topSongFriend.user = loggedInUser!
+                
+                //Save
+                CoreDataStackManager.sharedInstance.saveContext()
+            } else {
+                print("User already saved songs")
+            }
+            
+        } catch let error as NSError {
+            print("Error occurred querying for logged in user: \(error.localizedDescription)")
         }
     }
 

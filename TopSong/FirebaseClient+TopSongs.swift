@@ -96,12 +96,8 @@ extension FirebaseClient {
             
             let songsArray = snapshot.value as! NSArray
             
-            var date: NSDate? = nil
-            if let dateString = lastImageUpdate {
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                date = dateFormatter.dateFromString(dateString)
-            }
+            //Format the json Date
+            let date: NSDate? = self.makeDateFromString(lastImageUpdate)
             
             var friend = Friend(friendName: username, friendSongs: [], friendID: id, storageImagePath: imagePath, imageUpdate: date)
             var tableViewFriendIndexes = [NSIndexPath]()
