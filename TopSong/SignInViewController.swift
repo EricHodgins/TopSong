@@ -42,6 +42,8 @@ class SignInViewController: UIViewController {
     
     func signIn() {
         // **************   FILLED IN FOR DEBUGGING ************
+        //erichodgins86@gmail.com
+        //hodgins.e@gmail.com
         firebaseClient.signIn("hodgins.e@gmail.com", password: "123456") { (success, user, error) in
             
             if success {

@@ -209,13 +209,13 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
             self.tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
             self.tableView.endUpdates()
             
-            self.updateFriend(friend)
+            self.updateFriend(friend, inSection: section)
         }
     }
     
     
     //MARK: Update Friend for Core Data
-    func updateFriend(friend: Friend) {
+    func updateFriend(friend: Friend, inSection section: NSIndexSet) {
         let fetchRequest = NSFetchRequest(entityName: "TopSongFriend")
         let predicate = NSPredicate(format: "user = %@", loggedInUser!)
         let predicate2 = NSPredicate(format: "friendId = %@", friend.uid)
@@ -232,10 +232,38 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
                 CoreDataStackManager.sharedInstance.saveContext()
             } else {
                 print("User already saved songs")
+                let topSongFriend = fetchedResults[0] as! TopSongFriend
+                checkLastImageUpate(topSongFriend, inSection: section)
             }
             
         } catch let error as NSError {
             print("Error occurred querying for logged in user: \(error.localizedDescription)")
+        }
+    }
+    
+    func checkLastImageUpate(topSongFriend: TopSongFriend, inSection section: NSIndexSet) {
+        for friend in friendsArray {
+            if friend.uid == topSongFriend.friendId {
+                //check the last image update
+                if friend.lastImageUpdate == topSongFriend.lastImageUpdate {
+                    print("Images up to date")
+                } else {
+                    print("Need to update images.  Dates don't match.")
+                    //1. Remove Image from Documents Directory
+                    //2. Remove Image from Cache
+                    FirebaseClient.Caches.imageCache.removeImage(forPath: topSongFriend.friendId)
+                    
+                    //3. Download friends new Image
+                    FirebaseClient.sharedInstance.fetchUserImage(topSongFriend.friendId, completionHandler: { (success, image) in
+                        if success {
+                            //4. Update the Section Header
+                            self.tableView.reloadSections(section, withRowAnimation: .Automatic)
+                            topSongFriend.setValue(friend.lastImageUpdate, forKey: "lastImageUpdate")
+                            CoreDataStackManager.sharedInstance.saveContext()
+                        }
+                    })
+                }
+            }
         }
     }
 
