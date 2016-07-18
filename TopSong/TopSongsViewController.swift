@@ -215,6 +215,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     
     
     //MARK: Update Friend for Core Data
+    //TODO: Make this a generic function. Probably will reuse this.
     func updateFriend(friend: Friend, inSection section: NSIndexSet) {
         let fetchRequest = NSFetchRequest(entityName: "TopSongFriend")
         let predicate = NSPredicate(format: "user = %@", loggedInUser!)
