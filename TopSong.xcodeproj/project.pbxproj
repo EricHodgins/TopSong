@@ -15,6 +15,7 @@
 		7A3E31551D070A4300DC90B0 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */; };
 		7A3E315B1D07CD7600DC90B0 /* TopPickTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3E315A1D07CD7600DC90B0 /* TopPickTableViewCell.swift */; };
 		7A5DE2ED1D316CE300B7C2F1 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5DE2EC1D316CE300B7C2F1 /* ImageCache.swift */; };
+		7A6E01C01D3DDA7100F9E728 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6E01BF1D3DDA7100F9E728 /* SettingsViewController.swift */; };
 		7A789D3C1D13BB720048F7C2 /* TopSongsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A789D3B1D13BB720048F7C2 /* TopSongsViewController.swift */; };
 		7A7F2B1F1D1F353B006B85D0 /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7F2B1E1D1F353B006B85D0 /* FriendTableViewCell.swift */; };
 		7A8740A11D35DC75009D507E /* TopSongDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7A87409F1D35DC75009D507E /* TopSongDataModel.xcdatamodeld */; };
@@ -53,6 +54,7 @@
 		7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = ../ProfileViewController.swift; sourceTree = "<group>"; };
 		7A3E315A1D07CD7600DC90B0 /* TopPickTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopPickTableViewCell.swift; path = ../TopPickTableViewCell.swift; sourceTree = "<group>"; };
 		7A5DE2EC1D316CE300B7C2F1 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		7A6E01BF1D3DDA7100F9E728 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		7A789D3B1D13BB720048F7C2 /* TopSongsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopSongsViewController.swift; sourceTree = "<group>"; };
 		7A7F2B1E1D1F353B006B85D0 /* FriendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
 		7A8740A01D35DC75009D507E /* TopSongDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TopSongDataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				7A8FDABC1D110E0E0053BEF7 /* FindFriendsViewController.swift */,
 				7A5DE2EB1D316CC100B7C2F1 /* Cache */,
 				7A3E31461D07083600DC90B0 /* Main.storyboard */,
+				7A6E01BF1D3DDA7100F9E728 /* SettingsViewController.swift */,
 				7A3E31491D07083600DC90B0 /* Assets.xcassets */,
 				7A3E314B1D07083600DC90B0 /* LaunchScreen.storyboard */,
 				7A3E314E1D07083600DC90B0 /* Info.plist */,
@@ -353,6 +356,7 @@
 				7A8FDABD1D110E0E0053BEF7 /* FindFriendsViewController.swift in Sources */,
 				7A3DB2671D2CB69500A7C9D9 /* ProfileProtocols.swift in Sources */,
 				7AC2CC231D20CB9C002FCC5D /* FirebaseClient.swift in Sources */,
+				7A6E01C01D3DDA7100F9E728 /* SettingsViewController.swift in Sources */,
 				7A8740A81D35FDC0009D507E /* TopSongFriend.swift in Sources */,
 				7A8D6B191D24BBBD004DB5B6 /* Friend.swift in Sources */,
 				7A3E31431D07083600DC90B0 /* AppDelegate.swift in Sources */,

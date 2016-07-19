@@ -15,14 +15,13 @@ import Firebase
 class ProfileViewController: UIViewController, UITableViewDataSource, UINavigationControllerDelegate {
     
     let firDatabaseRef = FIRDatabase.database().reference()
-    var user: FIRUser?
-    var loggedInUser: User?
+    var user: FIRUser? // Firebase
+    var loggedInUser: User? // Core Data
     
     let firebaseClient = FirebaseClient.sharedInstance
 
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var profileNameTextField: UITextField!
-    @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var topPicksLabel: UILabel!
     
     var userTopPicks = [TopSong?](count: 3, repeatedValue: nil)
@@ -41,7 +40,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
         super.viewDidLoad()
         
         downloadProfileName()
-        downloadUsername()
         downloadProfileImage()
         downloadTopSongPicks()
         
@@ -51,7 +49,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
         
         tableView.dataSource = self
         profileNameTextField.delegate = self
-        usernameTextField.delegate = self
         
         // Top Picks Label
         topPicksLabel.attributedText = UIDesign.lightStyleAttributedString(topPicksLabel.text!, fontSize: 25.0)
@@ -64,12 +61,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
         profileNameTextField.attributedPlaceholder = mutableTextFieldPlaceholderString
         profileNameTextField.defaultTextAttributes = [NSFontAttributeName : fontTextfieldAttribute, NSForegroundColorAttributeName: colorTextfieldAttribute]
         profileNameTextField.textAlignment = .Center
-        
-        
-        // Username
-        usernameTextField.attributedPlaceholder = UIDesign.lightStyleAttributedString("Username", fontSize: 18.0)
-        usernameTextField.defaultTextAttributes = [NSFontAttributeName: fontTextfieldAttribute, NSForegroundColorAttributeName: colorTextfieldAttribute]
-        usernameTextField.textAlignment = .Center
         
         // Picking Profile Image
         
@@ -177,15 +168,6 @@ extension ProfileViewController: UITextFieldDelegate {
             firebaseClient.updateUsername(user!, name: profileNameTextField.text!)
         }
         
-        if textField == usernameTextField {
-            firebaseClient.generateUsername(textField.text!, id: user!.uid) { (success, message) in
-                if !success {
-                    //TODO: Notify user could not update
-                    print(message)
-                }
-            }
-        }
-        
         textField.resignFirstResponder()
         return true
     }
@@ -195,16 +177,6 @@ extension ProfileViewController: UITextFieldDelegate {
         if profileNameTextField.isFirstResponder() {
             firebaseClient.updateUsername(user!, name: profileNameTextField.text!)
             profileNameTextField.resignFirstResponder()
-        }
-        
-        if usernameTextField.isFirstResponder() {
-            firebaseClient.generateUsername(usernameTextField.text!, id: user!.uid) { (success, message) in
-                if !success {
-                    //TODO: Notify user could not update
-                    print(message)
-                }
-            }
-            usernameTextField.resignFirstResponder()
         }
     }
 }
@@ -266,16 +238,6 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
         }
     }
     
-    //MARK: Download username
-    func downloadUsername() {
-        firebaseClient.fetchUsername(user!.uid) { (success, username) in
-            if success {
-                self.usernameTextField.text = username
-            }
-        }
-    }
-    
-    
     //MARK: Download Profile Name
     func downloadProfileName() {
         firebaseClient.fetchUsername(user!) { (success, username) in
@@ -307,12 +269,13 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
 
 
 extension ProfileViewController {
-    //TODO: Finish proper logging out
-    @IBAction func logoutPressed(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "settings" {
+            let settingsViewController = segue.destinationViewController as! SettingsViewController
+            settingsViewController.user = user
+        }
     }
 }
-
 
 
 
