@@ -29,7 +29,11 @@ class SettingsViewController: UIViewController {
         usernameTextField.textAlignment = .Center
         
         //Username Description
-
+        usernameDescriptionLabel.attributedText = UIDesign.darkStyleAttributedString("Pick a username so friends can find you!", fontSize: 18.0)
+        
+        //Logout Button
+        let attributedString = UIDesign.darkStyleAttributedString("Logout", fontSize: 21.0)
+        logoutButton.setAttributedTitle(attributedString, forState: .Normal)
         
     }
     
@@ -44,7 +48,13 @@ class SettingsViewController: UIViewController {
 
 
     @IBAction func logoutButtonPressed(sender: AnyObject) {
-        print(user?.uid)
+        print("logging out")
+        do {
+            try FIRAuth.auth()?.signOut()
+            parentViewController?.dismissViewControllerAnimated(true, completion: nil)
+        } catch let error as NSError {
+            print("could not logout user: \(error)")
+        }
     }
 }
 
