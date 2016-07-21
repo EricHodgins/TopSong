@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 import Firebase
 
 class FriendsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UserInfoUpdating {
@@ -15,12 +16,20 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
     let firebaseClient = FirebaseClient.sharedInstance
     
     var user: FIRUser?
+    var loggedInUser: User?
     
     @IBOutlet weak var tableView: UITableView!
     var refreshControl: UIRefreshControl!
     
+    //MARK: Context
+    lazy var sharedContext: NSManagedObjectContext = {
+        return CoreDataStackManager.sharedInstance.managedObjectContext
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        findUser()
         
         self.title = "Friends"
         self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : UIFont.chalkboardFont(withSize: 20.0), NSForegroundColorAttributeName: UIColor.whiteColor()]
@@ -34,6 +43,20 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.addSubview(refreshControl)
         
         refreshFriendList()
+    }
+    
+    func findUser() {
+        let fetchRequest = NSFetchRequest(entityName:"User")
+        let predicate = NSPredicate(format: "userId = %@", user!.uid)
+        fetchRequest.predicate = predicate
+        do {
+            let fetchResults = try sharedContext.executeFetchRequest(fetchRequest)
+            if fetchResults.count != 0 {
+                loggedInUser = fetchResults[0] as? User
+            }
+        } catch let error as NSError {
+            print("Error occurred querying for logged in user: \(error.localizedDescription)")
+        }
     }
 
     
@@ -100,10 +123,31 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
+            //1. Update friends array
             let friend = friends[indexPath.row]
-            firebaseClient.deleteFriendWithID(user!.uid, friendID: friend.uid)
             friends.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            
+            //2. Update Firebase Database
+            firebaseClient.deleteFriendWithID(user!.uid, friendID: friend.uid)
+            
+            //3. Update Core Data & Remove Friends Profile Image from Documents Directory
+            let fetchRequest = NSFetchRequest(entityName: "TopSongFriend")
+            let predicate = NSPredicate(format: "user = %@", loggedInUser!)
+            let predicate2 = NSPredicate(format: "friendId = %@", friend.uid)
+            let compound = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate, predicate2])
+            fetchRequest.predicate = compound
+            
+            do {
+                let fetchedResult = try sharedContext.executeFetchRequest(fetchRequest)
+                if fetchedResult.count == 1 {
+                    let friend = fetchedResult[0] as! TopSongFriend
+                    sharedContext.deleteObject(friend)
+                    CoreDataStackManager.sharedInstance.saveContext()
+                }
+            } catch let error as NSError {
+                print(error)
+            }
         }
     }
     

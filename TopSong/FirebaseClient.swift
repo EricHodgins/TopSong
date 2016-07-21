@@ -119,13 +119,7 @@ class FirebaseClient {
         })
     }
 
-    
-    //MARK:Delete Data
-    
-    func deleteFriendWithID(userID:String, friendID: String) {
-        firDatabaseRef.child("friendsGroup").child(userID).child(friendID).removeValue()
-    }
-    
+
     
     //MARK: Helper Methods
     

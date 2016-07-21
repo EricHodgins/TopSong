@@ -30,4 +30,22 @@ class TopSongFriend: NSManagedObject {
         self.lastImageUpdate = lastImageUpdate
     }
     
+    override func prepareForDeletion() {
+        //Delete Profile Image in Documents Directory
+        let fileManager = NSFileManager.defaultManager()
+        let fullImagePath = getPathToDocumentsDirectory(friendId)
+        do {
+            try fileManager.removeItemAtPath(fullImagePath)
+        } catch {
+            print("could not delete friend: \(fullImagePath)")
+        }
+    }
+    
+    //MARK: Helper
+    func getPathToDocumentsDirectory(imagePath: String) -> String {
+        let documentsDirectoryURL: NSURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
+        let fullURL = documentsDirectoryURL.URLByAppendingPathComponent(imagePath)
+        
+        return fullURL.path!
+    }
 }

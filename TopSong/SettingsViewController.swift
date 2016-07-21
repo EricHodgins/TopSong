@@ -32,7 +32,7 @@ class SettingsViewController: UIViewController {
         usernameDescriptionLabel.attributedText = UIDesign.darkStyleAttributedString("Pick a username so friends can find you!", fontSize: 18.0)
         
         //Logout Button
-        let attributedString = UIDesign.darkStyleAttributedString("Logout", fontSize: 21.0)
+        let attributedString = UIDesign.highlightedAttributedString("Logout", fontSize: 21.0)//UIDesign.darkStyleAttributedString("Logout", fontSize: 21.0)
         logoutButton.setAttributedTitle(attributedString, forState: .Normal)
         
     }
