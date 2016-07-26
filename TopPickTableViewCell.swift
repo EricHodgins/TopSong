@@ -14,9 +14,16 @@ class TopPickTableViewCell: UITableViewCell {
     @IBOutlet weak var artistLabel: UILabel!
     @IBOutlet weak var changeButton: UIButton!
     
+    @IBOutlet weak var songTitleLeadingMarginConstraint: NSLayoutConstraint!
+    @IBOutlet weak var artistTitleLeadingMarginConstraint: NSLayoutConstraint!
+    
     var topPickIndexPath: NSIndexPath?
     
     weak var delegate: SongChanging?
+    
+    override func awakeFromNib() {
+//        selectionStyle = .None
+    }
 
     init() {
         super.init(style: .Subtitle, reuseIdentifier: "pickerCell")

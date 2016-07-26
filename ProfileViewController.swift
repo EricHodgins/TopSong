@@ -12,7 +12,7 @@ import MediaPlayer
 import Firebase
 
 
-class ProfileViewController: UIViewController, UITableViewDataSource, UINavigationControllerDelegate {
+class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate {
     
     let firDatabaseRef = FIRDatabase.database().reference()
     var user: FIRUser? // Firebase
@@ -36,6 +36,10 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
     
     @IBOutlet weak var tableView: UITableView!
     
+    lazy var musicPlayer: MPMusicPlayerController = {
+        return MPMusicPlayerController.systemMusicPlayer()
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -48,6 +52,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
         self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : UIFont.chalkboardFont(withSize: 20.0), NSForegroundColorAttributeName: UIColor.whiteColor()]
         
         tableView.dataSource = self
+        tableView.delegate = self
         profileNameTextField.delegate = self
         
         // Top Picks Label
@@ -157,6 +162,50 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UINavigati
         
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopPickTableViewCell
+        let song = userTopPicks[indexPath.row]
+        
+        guard song?.mediaItem != nil else {
+            return
+        }
+        
+        if musicPlayer.nowPlayingItem == song!.mediaItem! {
+            musicPlayer.stop()
+            tableView.layoutIfNeeded()
+            UIView.animateWithDuration(0.25) {
+                cell.artistTitleLeadingMarginConstraint.constant = -8
+                cell.songTitleLeadingMarginConstraint.constant = -8
+                tableView.layoutIfNeeded()
+            }
+            return
+        }
+        
+        
+        if song?.isSongPlayable == true && song != nil {
+            tableView.layoutIfNeeded()
+            UIView.animateWithDuration(0.25, animations: {
+                cell.artistTitleLeadingMarginConstraint.constant = -75
+                cell.songTitleLeadingMarginConstraint.constant = -75
+                tableView.layoutIfNeeded()
+            })
+            
+            let mediaCollection = MPMediaItemCollection(items: [song!.mediaItem!])
+            musicPlayer.setQueueWithItemCollection(mediaCollection)
+            musicPlayer.repeatMode = .None
+            musicPlayer.play()
+        }
+    }
+    
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopPickTableViewCell
+        tableView.layoutIfNeeded()
+        UIView.animateWithDuration(0.25) {
+            cell.artistTitleLeadingMarginConstraint.constant = -8
+            cell.songTitleLeadingMarginConstraint.constant = -8
+            tableView.layoutIfNeeded()
+        }
+    }
 }
 
 

@@ -155,8 +155,10 @@
                                                         </tableViewCellContentView>
                                                         <connections>
                                                             <outlet property="artistLabel" destination="qsI-oJ-UXJ" id="xgn-KF-s8K"/>
+                                                            <outlet property="artistTitleLeadingMarginConstraint" destination="ybR-mM-Scp" id="7Ut-qs-djT"/>
                                                             <outlet property="changeButton" destination="zKK-Nk-NNP" id="uK2-Ws-KU2"/>
                                                             <outlet property="songTitleLabel" destination="qTq-ma-wHV" id="cBv-M6-zmy"/>
+                                                            <outlet property="songTitleLeadingMarginConstraint" destination="RgC-us-wdv" id="1sA-9R-kn0"/>
                                                         </connections>
                                                     </tableViewCell>
                                                 </prototypes>
