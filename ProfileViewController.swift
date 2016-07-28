@@ -25,6 +25,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var topPicksLabel: UILabel!
     
     var userTopPicks = [TopSong?](count: 3, repeatedValue: nil)
+    var currentAnimatingCell: TopPickTableViewCell?
     
     let imagePicker = UIImagePickerController()
     
@@ -95,6 +96,20 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         UIApplication.sharedApplication().statusBarStyle = .LightContent
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if currentAnimatingCell != nil {
+            animateCellSoundBars(currentAnimatingCell!)
+        }
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        currentAnimatingCell?.leftBarView.transform = CGAffineTransformIdentity
+        currentAnimatingCell?.middleBarView.transform = CGAffineTransformIdentity
+        currentAnimatingCell?.rightBarView.transform = CGAffineTransformIdentity
+    }
+    
     //MARK: Find User
     lazy var sharedContext: NSManagedObjectContext = {
         return CoreDataStackManager.sharedInstance.managedObjectContext
@@ -160,51 +175,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         
         return cell
         
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopPickTableViewCell
-        let song = userTopPicks[indexPath.row]
-        
-        guard song?.mediaItem != nil else {
-            return
-        }
-        
-        if musicPlayer.nowPlayingItem == song!.mediaItem! {
-            musicPlayer.stop()
-            tableView.layoutIfNeeded()
-            UIView.animateWithDuration(0.25) {
-                cell.artistTitleLeadingMarginConstraint.constant = -8
-                cell.songTitleLeadingMarginConstraint.constant = -8
-                tableView.layoutIfNeeded()
-            }
-            return
-        }
-        
-        
-        if song?.isSongPlayable == true && song != nil {
-            tableView.layoutIfNeeded()
-            UIView.animateWithDuration(0.25, animations: {
-                cell.artistTitleLeadingMarginConstraint.constant = -75
-                cell.songTitleLeadingMarginConstraint.constant = -75
-                tableView.layoutIfNeeded()
-            })
-            
-            let mediaCollection = MPMediaItemCollection(items: [song!.mediaItem!])
-            musicPlayer.setQueueWithItemCollection(mediaCollection)
-            musicPlayer.repeatMode = .None
-            musicPlayer.play()
-        }
-    }
-    
-    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopPickTableViewCell
-        tableView.layoutIfNeeded()
-        UIView.animateWithDuration(0.25) {
-            cell.artistTitleLeadingMarginConstraint.constant = -8
-            cell.songTitleLeadingMarginConstraint.constant = -8
-            tableView.layoutIfNeeded()
-        }
     }
 }
 

@@ -33,6 +33,8 @@
 		7A9332541D2FEBDF005FCED1 /* FirebaseClient+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9332531D2FEBDF005FCED1 /* FirebaseClient+Profile.swift */; };
 		7A9332561D2FECB1005FCED1 /* FirebaseClient+TopSongs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9332551D2FECB1005FCED1 /* FirebaseClient+TopSongs.swift */; };
 		7A9332581D2FED4A005FCED1 /* FirebaseClient+Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9332571D2FED4A005FCED1 /* FirebaseClient+Friends.swift */; };
+		7A9EBF001D486169002BD453 /* ProfileViewController+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9EBEFF1D486169002BD453 /* ProfileViewController+Animations.swift */; };
+		7A9EBF021D486686002BD453 /* TopSongsViewController+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9EBF011D486686002BD453 /* TopSongsViewController+Animation.swift */; };
 		7AA009CC1D2309DD008DBDFF /* SongConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA009CB1D2309DD008DBDFF /* SongConverter.swift */; };
 		7AA009CE1D231106008DBDFF /* TopSong.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA009CD1D231106008DBDFF /* TopSong.swift */; };
 		7AA0A8421D0E20B1009324D9 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA0A8411D0E20B1009324D9 /* SignInViewController.swift */; };
@@ -72,6 +74,8 @@
 		7A9332531D2FEBDF005FCED1 /* FirebaseClient+Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FirebaseClient+Profile.swift"; sourceTree = "<group>"; };
 		7A9332551D2FECB1005FCED1 /* FirebaseClient+TopSongs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FirebaseClient+TopSongs.swift"; sourceTree = "<group>"; };
 		7A9332571D2FED4A005FCED1 /* FirebaseClient+Friends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FirebaseClient+Friends.swift"; sourceTree = "<group>"; };
+		7A9EBEFF1D486169002BD453 /* ProfileViewController+Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProfileViewController+Animations.swift"; sourceTree = "<group>"; };
+		7A9EBF011D486686002BD453 /* TopSongsViewController+Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TopSongsViewController+Animation.swift"; sourceTree = "<group>"; };
 		7AA009CB1D2309DD008DBDFF /* SongConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongConverter.swift; sourceTree = "<group>"; };
 		7AA009CD1D231106008DBDFF /* TopSong.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopSong.swift; sourceTree = "<group>"; };
 		7AA0A8411D0E20B1009324D9 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -136,8 +140,10 @@
 				7A3DB2661D2CB69500A7C9D9 /* ProfileProtocols.swift */,
 				7A5DE2EA1D31680B00B7C2F1 /* TableViewCells */,
 				7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */,
+				7A9EBEFF1D486169002BD453 /* ProfileViewController+Animations.swift */,
 				7A8CD6DE1D08613F0010EBD9 /* SongPickerViewController.swift */,
 				7A789D3B1D13BB720048F7C2 /* TopSongsViewController.swift */,
+				7A9EBF011D486686002BD453 /* TopSongsViewController+Animation.swift */,
 				7A922CEA1D125CE1002CBE7B /* FriendsViewController.swift */,
 				7A8FDABC1D110E0E0053BEF7 /* FindFriendsViewController.swift */,
 				7A6E01BF1D3DDA7100F9E728 /* SettingsViewController.swift */,
@@ -333,6 +339,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A9EBF021D486686002BD453 /* TopSongsViewController+Animation.swift in Sources */,
 				7A5DE2ED1D316CE300B7C2F1 /* ImageCache.swift in Sources */,
 				7AA0A8421D0E20B1009324D9 /* SignInViewController.swift in Sources */,
 				7A789D3C1D13BB720048F7C2 /* TopSongsViewController.swift in Sources */,
@@ -353,6 +360,7 @@
 				7A8740A11D35DC75009D507E /* TopSongDataModel.xcdatamodeld in Sources */,
 				7A8C412E1D0DDC4E00D45C6B /* SongProtocols.swift in Sources */,
 				7A8740A41D35F7CD009D507E /* CoreDataStackManager.swift in Sources */,
+				7A9EBF001D486169002BD453 /* ProfileViewController+Animations.swift in Sources */,
 				7A8FDABD1D110E0E0053BEF7 /* FindFriendsViewController.swift in Sources */,
 				7A3DB2671D2CB69500A7C9D9 /* ProfileProtocols.swift in Sources */,
 				7AC2CC231D20CB9C002FCC5D /* FirebaseClient.swift in Sources */,

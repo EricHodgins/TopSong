@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import Firebase
+import MediaPlayer
 
 class TopSongsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UserInfoUpdating {
     
@@ -21,6 +22,12 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
 
     var friendsArray = [Friend]()
     var refreshControl: UIRefreshControl!
+    
+    var currentAnimatingCell: TopSongTableViewCell?
+    
+    lazy var musicPlayer: MPMusicPlayerController = {
+        return MPMusicPlayerController.systemMusicPlayer()
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +45,20 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         
         findUser()
         downloadTopSongs()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if currentAnimatingCell != nil {
+           activateSoundBars(currentAnimatingCell!)
+        }
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        currentAnimatingCell?.leftBarView.transform = CGAffineTransformIdentity
+        currentAnimatingCell?.middleBarView.transform = CGAffineTransformIdentity
+        currentAnimatingCell?.rightBarView.transform = CGAffineTransformIdentity
     }
     
     //MARK: Context
@@ -126,6 +147,8 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         
         cell.titleLabel.attributedText = UIDesign.darkStyleAttributedString(song.title, fontSize: 20.0)
         cell.artistLabel.attributedText = UIDesign.lightStyleAttributedString(song.artist, fontSize: 15.0)
+        cell.delegate = self
+        cell.songIndexPath = indexPath
         
         unHideStars(song.rank, cell: cell)
         
@@ -271,7 +294,22 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
 }
 
 
-
+extension TopSongsViewController: HitlistMoreButtonProtocol {
+    func hitlistMoreButtonPressed(indexPath: NSIndexPath) {
+        //Ask to add to hitlist
+        let song = friendsArray[indexPath.section].topSongs![indexPath.row]
+        let alertController = UIAlertController(title: "Add to Hitlist?", message: "\(song.title) - \(song.artist)", preferredStyle: .Alert)
+        let yesAction = UIAlertAction(title: "YES", style: .Default) { (action) in
+            
+        }
+        let noAction = UIAlertAction(title: "NO", style: .Default) { (action) in
+            
+        }
+        alertController.addAction(yesAction)
+        alertController.addAction(noAction)
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+}
 
 
 

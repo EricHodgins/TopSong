@@ -16,9 +16,22 @@ class TopSongTableViewCell: UITableViewCell {
     @IBOutlet weak var star2: UIImageView!
     @IBOutlet weak var star3: UIImageView!
     
+    @IBOutlet weak var leftBarView: UIView!
+    @IBOutlet weak var middleBarView: UIView!
+    @IBOutlet weak var rightBarView: UIView!
+    
+    @IBOutlet weak var leadingTitleConstraint: NSLayoutConstraint!
+    @IBOutlet weak var leadingArtistConstraint: NSLayoutConstraint!
+    
+    weak var delegate: HitlistMoreButtonProtocol?
+    var songIndexPath: NSIndexPath?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        selectionStyle = .None
+        leftBarView.alpha = 0
+        middleBarView.alpha = 0
+        rightBarView.alpha = 0
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -27,4 +40,8 @@ class TopSongTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    @IBAction func hitlistButtonPressed(sender: AnyObject) {
+        delegate?.hitlistMoreButtonPressed(songIndexPath!)
+    }
+    
 }

@@ -17,12 +17,19 @@ class TopPickTableViewCell: UITableViewCell {
     @IBOutlet weak var songTitleLeadingMarginConstraint: NSLayoutConstraint!
     @IBOutlet weak var artistTitleLeadingMarginConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var leftBarView: UIView!
+    @IBOutlet weak var middleBarView: UIView!
+    @IBOutlet weak var rightBarView: UIView!
+    
     var topPickIndexPath: NSIndexPath?
     
     weak var delegate: SongChanging?
     
     override func awakeFromNib() {
-//        selectionStyle = .None
+        selectionStyle = .None
+        leftBarView.alpha = 0
+        middleBarView.alpha = 0
+        rightBarView.alpha = 0
     }
 
     init() {

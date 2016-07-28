@@ -16,3 +16,7 @@ protocol SongChanging: class {
 protocol SongPicking: class {
     func pickedNewTopSong(song: TopSong, forIndexPath: NSIndexPath)
 }
+
+protocol HitlistMoreButtonProtocol: class {
+    func hitlistMoreButtonPressed(indexPath: NSIndexPath)
+}
