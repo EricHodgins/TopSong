@@ -11,6 +11,12 @@ import MediaPlayer
 
 extension ProfileViewController {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let topSongVC = (tabBarController?.viewControllers![1] as! UINavigationController).viewControllers[0] as! TopSongsViewController
+        if topSongVC.currentAnimatingCell != nil {
+            topSongVC.stopSoundBarAnimation(topSongVC.currentAnimatingCell!)
+        }
+        
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopPickTableViewCell
         currentAnimatingCell = cell
         let song = userTopPicks[indexPath.row]
@@ -52,6 +58,11 @@ extension ProfileViewController {
         let soundbarViews = [cell.leftBarView, cell.middleBarView, cell.rightBarView]
         let randomDuration = Double(randomNumberBetween(0.2, y: 0.5))
         
+        
+        cell.leftBarView.transform = CGAffineTransformIdentity
+        cell.middleBarView.transform = CGAffineTransformIdentity
+        cell.rightBarView.transform = CGAffineTransformIdentity
+        
         cell.contentView.layoutIfNeeded()
         for soundBar in soundbarViews {
             UIView.animateWithDuration(randomDuration, delay: 0, options: [.Repeat, .Autoreverse, .CurveEaseOut], animations: {
@@ -79,10 +90,6 @@ extension ProfileViewController {
         cell.leftBarView.alpha = 0
         cell.middleBarView.alpha = 0
         cell.rightBarView.alpha = 0
-        
-        cell.leftBarView.transform = CGAffineTransformIdentity
-        cell.middleBarView.transform = CGAffineTransformIdentity
-        cell.rightBarView.transform = CGAffineTransformIdentity
     }
     
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
