@@ -140,43 +140,37 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("topSongCell", forIndexPath: indexPath) as! TopSongTableViewCell
-        hideStars(cell)
-        
         
         let song = friendsArray[indexPath.section].topSongs![indexPath.row]
+        if musicPlayer.nowPlayingItem == song.mediaItem! {
+            activateSoundBars(cell)
+        }
         
         cell.titleLabel.attributedText = UIDesign.darkStyleAttributedString(song.title, fontSize: 20.0)
         cell.artistLabel.attributedText = UIDesign.lightStyleAttributedString(song.artist, fontSize: 15.0)
         cell.delegate = self
         cell.songIndexPath = indexPath
         
-        unHideStars(song.rank, cell: cell)
+        placeRankImageOnCell(cell, rankString: song.rank)
         
         
         return cell
     }
     
-    func hideStars(cell: TopSongTableViewCell) {
-        cell.star1.hidden = true
-        cell.star2.hidden = true
-        cell.star3.hidden = true
-    }
-    
-    func unHideStars(rankString: String, cell: TopSongTableViewCell) {
+    func placeRankImageOnCell(cell: TopSongTableViewCell, rankString: String) {
         let rank = Int(rankString)!
         
-        if rank == 0 {
-            cell.star1.hidden = false
-        } else if rank == 1 {
-            cell.star1.hidden = false
-            cell.star2.hidden = false
-        } else {
-            cell.star1.hidden = false
-            cell.star2.hidden = false
-            cell.star3.hidden = false
+        switch rank {
+        case 0:
+            cell.rankingImageView.image = UIImage(named: "1st")
+        case 1:
+            cell.rankingImageView.image = UIImage(named: "2nd")
+        case 2:
+            cell.rankingImageView.image = UIImage(named: "3rd")
+        default:
+            print("song rank is incompatible.  Bad rank number.")
         }
-    }
-    
+    }    
     
     //MARK: Download Songs/Friend Info
     
@@ -213,6 +207,10 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func downloadTopSongs() {
+        if currentAnimatingCell != nil {
+            musicPlayer.stop()
+            stopSoundBarAnimation(currentAnimatingCell!)
+        }
         
         friendsArray = []
         tableView.reloadData()

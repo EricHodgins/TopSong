@@ -12,9 +12,8 @@ class TopSongTableViewCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var artistLabel: UILabel!
-    @IBOutlet weak var star1: UIImageView!
-    @IBOutlet weak var star2: UIImageView!
-    @IBOutlet weak var star3: UIImageView!
+
+    @IBOutlet weak var rankingImageView: UIImageView!
     
     @IBOutlet weak var leftBarView: UIView!
     @IBOutlet weak var middleBarView: UIView!

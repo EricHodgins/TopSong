@@ -97,6 +97,7 @@ extension ProfileViewController {
         currentAnimatingCell = nil
         stopSoundBarAnimation(cell)
     }
+
 }
 
 
