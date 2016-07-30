@@ -39,6 +39,8 @@
 		7AA009CE1D231106008DBDFF /* TopSong.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA009CD1D231106008DBDFF /* TopSong.swift */; };
 		7AA0A8421D0E20B1009324D9 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA0A8411D0E20B1009324D9 /* SignInViewController.swift */; };
 		7AB265361D15EC8A00EF8E59 /* TopSongTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB265351D15EC8A00EF8E59 /* TopSongTableViewCell.swift */; };
+		7AC040F01D4D4EB3008A2BD3 /* HitlistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC040EF1D4D4EB3008A2BD3 /* HitlistViewController.swift */; };
+		7AC040F21D4D4FB0008A2BD3 /* HitlistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC040F11D4D4FB0008A2BD3 /* HitlistTableViewCell.swift */; };
 		7AC2CC231D20CB9C002FCC5D /* FirebaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC2CC221D20CB9C002FCC5D /* FirebaseClient.swift */; };
 		7AC2CC261D20E3B0002FCC5D /* SignInViewController+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC2CC251D20E3B0002FCC5D /* SignInViewController+UI.swift */; };
 		AD737317D12B4FA3CD029F1C /* Pods_TopSong.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B05838AB879D3A25810C130 /* Pods_TopSong.framework */; };
@@ -80,6 +82,8 @@
 		7AA009CD1D231106008DBDFF /* TopSong.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopSong.swift; sourceTree = "<group>"; };
 		7AA0A8411D0E20B1009324D9 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		7AB265351D15EC8A00EF8E59 /* TopSongTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopSongTableViewCell.swift; sourceTree = "<group>"; };
+		7AC040EF1D4D4EB3008A2BD3 /* HitlistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HitlistViewController.swift; sourceTree = "<group>"; };
+		7AC040F11D4D4FB0008A2BD3 /* HitlistTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HitlistTableViewCell.swift; sourceTree = "<group>"; };
 		7AC2CC221D20CB9C002FCC5D /* FirebaseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseClient.swift; sourceTree = "<group>"; };
 		7AC2CC251D20E3B0002FCC5D /* SignInViewController+UI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SignInViewController+UI.swift"; sourceTree = "<group>"; };
 		8B0A7FCA8DB0EC9761B1C8C7 /* Pods-TopSong.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TopSong.release.xcconfig"; path = "Pods/Target Support Files/Pods-TopSong/Pods-TopSong.release.xcconfig"; sourceTree = "<group>"; };
@@ -137,16 +141,12 @@
 				7A8D6B181D24BBBD004DB5B6 /* Friend.swift */,
 				7AC2CC241D20E37D002FCC5D /* Logging In */,
 				7A8C412D1D0DDC4E00D45C6B /* SongProtocols.swift */,
+				7AC040EE1D4D4E60008A2BD3 /* Hitlist */,
 				7A3DB2661D2CB69500A7C9D9 /* ProfileProtocols.swift */,
 				7A5DE2EA1D31680B00B7C2F1 /* TableViewCells */,
-				7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */,
-				7A9EBEFF1D486169002BD453 /* ProfileViewController+Animations.swift */,
-				7A8CD6DE1D08613F0010EBD9 /* SongPickerViewController.swift */,
-				7A789D3B1D13BB720048F7C2 /* TopSongsViewController.swift */,
-				7A9EBF011D486686002BD453 /* TopSongsViewController+Animation.swift */,
-				7A922CEA1D125CE1002CBE7B /* FriendsViewController.swift */,
-				7A8FDABC1D110E0E0053BEF7 /* FindFriendsViewController.swift */,
-				7A6E01BF1D3DDA7100F9E728 /* SettingsViewController.swift */,
+				7AC040E91D4D3BC6008A2BD3 /* Profile */,
+				7AC040EA1D4D3BE0008A2BD3 /* Top Songs */,
+				7AC040EB1D4D3BF3008A2BD3 /* Friends */,
 				7A5DE2EB1D316CC100B7C2F1 /* Cache */,
 				7A3E31461D07083600DC90B0 /* Main.storyboard */,
 				7A3E31491D07083600DC90B0 /* Assets.xcassets */,
@@ -163,6 +163,7 @@
 				7A3E315A1D07CD7600DC90B0 /* TopPickTableViewCell.swift */,
 				7AB265351D15EC8A00EF8E59 /* TopSongTableViewCell.swift */,
 				7A7F2B1E1D1F353B006B85D0 /* FriendTableViewCell.swift */,
+				7AC040F11D4D4FB0008A2BD3 /* HitlistTableViewCell.swift */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -196,6 +197,43 @@
 				7A9332571D2FED4A005FCED1 /* FirebaseClient+Friends.swift */,
 			);
 			name = FirebaseClient;
+			sourceTree = "<group>";
+		};
+		7AC040E91D4D3BC6008A2BD3 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */,
+				7A9EBEFF1D486169002BD453 /* ProfileViewController+Animations.swift */,
+				7A8CD6DE1D08613F0010EBD9 /* SongPickerViewController.swift */,
+				7A6E01BF1D3DDA7100F9E728 /* SettingsViewController.swift */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		7AC040EA1D4D3BE0008A2BD3 /* Top Songs */ = {
+			isa = PBXGroup;
+			children = (
+				7A789D3B1D13BB720048F7C2 /* TopSongsViewController.swift */,
+				7A9EBF011D486686002BD453 /* TopSongsViewController+Animation.swift */,
+			);
+			name = "Top Songs";
+			sourceTree = "<group>";
+		};
+		7AC040EB1D4D3BF3008A2BD3 /* Friends */ = {
+			isa = PBXGroup;
+			children = (
+				7A922CEA1D125CE1002CBE7B /* FriendsViewController.swift */,
+				7A8FDABC1D110E0E0053BEF7 /* FindFriendsViewController.swift */,
+			);
+			name = Friends;
+			sourceTree = "<group>";
+		};
+		7AC040EE1D4D4E60008A2BD3 /* Hitlist */ = {
+			isa = PBXGroup;
+			children = (
+				7AC040EF1D4D4EB3008A2BD3 /* HitlistViewController.swift */,
+			);
+			name = Hitlist;
 			sourceTree = "<group>";
 		};
 		7AC2CC241D20E37D002FCC5D /* Logging In */ = {
@@ -361,8 +399,10 @@
 				7A8C412E1D0DDC4E00D45C6B /* SongProtocols.swift in Sources */,
 				7A8740A41D35F7CD009D507E /* CoreDataStackManager.swift in Sources */,
 				7A9EBF001D486169002BD453 /* ProfileViewController+Animations.swift in Sources */,
+				7AC040F01D4D4EB3008A2BD3 /* HitlistViewController.swift in Sources */,
 				7A8FDABD1D110E0E0053BEF7 /* FindFriendsViewController.swift in Sources */,
 				7A3DB2671D2CB69500A7C9D9 /* ProfileProtocols.swift in Sources */,
+				7AC040F21D4D4FB0008A2BD3 /* HitlistTableViewCell.swift in Sources */,
 				7AC2CC231D20CB9C002FCC5D /* FirebaseClient.swift in Sources */,
 				7A6E01C01D3DDA7100F9E728 /* SettingsViewController.swift in Sources */,
 				7A8740A81D35FDC0009D507E /* TopSongFriend.swift in Sources */,

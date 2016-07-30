@@ -13,6 +13,7 @@ class User : NSManagedObject {
     
     @NSManaged var userId : String
     @NSManaged var topSongFriends : [TopSongFriend]
+    @NSManaged var hitListSongs : [HitListSong]
     
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {

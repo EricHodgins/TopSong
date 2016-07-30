@@ -700,10 +700,10 @@
             </objects>
             <point key="canvasLocation" x="3944" y="1427"/>
         </scene>
-        <!--View Controller-->
+        <!--Hitlist View Controller-->
         <scene sceneID="fYA-vl-g7D">
             <objects>
-                <viewController id="njq-kU-tcf" sceneMemberID="viewController">
+                <viewController id="njq-kU-tcf" customClass="HitlistViewController" customModule="TopSong" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BMI-Sf-dMh"/>
                         <viewControllerLayoutGuide type="bottom" id="gbZ-8y-ogv"/>
@@ -716,13 +716,31 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="75" id="lx0-Gg-XCB">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="hitlistCell" rowHeight="75" id="lx0-Gg-XCB" customClass="HitlistTableViewCell" customModule="TopSong" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="92" width="600" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lx0-Gg-XCB" id="hoZ-km-sOd">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ap-qd-XI7">
+                                                    <rect key="frame" x="8" y="8" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C0Y-am-FrI">
+                                                    <rect key="frame" x="8" y="37" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="artistLabel" destination="C0Y-am-FrI" id="SKm-xO-Kg3"/>
+                                            <outlet property="songTitleLabel" destination="3ap-qd-XI7" id="706-Qh-Ird"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -736,6 +754,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="YpM-oX-dJo"/>
+                    <connections>
+                        <outlet property="tableView" destination="xKh-j2-1hg" id="wp4-Mc-pPw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lFT-AW-3ir" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

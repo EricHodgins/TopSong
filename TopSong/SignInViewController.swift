@@ -53,9 +53,11 @@ class SignInViewController: UIViewController {
                 let profileVC = (tabBC?.childViewControllers[0] as! UINavigationController).childViewControllers[0] as! ProfileViewController
                 let friendsVC = (tabBC?.childViewControllers[2] as! UINavigationController).childViewControllers[0] as! FriendsViewController
                 let topSongsVC = (tabBC?.childViewControllers[1] as! UINavigationController).childViewControllers[0] as! TopSongsViewController
+                let hitlistVC = (tabBC?.childViewControllers[3] as! UINavigationController).childViewControllers[0] as! HitlistViewController
                 topSongsVC.user = user
                 profileVC.user = user
                 friendsVC.user = user
+                hitlistVC.user = user
                 
                 self.presentViewController(tabBC!, animated: true, completion: nil)
             } else {

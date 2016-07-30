@@ -298,7 +298,11 @@ extension TopSongsViewController: HitlistMoreButtonProtocol {
         let song = friendsArray[indexPath.section].topSongs![indexPath.row]
         let alertController = UIAlertController(title: "Add to Hitlist?", message: "\(song.title) - \(song.artist)", preferredStyle: .Alert)
         let yesAction = UIAlertAction(title: "YES", style: .Default) { (action) in
-            
+            self.sharedContext.performBlock({ 
+                let hitlistSong = HitListSong(artist: song.artist, title: song.title, context: self.sharedContext)
+                hitlistSong.user = self.loggedInUser!
+                CoreDataStackManager.sharedInstance.saveContext()
+            })
         }
         let noAction = UIAlertAction(title: "NO", style: .Default) { (action) in
             
