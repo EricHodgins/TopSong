@@ -36,6 +36,9 @@ class HitlistViewController: UIViewController, NSFetchedResultsControllerDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "Hitlist"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : UIFont.chalkboardFont(withSize: 20.0), NSForegroundColorAttributeName: UIColor.whiteColor()]
+        
         findUser()
         tableView.dataSource = self
         tableView.delegate = self
@@ -75,8 +78,8 @@ extension HitlistViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("hitlistCell", forIndexPath: indexPath) as! HitlistTableViewCell
         let hitlistSong = fetchedResultsController.objectAtIndexPath(indexPath) as! HitListSong
         
-        cell.artistLabel.text = hitlistSong.artist
-        cell.songTitleLabel.text = hitlistSong.title
+        cell.artistLabel.attributedText = UIDesign.lightStyleAttributedString(hitlistSong.artist, fontSize: 15.0)
+        cell.songTitleLabel.attributedText = UIDesign.darkStyleAttributedString(hitlistSong.title, fontSize: 20.0)
         
         return cell
     }
@@ -84,6 +87,16 @@ extension HitlistViewController {
 
 //MARK: Table Delegate
 extension HitlistViewController {
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            
+            let song = fetchedResultsController.objectAtIndexPath(indexPath) as! HitListSong
+            self.sharedContext.performBlock({ 
+                self.sharedContext.deleteObject(song)
+                CoreDataStackManager.sharedInstance.saveContext()
+            })
+        }
+    }
     
     
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
@@ -100,13 +113,13 @@ extension HitlistViewController {
             tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
             
         case .Delete:
-            tableView.deleteRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
             
         case .Update:
             tableView.reloadRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
         
         case .Move:
-            tableView.deleteRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
             tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
         }
     }

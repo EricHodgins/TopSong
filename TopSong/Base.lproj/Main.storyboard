@@ -723,19 +723,27 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="74"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ap-qd-XI7">
-                                                    <rect key="frame" x="8" y="8" width="42" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ap-qd-XI7">
+                                                    <rect key="frame" x="8" y="8" width="584" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C0Y-am-FrI">
-                                                    <rect key="frame" x="8" y="37" width="42" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C0Y-am-FrI">
+                                                    <rect key="frame" x="8" y="37" width="584" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="3ap-qd-XI7" secondAttribute="trailing" id="IGF-um-Z60"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="C0Y-am-FrI" secondAttribute="trailing" id="Jfn-v4-XMZ"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="C0Y-am-FrI" secondAttribute="leading" id="Uvp-Yx-idi"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="3ap-qd-XI7" secondAttribute="leading" id="W2r-BM-nQC"/>
+                                                <constraint firstItem="C0Y-am-FrI" firstAttribute="top" secondItem="3ap-qd-XI7" secondAttribute="bottom" constant="8" id="pvA-1p-vEc"/>
+                                                <constraint firstAttribute="topMargin" secondItem="3ap-qd-XI7" secondAttribute="top" id="rLg-7T-w1g"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="artistLabel" destination="C0Y-am-FrI" id="SKm-xO-Kg3"/>
