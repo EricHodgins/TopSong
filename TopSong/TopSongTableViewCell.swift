@@ -14,6 +14,7 @@ class TopSongTableViewCell: UITableViewCell {
     @IBOutlet weak var artistLabel: UILabel!
 
     @IBOutlet weak var rankingImageView: UIImageView!
+    @IBOutlet weak var iphoneNotPlayableImageView: UIImageView!
     
     @IBOutlet weak var leftBarView: UIView!
     @IBOutlet weak var middleBarView: UIView!
@@ -31,6 +32,7 @@ class TopSongTableViewCell: UITableViewCell {
         leftBarView.alpha = 0
         middleBarView.alpha = 0
         rightBarView.alpha = 0
+        iphoneNotPlayableImageView.alpha = 0
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

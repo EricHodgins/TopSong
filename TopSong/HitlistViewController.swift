@@ -127,4 +127,25 @@ extension HitlistViewController {
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         tableView.endUpdates()
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "youtubeSegue" {
+            let hitlistCell = sender as! HitlistTableViewCell
+            let indexPath = tableView.indexPathForCell(hitlistCell)
+            let song = fetchedResultsController.objectAtIndexPath(indexPath!) as! HitListSong
+            let youtubeController = segue.destinationViewController as! YoutubeViewController
+            youtubeController.hitlistSong = song
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+

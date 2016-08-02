@@ -142,8 +142,17 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCellWithIdentifier("topSongCell", forIndexPath: indexPath) as! TopSongTableViewCell
         
         let song = friendsArray[indexPath.section].topSongs![indexPath.row]
-        if musicPlayer.nowPlayingItem == song.mediaItem! {
-            activateSoundBars(cell)
+        if song.isSongPlayable {
+            cell.iphoneNotPlayableImageView.alpha = 0
+            cell.artistLabel.alpha = 1.0
+            cell.titleLabel.alpha = 1.0
+            if musicPlayer.nowPlayingItem == song.mediaItem! {
+                activateSoundBars(cell)
+            }
+        } else {
+            cell.titleLabel.alpha = 0.4
+            cell.artistLabel.alpha = 0.4
+            cell.iphoneNotPlayableImageView.alpha = 1.0
         }
         
         cell.titleLabel.attributedText = UIDesign.darkStyleAttributedString(song.title, fontSize: 20.0)
@@ -200,7 +209,9 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
                 friend.topSongs![rank]
                 self.friendsArray[index].topSongs![rank] = newTopSong
                 let indexPath = NSIndexPath(forRow: rank, inSection: index)
+                self.tableView.beginUpdates()
                 self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                self.tableView.endUpdates()
                 break
             }
         }
