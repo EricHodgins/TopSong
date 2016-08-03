@@ -14,6 +14,7 @@ class SignInViewController: UIViewController {
     let emailTextfield = UITextField()
     let passwordTextfield = UITextField()
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var topSongLabel: UILabel!
     var signInButton: UIButton!
     var createAccountButton: UIButton!
@@ -41,6 +42,7 @@ class SignInViewController: UIViewController {
     }
     
     func signIn() {
+        activityIndicator.startAnimating()
         // **************   FILLED IN FOR DEBUGGING ************
         //erichodgins86@gmail.com
         //hodgins.e@gmail.com
@@ -58,21 +60,26 @@ class SignInViewController: UIViewController {
                 profileVC.user = user
                 friendsVC.user = user
                 hitlistVC.user = user
+                self.activityIndicator.stopAnimating()
                 
                 self.presentViewController(tabBC!, animated: true, completion: nil)
             } else {
                 // TODO: Alert User an Error has Occcurred signing in
+                self.activityIndicator.stopAnimating()
             }
             
         }
     }
     
     func createAccount() {
+        activityIndicator.startAnimating()
         firebaseClient.createAccount("erichodgins86@gmail.com", password: "123456") { (success, user, error) in
             if success {
                 print("user successfully created.")
+                self.activityIndicator.stopAnimating()
             } else {
                 //TODO: Alert user account not created.
+                self.activityIndicator.stopAnimating()
             }
         }
     }

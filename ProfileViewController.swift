@@ -20,6 +20,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     let firebaseClient = FirebaseClient.sharedInstance
 
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var profileNameTextField: UITextField!
     @IBOutlet weak var topPicksLabel: UILabel!
@@ -270,7 +271,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
     
     //MARK: Download Top Song Picks
     func downloadTopSongPicks() {
-        
+        activityIndicator.startAnimating()
+        view.alpha = 0.6
         firebaseClient.fetchUserTopSongs(user!) { (success, topSongsArray) in
             guard success == true else {
                 print("error fetching top songs for user.")
@@ -282,6 +284,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
             }
             
             self.tableView.reloadData()
+            self.activityIndicator.stopAnimating()
+            self.view.alpha = 1.0
         }
     }
 }

@@ -14,6 +14,7 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var usernameDescriptionLabel: UILabel!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var logoutButton: UIButton!
+    @IBOutlet weak var doneButton: UIButton!
     
     var user: FIRUser?
     let firebaseClient = FirebaseClient.sharedInstance
@@ -32,9 +33,10 @@ class SettingsViewController: UIViewController {
         usernameDescriptionLabel.attributedText = UIDesign.darkStyleAttributedString("Pick a username so friends can find you!", fontSize: 18.0)
         
         //Logout Button
-        let attributedString = UIDesign.highlightedAttributedString("Logout", fontSize: 21.0)//UIDesign.darkStyleAttributedString("Logout", fontSize: 21.0)
+        let attributedString = UIDesign.highlightedAttributedString("Logout", fontSize: 21.0)
+        let doneAttributedString = UIDesign.darkStyleAttributedString("Done", fontSize: 21.0)
         logoutButton.setAttributedTitle(attributedString, forState: .Normal)
-        
+        doneButton.setAttributedTitle(doneAttributedString, forState: .Normal)
     }
     
     //MARK: Download username
@@ -46,12 +48,16 @@ class SettingsViewController: UIViewController {
         }
     }
 
+    @IBAction func doneButtonPressed(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 
     @IBAction func logoutButtonPressed(sender: AnyObject) {
         print("logging out")
         do {
             try FIRAuth.auth()?.signOut()
-            parentViewController?.dismissViewControllerAnimated(true, completion: nil)
+            //presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+            view.window?.rootViewController?.dismissViewControllerAnimated(true, completion: nil)
         } catch let error as NSError {
             print("could not logout user: \(error)")
         }

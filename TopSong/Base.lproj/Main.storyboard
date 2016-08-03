@@ -31,17 +31,24 @@
                                     <constraint firstAttribute="width" constant="143" id="i2U-mi-62d"/>
                                 </constraints>
                             </imageView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="a0r-T6-W6c">
+                                <rect key="frame" x="290" y="173" width="20" height="20"/>
+                                <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="QUT-zb-qqd" firstAttribute="top" secondItem="18b-OF-r0I" secondAttribute="bottom" constant="8" id="4AF-wO-q9b"/>
                             <constraint firstItem="18b-OF-r0I" firstAttribute="centerX" secondItem="ZKP-uq-3DO" secondAttribute="centerX" id="MvT-kv-IQf"/>
+                            <constraint firstItem="a0r-T6-W6c" firstAttribute="centerX" secondItem="QUT-zb-qqd" secondAttribute="centerX" id="ULX-ae-d0t"/>
+                            <constraint firstItem="a0r-T6-W6c" firstAttribute="top" secondItem="QUT-zb-qqd" secondAttribute="bottom" constant="8" id="bur-gR-Ntc"/>
                             <constraint firstItem="QUT-zb-qqd" firstAttribute="centerX" secondItem="18b-OF-r0I" secondAttribute="centerX" id="c8J-wZ-7GS"/>
                             <constraint firstItem="18b-OF-r0I" firstAttribute="top" secondItem="Nkp-1c-gvw" secondAttribute="bottom" constant="16" id="cJo-Ja-kBY"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Sign In" id="XIk-YE-fvl"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="a0r-T6-W6c" id="AIA-6v-9O2"/>
                         <outlet property="topSongLabel" destination="QUT-zb-qqd" id="xG7-Ii-jtg"/>
                     </connections>
                 </viewController>
@@ -193,9 +200,14 @@
                                                     <constraint firstAttribute="width" constant="100" id="co1-Qg-5Nl"/>
                                                 </constraints>
                                             </imageView>
+                                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="nls-u9-QAi">
+                                                <rect key="frame" x="290" y="150" width="20" height="20"/>
+                                                <color key="color" red="0.19215686269999999" green="0.2901960784" blue="0.56078431370000004" alpha="1" colorSpace="calibratedRGB"/>
+                                            </activityIndicatorView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstItem="nls-u9-QAi" firstAttribute="centerX" secondItem="Bnj-I0-7lz" secondAttribute="centerX" id="1Qz-Yr-SiU"/>
                                             <constraint firstItem="Bnj-I0-7lz" firstAttribute="top" secondItem="UQ2-wD-tcb" secondAttribute="bottom" constant="8" id="8YR-9H-1mW"/>
                                             <constraint firstItem="lpi-L5-GMH" firstAttribute="centerX" secondItem="hJ1-Ka-h51" secondAttribute="centerX" id="HRS-JT-A5R"/>
                                             <constraint firstItem="UQ2-wD-tcb" firstAttribute="centerX" secondItem="hJ1-Ka-h51" secondAttribute="centerX" id="PKm-Bj-cZL"/>
@@ -205,6 +217,7 @@
                                             <constraint firstItem="UQ2-wD-tcb" firstAttribute="top" secondItem="hJ1-Ka-h51" secondAttribute="top" constant="21" id="ZLn-NB-67M"/>
                                             <constraint firstItem="lpi-L5-GMH" firstAttribute="top" secondItem="Bnj-I0-7lz" secondAttribute="bottom" constant="26" id="cdY-BA-BEc"/>
                                             <constraint firstAttribute="height" constant="764" id="fxU-gN-x7B"/>
+                                            <constraint firstItem="nls-u9-QAi" firstAttribute="top" secondItem="Bnj-I0-7lz" secondAttribute="bottom" constant="3" id="jOq-Dz-Usz"/>
                                             <constraint firstItem="0Xe-mK-DTo" firstAttribute="leading" secondItem="hJ1-Ka-h51" secondAttribute="leading" id="jg5-IH-TxK"/>
                                             <constraint firstItem="0Xe-mK-DTo" firstAttribute="top" secondItem="lpi-L5-GMH" secondAttribute="bottom" constant="8" id="v5F-d4-rQe"/>
                                         </constraints>
@@ -231,13 +244,14 @@
                         <barButtonItem key="rightBarButtonItem" image="SettingsIcon" id="3I8-2u-2yI">
                             <connections>
                                 <action selector="logoutPressed:" destination="7q1-Vd-hdM" id="V3i-Do-djg"/>
-                                <segue destination="zCt-3h-Q3W" kind="show" identifier="settings" id="sxo-M8-p6F"/>
+                                <segue destination="zCt-3h-Q3W" kind="presentation" identifier="settings" id="sxo-M8-p6F"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="700"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="nls-u9-QAi" id="w9G-a0-AQI"/>
                         <outlet property="profileImageView" destination="UQ2-wD-tcb" id="qH5-RA-P5r"/>
                         <outlet property="profileNameTextField" destination="Bnj-I0-7lz" id="jiX-7m-D7G"/>
                         <outlet property="tableView" destination="0Xe-mK-DTo" id="m2U-tW-xbv"/>
@@ -257,7 +271,7 @@
                         <viewControllerLayoutGuide type="bottom" id="J1q-pO-6uL"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="5KV-cB-pJx">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="700"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick a username so friends can find you" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W3Y-Er-24l">
@@ -272,27 +286,38 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d26-yC-0fT">
-                                <rect key="frame" x="267" y="331" width="66" height="38"/>
+                                <rect key="frame" x="267" y="281" width="66" height="38"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <state key="normal" title="Logout"/>
                                 <connections>
                                     <action selector="logoutButtonPressed:" destination="zCt-3h-Q3W" eventType="touchUpInside" id="wiP-2T-YfP"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LrY-dl-72h">
+                                <rect key="frame" x="275" y="235" width="50" height="38"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <action selector="doneButtonPressed:" destination="zCt-3h-Q3W" eventType="touchUpInside" id="VSL-Km-JKn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="d26-yC-0fT" firstAttribute="centerY" secondItem="5KV-cB-pJx" secondAttribute="centerY" id="27k-n6-aI8"/>
+                            <constraint firstItem="LrY-dl-72h" firstAttribute="centerX" secondItem="d26-yC-0fT" secondAttribute="centerX" id="2TA-oJ-fsl"/>
                             <constraint firstItem="d26-yC-0fT" firstAttribute="centerX" secondItem="5KV-cB-pJx" secondAttribute="centerX" id="4vT-Tt-waR"/>
                             <constraint firstItem="W3Y-Er-24l" firstAttribute="centerX" secondItem="5KV-cB-pJx" secondAttribute="centerX" id="LPs-h3-59J"/>
                             <constraint firstItem="W3Y-Er-24l" firstAttribute="leading" secondItem="5KV-cB-pJx" secondAttribute="leadingMargin" id="Qph-Jn-9Ax"/>
                             <constraint firstItem="TWd-g2-IWr" firstAttribute="top" secondItem="W3Y-Er-24l" secondAttribute="bottom" constant="8" id="ScI-of-9rL"/>
                             <constraint firstAttribute="trailingMargin" secondItem="TWd-g2-IWr" secondAttribute="trailing" id="Zqk-yC-JnR"/>
-                            <constraint firstItem="W3Y-Er-24l" firstAttribute="top" secondItem="jJJ-QO-Zat" secondAttribute="bottom" constant="55" id="jk3-i6-AEl"/>
+                            <constraint firstItem="W3Y-Er-24l" firstAttribute="top" secondItem="jJJ-QO-Zat" secondAttribute="bottom" constant="99" id="jk3-i6-AEl"/>
+                            <constraint firstItem="d26-yC-0fT" firstAttribute="top" secondItem="LrY-dl-72h" secondAttribute="bottom" constant="8" id="nsn-re-eI5"/>
                             <constraint firstAttribute="leadingMargin" secondItem="TWd-g2-IWr" secondAttribute="leading" id="vLq-Q1-YXw"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="doneButton" destination="LrY-dl-72h" id="sdK-sj-dsl"/>
                         <outlet property="logoutButton" destination="d26-yC-0fT" id="k01-1U-IPz"/>
                         <outlet property="usernameDescriptionLabel" destination="W3Y-Er-24l" id="IQ4-hj-L94"/>
                         <outlet property="usernameTextField" destination="TWd-g2-IWr" id="a42-g9-D5O"/>
