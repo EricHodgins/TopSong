@@ -22,6 +22,7 @@
 		7A7F2B1F1D1F353B006B85D0 /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7F2B1E1D1F353B006B85D0 /* FriendTableViewCell.swift */; };
 		7A83DFA91D50490500D56640 /* YoutubeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A83DFA81D50490500D56640 /* YoutubeViewController.swift */; };
 		7A83DFAB1D50493400D56640 /* YoutubeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A83DFAA1D50493400D56640 /* YoutubeTableViewCell.swift */; };
+		7A84284D1D51984D00E6BDA1 /* YoutubeImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A84284C1D51984D00E6BDA1 /* YoutubeImageCache.swift */; };
 		7A8740A11D35DC75009D507E /* TopSongDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7A87409F1D35DC75009D507E /* TopSongDataModel.xcdatamodeld */; };
 		7A8740A41D35F7CD009D507E /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8740A31D35F7CD009D507E /* CoreDataStackManager.swift */; };
 		7A8740A61D35F92E009D507E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8740A51D35F92E009D507E /* User.swift */; };
@@ -69,6 +70,7 @@
 		7A7F2B1E1D1F353B006B85D0 /* FriendTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
 		7A83DFA81D50490500D56640 /* YoutubeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeViewController.swift; sourceTree = "<group>"; };
 		7A83DFAA1D50493400D56640 /* YoutubeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeTableViewCell.swift; sourceTree = "<group>"; };
+		7A84284C1D51984D00E6BDA1 /* YoutubeImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeImageCache.swift; sourceTree = "<group>"; };
 		7A8740A01D35DC75009D507E /* TopSongDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TopSongDataModel.xcdatamodel; sourceTree = "<group>"; };
 		7A8740A31D35F7CD009D507E /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
 		7A8740A51D35F92E009D507E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				7A83DFA81D50490500D56640 /* YoutubeViewController.swift */,
+				7A84284C1D51984D00E6BDA1 /* YoutubeImageCache.swift */,
 				7A2CB6101D5062A800AF1A0D /* YoutubeClient.swift */,
 				7A2CB6121D5066EC00AF1A0D /* YoutubeVideo.swift */,
 			);
@@ -432,6 +435,7 @@
 				7A8740A81D35FDC0009D507E /* TopSongFriend.swift in Sources */,
 				7A8D6B191D24BBBD004DB5B6 /* Friend.swift in Sources */,
 				7A3E31431D07083600DC90B0 /* AppDelegate.swift in Sources */,
+				7A84284D1D51984D00E6BDA1 /* YoutubeImageCache.swift in Sources */,
 				7A3E315B1D07CD7600DC90B0 /* TopPickTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

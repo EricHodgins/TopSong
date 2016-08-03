@@ -15,7 +15,7 @@ class HitlistViewController: UIViewController, NSFetchedResultsControllerDelegat
     @IBOutlet weak var tableView: UITableView!
     var user: FIRUser?
     var loggedInUser: User?
-    
+    let youtubeImageCache = YoutubeImageCache()
     
     //MARK: Context
     lazy var sharedContext: NSManagedObjectContext = {
@@ -135,6 +135,7 @@ extension HitlistViewController {
             let song = fetchedResultsController.objectAtIndexPath(indexPath!) as! HitListSong
             let youtubeController = segue.destinationViewController as! YoutubeViewController
             youtubeController.hitlistSong = song
+            youtubeController.youtubeImageCache = youtubeImageCache
         }
     }
 }

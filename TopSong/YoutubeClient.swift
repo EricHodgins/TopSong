@@ -58,18 +58,26 @@ class YoutubeClient {
     }
     
     
-    func getYoutubeImage(withURL url: String, identifier: String, cell: YoutubeTableViewCell, atIndexPath indexPath: NSIndexPath) {
+    func getYoutubeImage(withURL url: String, completionHandler: (success: Bool, image: UIImage?) -> Void) {
         let imageURL = NSURL(string: url)!
         
         let task = NSURLSession.sharedSession().dataTaskWithURL(imageURL) { (imageData, response, error) in
             if let image = UIImage(data: imageData!) {
                 dispatch_async(dispatch_get_main_queue()) {
-                    cell.youtubeImageView.image = image
+                    completionHandler(success: true, image: image)
                 }
             }
         }
         
         task.resume()
+    }
+    
+    //HELPER
+    
+    func makeURLToWatchVideoOnYoutube(videoId: String) -> NSURL {
+        let urlString = videoBaseStringURL + videoId
+        
+        return NSURL(string: urlString)!
     }
     
 }

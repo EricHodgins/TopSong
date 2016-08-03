@@ -14,6 +14,7 @@ class YoutubeViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var youtubeClient = YoutubeClient()
     var hitlistSong: HitListSong?
+    var youtubeImageCache: YoutubeImageCache?
     var youtubeVideos = [YoutubeVideo]()
     
     override func viewDidLoad() {
@@ -30,7 +31,9 @@ class YoutubeViewController: UIViewController, UITableViewDelegate, UITableViewD
         youtubeClient.getYoutubeVideoData(withSearchString: "\(hitlistSong!.artist) \(hitlistSong!.title)") { (success, youtubeVideos) in
             if success {
                 self.youtubeVideos = youtubeVideos
-                self.tableView.reloadData()
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.tableView.reloadData()
+                }
             }
         }
     }
@@ -49,12 +52,40 @@ extension YoutubeViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! YoutubeTableViewCell
         let video = youtubeVideos[indexPath.row]
         
-        cell.songTitle.text = video.title
-        
-        youtubeClient.getYoutubeImage(withURL: video.imageURL!, identifier: "", cell: cell, atIndexPath: indexPath)
-        
+        cell.songTitle.attributedText = UIDesign.darkStyleAttributedString(video.title!, fontSize: 20.0)
+        getYoutubeVideoImage(cell, video: video, atIndexPath: indexPath)
         
         return cell
+    }
+    
+    func getYoutubeVideoImage(cell: YoutubeTableViewCell, video: YoutubeVideo, atIndexPath indexPath: NSIndexPath) {
+        // 1st check youtubeimage cache
+        let cachedImage = youtubeImageCache?.imageWithIdentifier(video.videoId!)
+        if cachedImage != nil {
+            dispatch_async(dispatch_get_main_queue()) {
+                let visibleCell = self.tableView.cellForRowAtIndexPath(indexPath) as? YoutubeTableViewCell
+                if visibleCell != nil {
+                    visibleCell!.youtubeImageView.image = cachedImage!
+                }
+            }
+            
+            return
+        }
+        
+        // If not in cache download it from youtube API
+        youtubeClient.getYoutubeImage(withURL: video.imageURL!) { (success, image) in
+            if success {
+                cell.youtubeImageView.image = image
+                //cache the image now
+                self.youtubeImageCache?.saveImageInMemory(image, withIdentifier: video.videoId!)
+            }
+        }
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let video = youtubeVideos[indexPath.row]
+        let youtubeVideoURL = youtubeClient.makeURLToWatchVideoOnYoutube(video.videoId!)
+        UIApplication.sharedApplication().openURL(youtubeVideoURL)
     }
 }
 
