@@ -42,11 +42,31 @@ class SignInViewController: UIViewController {
     }
     
     func signIn() {
+        guard passwordTextfield.text?.characters.count > 0 && emailTextfield.text?.characters.count > 0 else {
+            let animation = CABasicAnimation(keyPath: "position")
+            animation.autoreverses = true
+            animation.repeatCount = 2
+            animation.duration = 0.1
+            let toPoint = CGPoint(x: view.frame.width / 2, y: emailTextfield.frame.origin.y + 10) //Doesn't move @ +20
+            animation.toValue = NSValue(CGPoint: toPoint)
+            emailTextfield.layer.addAnimation(animation, forKey: nil)
+            
+            let passwordAnimation = CABasicAnimation(keyPath: "position")
+            passwordAnimation.autoreverses = true
+            passwordAnimation.repeatCount = 2
+            passwordAnimation.duration = 0.1
+            let toPasswordPoint = CGPoint(x: view.frame.width / 2, y: passwordTextfield.frame.origin.y + 30)
+            passwordAnimation.toValue = NSValue(CGPoint: toPasswordPoint)
+            passwordTextfield.layer.addAnimation(passwordAnimation, forKey: nil)
+            
+            return
+        }
+        
         activityIndicator.startAnimating()
         // **************   FILLED IN FOR DEBUGGING ************
         //erichodgins86@gmail.com
         //hodgins.e@gmail.com
-        firebaseClient.signIn("hodgins.e@gmail.com", password: "123456") { (success, user, error) in
+        firebaseClient.signIn(emailTextfield.text!, password: passwordTextfield.text!) { (success, user, error) in
             
             if success {
                 print("Signed in user: \(user)")
@@ -64,8 +84,17 @@ class SignInViewController: UIViewController {
                 
                 self.presentViewController(tabBC!, animated: true, completion: nil)
             } else {
-                // TODO: Alert User an Error has Occcurred signing in
                 self.activityIndicator.stopAnimating()
+                let message: String
+                if let m = error?.localizedDescription {
+                    message = m
+                } else {
+                    message =  "Unknown error occurred."
+                }
+                let alertController = UIAlertController(title: "Could not sign in.", message: message, preferredStyle: .Alert)
+                let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                alertController.addAction(action)
+                self.presentViewController(alertController, animated: true, completion: nil)
             }
             
         }

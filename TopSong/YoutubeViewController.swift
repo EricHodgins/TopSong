@@ -20,6 +20,9 @@ class YoutubeViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "Youtube Videos"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : UIFont.chalkboardFont(withSize: 20.0), NSForegroundColorAttributeName: UIColor.whiteColor()]
+        
         tableView.delegate = self
         tableView.dataSource = self
         getYoutubeVideoData()

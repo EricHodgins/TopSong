@@ -57,7 +57,7 @@ class FirebaseClient {
                     localizedErrorMessage = "Wrong password."
                 default:
                     print("\(error)")
-                    localizedErrorMessage = "\(error?.localizedDescription)"
+                    localizedErrorMessage = "Is your email correct?"
                 }
                 
                 let userInfo = [NSLocalizedDescriptionKey: localizedErrorMessage]
