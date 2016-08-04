@@ -59,6 +59,7 @@ extension YoutubeViewController {
     }
     
     func getYoutubeVideoImage(cell: YoutubeTableViewCell, video: YoutubeVideo, atIndexPath indexPath: NSIndexPath) {
+        cell.youtubeImageView.image = UIImage(named: "ic_music_video")
         // 1st check youtubeimage cache
         let cachedImage = youtubeImageCache?.imageWithIdentifier(video.videoId!)
         if cachedImage != nil {
@@ -73,13 +74,18 @@ extension YoutubeViewController {
         }
         
         // If not in cache download it from youtube API
-        youtubeClient.getYoutubeImage(withURL: video.imageURL!) { (success, image) in
+        let task = youtubeClient.getYoutubeImage(withURL: video.imageURL!) { (success, image) in
             if success {
-                cell.youtubeImageView.image = image
+                let visibleCell = self.tableView.cellForRowAtIndexPath(indexPath) as? YoutubeTableViewCell
+                if visibleCell != nil {
+                    cell.youtubeImageView.image = image
+                }
                 //cache the image now
                 self.youtubeImageCache?.saveImageInMemory(image, withIdentifier: video.videoId!)
             }
         }
+        
+        cell.sessionTaskToCancelIfCellIsReused = task
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

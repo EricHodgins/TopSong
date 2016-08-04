@@ -56,7 +56,6 @@ class SettingsViewController: UIViewController {
         print("logging out")
         do {
             try FIRAuth.auth()?.signOut()
-            //presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
             view.window?.rootViewController?.dismissViewControllerAnimated(true, completion: nil)
         } catch let error as NSError {
             print("could not logout user: \(error)")

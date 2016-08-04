@@ -58,18 +58,21 @@ class YoutubeClient {
     }
     
     
-    func getYoutubeImage(withURL url: String, completionHandler: (success: Bool, image: UIImage?) -> Void) {
+    func getYoutubeImage(withURL url: String, completionHandler: (success: Bool, image: UIImage?) -> Void) -> NSURLSessionTask {
         let imageURL = NSURL(string: url)!
         
         let task = NSURLSession.sharedSession().dataTaskWithURL(imageURL) { (imageData, response, error) in
-            if let image = UIImage(data: imageData!) {
-                dispatch_async(dispatch_get_main_queue()) {
-                    completionHandler(success: true, image: image)
+            if imageData != nil {
+                if let image = UIImage(data: imageData!) {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completionHandler(success: true, image: image)
+                    }
                 }
             }
         }
         
         task.resume()
+        return task
     }
     
     //HELPER

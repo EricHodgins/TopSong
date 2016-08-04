@@ -13,6 +13,14 @@ class YoutubeTableViewCell: UITableViewCell {
     @IBOutlet weak var youtubeImageView: UIImageView!
     @IBOutlet weak var songTitle: UILabel!
     
+    var sessionTaskToCancelIfCellIsReused: NSURLSessionTask? {
+        didSet {
+            if let taskToCancel = oldValue {
+                taskToCancel.cancel()
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
