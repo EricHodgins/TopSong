@@ -28,6 +28,11 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let email = defaults.stringForKey("emailTextField") {
+            emailTextfield.text = email
+        }
+        
         let colorAttribute = UIColor.whiteColor()
         let fontAttribute = UIFont.chalkboardFont(withSize: 25.0)
         topSongLabel.attributedText = NSAttributedString(string: "TopSong", attributes: [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: colorAttribute])
@@ -66,6 +71,8 @@ class SignInViewController: UIViewController {
         // **************   FILLED IN FOR DEBUGGING ************
         //erichodgins86@gmail.com
         //hodgins.e@gmail.com
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(emailTextfield.text!, forKey: "emailTextField")
         firebaseClient.signIn(emailTextfield.text!, password: passwordTextfield.text!) { (success, user, error) in
             
             if success {
