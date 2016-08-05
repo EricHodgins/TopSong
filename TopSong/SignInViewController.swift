@@ -54,7 +54,7 @@ class SignInViewController: UIViewController {
         //hodgins.e@gmail.com
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(emailTextfield.text!, forKey: "emailTextField")
-        firebaseClient.signIn(emailTextfield.text!, password: passwordTextfield.text!) { (success, user, error) in
+        firebaseClient.signIn(emailTextfield.text!, password: "123456"/*passwordTextfield.text!*/) { (success, user, error) in
             
             if success {
                 print("Signed in user: \(user)")

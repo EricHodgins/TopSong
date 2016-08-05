@@ -20,6 +20,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     let firebaseClient = FirebaseClient.sharedInstance
 
+    @IBOutlet weak var scrollView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var profileNameTextField: UITextField!
@@ -44,7 +45,8 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
+        setupBackgroundGradient()
         downloadProfileName()
         downloadProfileImage()
         downloadTopSongPicks()
@@ -173,6 +175,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         
         cell.topPickIndexPath = indexPath
         cell.delegate = self
+        cell.backgroundColor = UIColor.clearColor()
         
         return cell
         

@@ -97,6 +97,23 @@ extension ProfileViewController {
         currentAnimatingCell = nil
         stopSoundBarAnimation(cell)
     }
+    
+    //MARK: UI
+    func setupBackgroundGradient() {
+        let views = [scrollView, self.view]
+        
+        for gradientView in views {
+            let gradientLayer = CAGradientLayer()
+            let lightBlueColor = UIColor().lightBlueAppDesign.CGColor
+            let whiteColor = UIColor.whiteColor().CGColor
+            gradientLayer.colors = [whiteColor, lightBlueColor, whiteColor, lightBlueColor]
+            gradientLayer.locations = [0.0, 0.1, 0.4, 1.0]
+            gradientView.backgroundColor = UIColor.clearColor()
+            gradientLayer.frame = gradientView.frame//CGRect(x: 0, y: 0, width: view.frame.width, height: 300)
+            view.layer.insertSublayer(gradientLayer, atIndex: 0)
+        }
+        
+    }
 
 }
 
