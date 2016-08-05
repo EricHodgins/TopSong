@@ -10,7 +10,7 @@ import UIKit
 
 class YoutubeClient {
     
-    let apiKey: String = "AIzaSyAqnDvdUOFVriMnsUZl2Yc76tF6uL5JujU"
+    let apiKey: String = "AIzaSyD_dVrbcgU7AjRFqrAYF0YFsIpYl_YF5bU"
     let videoBaseStringURL: String = "https://www.youtube.com/watch?v="
 
     

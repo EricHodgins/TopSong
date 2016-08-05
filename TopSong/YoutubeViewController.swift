@@ -49,7 +49,6 @@ class YoutubeViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.youtubeVideos = youtubeVideos
                 dispatch_async(dispatch_get_main_queue()) {
                     self.tableView.reloadData()
-                    print("ok...done...remove view!")
                     self.loadingView.removeFromSuperview()
                 }
             }
