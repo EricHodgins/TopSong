@@ -23,7 +23,6 @@ class SignInViewController: UIViewController {
         return FirebaseClient.sharedInstance
     }()
     
-//    let firebaseClient = FirebaseClient.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,28 +41,10 @@ class SignInViewController: UIViewController {
         setupTextFields()
     }
     
-    deinit {
-        print("SignIn viewcontroller deinit.")
-    }
     
     func signIn() {
         guard passwordTextfield.text?.characters.count > 0 && emailTextfield.text?.characters.count > 0 else {
-            let animation = CABasicAnimation(keyPath: "position")
-            animation.autoreverses = true
-            animation.repeatCount = 2
-            animation.duration = 0.1
-            let toPoint = CGPoint(x: view.frame.width / 2, y: emailTextfield.frame.origin.y + 10) //Doesn't move @ +20
-            animation.toValue = NSValue(CGPoint: toPoint)
-            emailTextfield.layer.addAnimation(animation, forKey: nil)
-            
-            let passwordAnimation = CABasicAnimation(keyPath: "position")
-            passwordAnimation.autoreverses = true
-            passwordAnimation.repeatCount = 2
-            passwordAnimation.duration = 0.1
-            let toPasswordPoint = CGPoint(x: view.frame.width / 2, y: passwordTextfield.frame.origin.y + 30)
-            passwordAnimation.toValue = NSValue(CGPoint: toPasswordPoint)
-            passwordTextfield.layer.addAnimation(passwordAnimation, forKey: nil)
-            
+            animateTextFieldsWhenNoTextIsPresent()
             return
         }
         
@@ -92,30 +73,26 @@ class SignInViewController: UIViewController {
                 self.presentViewController(tabBC!, animated: true, completion: nil)
             } else {
                 self.activityIndicator.stopAnimating()
-                let message: String
-                if let m = error?.localizedDescription {
-                    message = m
-                } else {
-                    message =  "Unknown error occurred."
-                }
-                let alertController = UIAlertController(title: "Could not sign in.", message: message, preferredStyle: .Alert)
-                let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                alertController.addAction(action)
-                self.presentViewController(alertController, animated: true, completion: nil)
+                self.showErrorMessage(error, errorTitle: "Could not sign in.")
             }
             
         }
     }
     
     func createAccount() {
+        guard passwordTextfield.text?.characters.count > 0 && emailTextfield.text?.characters.count > 0 else {
+            animateTextFieldsWhenNoTextIsPresent()
+            return
+        }
+        
         activityIndicator.startAnimating()
         firebaseClient.createAccount("erichodgins86@gmail.com", password: "123456") { (success, user, error) in
             if success {
                 print("user successfully created.")
                 self.activityIndicator.stopAnimating()
             } else {
-                //TODO: Alert user account not created.
                 self.activityIndicator.stopAnimating()
+                self.showErrorMessage(error, errorTitle: "Could not create account.")
             }
         }
     }

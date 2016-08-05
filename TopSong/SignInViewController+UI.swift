@@ -53,6 +53,8 @@ extension SignInViewController {
         emailTextfield.backgroundColor = UIColor.whiteColor()
         emailTextfield.layer.sublayerTransform = CATransform3DMakeTranslation(10.0, 0, 0)
         emailTextfield.keyboardType = .EmailAddress
+        emailTextfield.autocapitalizationType = .None
+        emailTextfield.autocorrectionType = .No
         emailTextfield.delegate = self
         
         //Password
@@ -109,4 +111,64 @@ extension SignInViewController {
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[signInButton]-15-[createAccountButton(createAccountButtonHeight)]", options: [], metrics: metrics, views: views))
         
     }
+    
+    
+    //MARK: Animation
+    func animateTextFieldsWhenNoTextIsPresent() {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.autoreverses = true
+        animation.repeatCount = 2
+        animation.duration = 0.1
+        let toPoint = CGPoint(x: view.frame.width / 2, y: emailTextfield.frame.origin.y + 10) //Doesn't move @ +20
+        animation.toValue = NSValue(CGPoint: toPoint)
+        emailTextfield.layer.addAnimation(animation, forKey: nil)
+        
+        let passwordAnimation = CABasicAnimation(keyPath: "position")
+        passwordAnimation.autoreverses = true
+        passwordAnimation.repeatCount = 2
+        passwordAnimation.duration = 0.1
+        let toPasswordPoint = CGPoint(x: view.frame.width / 2, y: passwordTextfield.frame.origin.y + 30)
+        passwordAnimation.toValue = NSValue(CGPoint: toPasswordPoint)
+        passwordTextfield.layer.addAnimation(passwordAnimation, forKey: nil)
+    }
+    
+    
+    //MARK: Error Message Alerts
+    
+    func showErrorMessage(error: NSError?, errorTitle: String) {
+        let message: String
+        if let m = error?.localizedDescription {
+            message = m
+        } else {
+            message =  "Unknown error occurred."
+        }
+        let alertController = UIAlertController(title: errorTitle, message: message, preferredStyle: .Alert)
+        let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        alertController.addAction(action)
+        self.presentViewController(alertController, animated: true, completion: nil)
+ 
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
