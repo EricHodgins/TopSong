@@ -106,8 +106,8 @@ extension ProfileViewController {
             let gradientLayer = CAGradientLayer()
             let lightBlueColor = UIColor().lightBlueAppDesign.CGColor
             let whiteColor = UIColor.whiteColor().CGColor
-            gradientLayer.colors = [whiteColor, lightBlueColor, whiteColor, lightBlueColor]
-            gradientLayer.locations = [0.0, 0.1, 0.4, 1.0]
+            gradientLayer.colors = [lightBlueColor, whiteColor]
+            gradientLayer.locations = [0.0, 0.4]
             gradientView.backgroundColor = UIColor.clearColor()
             gradientLayer.frame = gradientView.frame//CGRect(x: 0, y: 0, width: view.frame.width, height: 300)
             view.layer.insertSublayer(gradientLayer, atIndex: 0)

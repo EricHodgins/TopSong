@@ -460,7 +460,7 @@
                                                     </constraints>
                                                 </view>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="48m-kw-2ye">
-                                                    <rect key="frame" x="546" y="50" width="54" height="32"/>
+                                                    <rect key="frame" x="546" y="25" width="54" height="32"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="54" id="MGk-Zz-v8O"/>
                                                         <constraint firstAttribute="height" constant="32" id="ylu-fB-N6b"/>
@@ -470,15 +470,8 @@
                                                         <action selector="hitlistButtonPressed:" destination="SP8-gz-HxY" eventType="touchUpInside" id="ENq-Yp-iCK"/>
                                                     </connections>
                                                 </button>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pos-Rl-azA">
-                                                    <rect key="frame" x="575" y="0.0" width="17" height="20"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="Jgt-GC-Ggg"/>
-                                                        <constraint firstAttribute="width" constant="17" id="shR-4j-qGq"/>
-                                                    </constraints>
-                                                </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iphone_image" translatesAutoresizingMaskIntoConstraints="NO" id="cJh-BA-VC6">
-                                                    <rect key="frame" x="524" y="54" width="14" height="24"/>
+                                                    <rect key="frame" x="524" y="29" width="14" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="14" id="1nh-pe-DuX"/>
                                                         <constraint firstAttribute="height" constant="24" id="ZPi-5k-und"/>
@@ -486,14 +479,12 @@
                                                 </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="pos-Rl-azA" secondAttribute="trailing" id="4dF-2i-tOh"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="oXv-t1-g8F" secondAttribute="bottom" constant="15" id="Ihp-QW-3vK"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="48m-kw-2ye" secondAttribute="bottom" constant="-8" id="OJW-io-vNr"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="48m-kw-2ye" secondAttribute="bottom" constant="17" id="OJW-io-vNr"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="fgO-O0-KDc" secondAttribute="bottom" constant="15" id="RFo-qo-KrA"/>
                                                 <constraint firstItem="lcd-eW-0ug" firstAttribute="leading" secondItem="fgO-O0-KDc" secondAttribute="trailing" constant="1" id="Skt-qu-3Kp"/>
                                                 <constraint firstItem="L7b-2h-cxL" firstAttribute="leading" secondItem="e0k-QO-VRh" secondAttribute="leadingMargin" constant="8" id="XKq-3f-e9e"/>
                                                 <constraint firstItem="48m-kw-2ye" firstAttribute="leading" secondItem="cJh-BA-VC6" secondAttribute="trailing" constant="8" id="aHR-Li-7X0"/>
-                                                <constraint firstItem="pos-Rl-azA" firstAttribute="top" secondItem="e0k-QO-VRh" secondAttribute="topMargin" constant="-8" id="aQV-Vn-hOB"/>
                                                 <constraint firstItem="L7b-2h-cxL" firstAttribute="top" secondItem="8Jo-mf-F1r" secondAttribute="bottom" constant="5" id="eII-TA-pmc"/>
                                                 <constraint firstItem="8Jo-mf-F1r" firstAttribute="leading" secondItem="e0k-QO-VRh" secondAttribute="leadingMargin" constant="8" id="fqv-v6-bRo"/>
                                                 <constraint firstItem="oXv-t1-g8F" firstAttribute="leading" secondItem="lcd-eW-0ug" secondAttribute="trailing" constant="1" id="gvi-iI-d0w"/>
@@ -504,7 +495,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="cJh-BA-VC6" secondAttribute="bottom" constant="5" id="k2f-qq-n0L"/>
+                                            <constraint firstAttribute="bottom" secondItem="cJh-BA-VC6" secondAttribute="bottom" constant="30" id="k2f-qq-n0L"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="artistLabel" destination="L7b-2h-cxL" id="lrQ-jo-GRm"/>
@@ -513,7 +504,6 @@
                                             <outlet property="leadingTitleConstraint" destination="fqv-v6-bRo" id="PZp-z0-Pzu"/>
                                             <outlet property="leftBarView" destination="fgO-O0-KDc" id="vXl-Zk-hck"/>
                                             <outlet property="middleBarView" destination="lcd-eW-0ug" id="Cwv-wH-r9X"/>
-                                            <outlet property="rankingImageView" destination="pos-Rl-azA" id="GHI-0p-yfX"/>
                                             <outlet property="rightBarView" destination="oXv-t1-g8F" id="Iwf-DQ-FQY"/>
                                             <outlet property="titleLabel" destination="8Jo-mf-F1r" id="4dn-P9-Udj"/>
                                         </connections>

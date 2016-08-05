@@ -160,31 +160,12 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         cell.delegate = self
         cell.songIndexPath = indexPath
         
-        placeRankImageOnCell(cell, rankString: song.rank)
-        
-        
         return cell
     }
-    
-    func placeRankImageOnCell(cell: TopSongTableViewCell, rankString: String) {
-        let rank = Int(rankString)!
-        
-        switch rank {
-        case 0:
-            cell.rankingImageView.image = UIImage(named: "1st")
-        case 1:
-            cell.rankingImageView.image = UIImage(named: "2nd")
-        case 2:
-            cell.rankingImageView.image = UIImage(named: "3rd")
-        default:
-            print("song rank is incompatible.  Bad rank number.")
-        }
-    }    
-    
+
     //MARK: Download Songs/Friend Info
     
     func endTableViewRefreshing() {
-        print("ended table view refreshing.")
         self.refreshControl.endRefreshing()
     }
     

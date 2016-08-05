@@ -17,17 +17,30 @@ class YoutubeViewController: UIViewController, UITableViewDelegate, UITableViewD
     var youtubeImageCache: YoutubeImageCache?
     var youtubeVideos = [YoutubeVideo]()
     
+    var loadingView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Youtube Videos"
         self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : UIFont.chalkboardFont(withSize: 20.0), NSForegroundColorAttributeName: UIColor.whiteColor()]
+        loadingView = UIView(frame: self.view.frame)
         
         tableView.delegate = self
         tableView.dataSource = self
         getYoutubeVideoData()
         
-        print(hitlistSong)
+        setupLoadingView()
+    }
+    
+    func setupLoadingView() {
+        loadingView.backgroundColor = UIColor().lightBlueAppDesign
+        view.addSubview(loadingView)
+        
+        let activityView = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+        activityView.frame = CGRect(x: loadingView.frame.width / 2, y: loadingView.frame.height / 2, width: 20, height: 20)
+        activityView.startAnimating()
+        loadingView.addSubview(activityView)
     }
     
     func getYoutubeVideoData() {
@@ -36,6 +49,8 @@ class YoutubeViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.youtubeVideos = youtubeVideos
                 dispatch_async(dispatch_get_main_queue()) {
                     self.tableView.reloadData()
+                    print("ok...done...remove view!")
+                    self.loadingView.removeFromSuperview()
                 }
             }
         }
