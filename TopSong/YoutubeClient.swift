@@ -13,12 +13,9 @@ class YoutubeClient {
     let apiKey: String = "AIzaSyD_dVrbcgU7AjRFqrAYF0YFsIpYl_YF5bU"
     let videoBaseStringURL: String = "https://www.youtube.com/watch?v="
 
-    
-    
     func getYoutubeVideoData(withSearchString searchString: String, completionHandler: (success: Bool, youtubeVideos: [YoutubeVideo]) -> Void) {
         let encodedURLString = searchString.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLHostAllowedCharacterSet())!
         let youtubeURLStringRequest = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=40&q=\(encodedURLString)&key=\(apiKey)"
-        print("SEARCH STRING : \(youtubeURLStringRequest)")
         let youtubeURL = NSURL(string: youtubeURLStringRequest)!
         
         let task = NSURLSession.sharedSession().dataTaskWithURL(youtubeURL) { (data, response, error) in

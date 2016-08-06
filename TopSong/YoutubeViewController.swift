@@ -18,6 +18,7 @@ class YoutubeViewController: UIViewController, UITableViewDelegate, UITableViewD
     var youtubeVideos = [YoutubeVideo]()
     
     var loadingView: UIView!
+    var blurEffectView: UIVisualEffectView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,11 +27,22 @@ class YoutubeViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : UIFont.chalkboardFont(withSize: 20.0), NSForegroundColorAttributeName: UIColor.whiteColor()]
         loadingView = UIView(frame: self.view.frame)
         
+        let blurEffect = UIBlurEffect(style: .Light)
+        blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.frame
+        view.addSubview(blurEffectView)
+        
+        let activityView = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        activityView.color = UIColor().darkBlueAppDesign
+        activityView.frame = CGRect(x: loadingView.frame.width / 2, y: loadingView.frame.height / 2, width: 20, height: 20)
+        activityView.startAnimating()
+        blurEffectView.addSubview(activityView)
+        
         tableView.delegate = self
         tableView.dataSource = self
         getYoutubeVideoData()
         
-        setupLoadingView()
+        //setupLoadingView()
     }
     
     func setupLoadingView() {
@@ -49,9 +61,17 @@ class YoutubeViewController: UIViewController, UITableViewDelegate, UITableViewD
                 self.youtubeVideos = youtubeVideos
                 dispatch_async(dispatch_get_main_queue()) {
                     self.tableView.reloadData()
-                    self.loadingView.removeFromSuperview()
+                    self.animateBlurViewAway()
                 }
             }
+        }
+    }
+    
+    func animateBlurViewAway() {
+        UIView.animateWithDuration(2.0, animations: {
+            self.blurEffectView.alpha = 0
+            }) { (finished) in
+                self.blurEffectView.removeFromSuperview()
         }
     }
 }
