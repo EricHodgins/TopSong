@@ -15,6 +15,7 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var cloudImageView: UIImageView!
     
     var user: FIRUser?
     let firebaseClient = FirebaseClient.sharedInstance
@@ -37,6 +38,14 @@ class SettingsViewController: UIViewController {
         let doneAttributedString = UIDesign.darkStyleAttributedString("Done", fontSize: 21.0)
         logoutButton.setAttributedTitle(attributedString, forState: .Normal)
         doneButton.setAttributedTitle(doneAttributedString, forState: .Normal)
+        
+        setupBackgroundGradient()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        animateMusicalNotes()
     }
     
     //MARK: Download username

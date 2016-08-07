@@ -109,7 +109,7 @@ extension ProfileViewController {
             gradientLayer.colors = [lightBlueColor, whiteColor]
             gradientLayer.locations = [0.0, 0.4]
             gradientView.backgroundColor = UIColor.clearColor()
-            gradientLayer.frame = gradientView.frame//CGRect(x: 0, y: 0, width: view.frame.width, height: 300)
+            gradientLayer.frame = gradientView.frame
             view.layer.insertSublayer(gradientLayer, atIndex: 0)
         }
         
