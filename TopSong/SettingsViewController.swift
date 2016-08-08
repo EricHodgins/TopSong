@@ -98,7 +98,10 @@ extension SettingsViewController: UITextFieldDelegate {
     func generateUsername(name: String) {
         firebaseClient.generateUsername(name, id: user!.uid) { (success, errorMessage) in
             if !success {
-                //TODO: Notify user unsuccessful
+                let alertController = UIAlertController(title: "Failed to created username.", message: "\(errorMessage!)", preferredStyle: .Alert)
+                let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                alertController.addAction(action)
+                self.presentViewController(alertController, animated: true, completion: nil)
                 print(errorMessage)
             }
         }
