@@ -42,6 +42,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         refreshControl.attributedTitle = UIDesign.lightStyleAttributedString("Pull To Refresh", fontSize: 15.0)
         refreshControl.addTarget(self, action: #selector(TopSongsViewController.downloadTopSongs), forControlEvents: .ValueChanged)
         tableView.addSubview(refreshControl)
+        refreshControl.beginRefreshing()
         
         findUser()
         downloadTopSongs()

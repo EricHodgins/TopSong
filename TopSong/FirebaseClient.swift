@@ -19,6 +19,8 @@ class FirebaseClient {
     //Singleton
     static let sharedInstance = FirebaseClient()
     
+    let networkGroup: dispatch_group_t = dispatch_group_create()
+    
     //Store Handles.  Need to remove on refresh.  Or Multiple Network calls are made for the same Firebase path, which is uneccessary and a waste of network data.
     var firebaseTopSongHandles = [String : UInt]()
     var firebaseImageUsernameHandles = [String : UInt]()

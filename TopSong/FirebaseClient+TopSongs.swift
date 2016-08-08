@@ -31,6 +31,7 @@ extension FirebaseClient {
         
         // GET all friends id's
         let friendsRef = firDatabaseRef.child("friendsGroup").child("\(user.uid)")
+        
         friendsRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
             
             guard snapshot.exists() == true else {
@@ -39,14 +40,18 @@ extension FirebaseClient {
             }
             
             let friendsDict = snapshot.value as! [String : AnyObject]
-            
             for (section, friend) in friendsDict.enumerate() {
+                dispatch_group_enter(self.networkGroup)
                 self.downloadFriendInfo(friend.0, forSection: section, delegate: delegate, completionHandler: completionHandler)
             }
             
-            // May need to create a dispatch_group in case of multiple network requests when updating the UI.
-            // Also Firebase handles may need to be removed.  But for now it looks okay.
-            delegate.endTableViewRefreshing()
+            // create a dispatch_group in case of multiple network requests when updating the UI.
+            // with a poor network this is more obvious.  If refreshed multiple times before fully complete, multiple Firebase handles start referencing the same user and copies are made to the tableview.
+            // dispatch_group makes sure all network requests are done before a refresh can be made.
+            dispatch_group_notify(self.networkGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+                print("finally...finished all network requests for top songs.")
+                delegate.endTableViewRefreshing()
+            }
         })
     }
     
@@ -114,6 +119,7 @@ extension FirebaseClient {
             }
             
             completionHandler(friend: friend, newSongIndexPaths: tableViewFriendIndexes)
+            dispatch_group_leave(self.networkGroup)
             
         })
         
