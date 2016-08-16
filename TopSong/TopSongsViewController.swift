@@ -11,7 +11,7 @@ import CoreData
 import Firebase
 import MediaPlayer
 
-class TopSongsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UserInfoUpdating {
+class TopSongsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UserInfoUpdating, SoundBarAnimatable {
     
     let firebaseClient = FirebaseClient.sharedInstance
 

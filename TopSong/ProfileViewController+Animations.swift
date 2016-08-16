@@ -11,89 +11,101 @@ import MediaPlayer
 
 extension ProfileViewController {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopPickTableViewCell
-        currentAnimatingCell = cell
-        let song = userTopPicks[indexPath.row]
+        let topSong = userTopPicks[indexPath.row]
         
-        guard song?.mediaItem != nil else {
-            return
-        }
-        
-        //stop music playing when the current song picked is picked again
-        if musicPlayer.nowPlayingItem == song!.mediaItem! {
-            musicPlayer.stop()
-            self.stopSoundBarAnimation(cell)
-            return
-        }
-        
-        
-        if song?.isSongPlayable == true && song != nil {
-            cell.contentView.layoutIfNeeded()
-            UIView.animateWithDuration(0.25, animations: {
-                cell.artistTitleLeadingMarginConstraint.constant = -45
-                cell.songTitleLeadingMarginConstraint.constant = -45
-                cell.leftBarView.alpha = 1.0
-                cell.middleBarView.alpha = 1.0
-                cell.rightBarView.alpha = 1.0
-                cell.contentView.layoutIfNeeded()
-            })
+        if let topSong = topSong {
+            let musicPlayerState = MusicManager.sharedInstance.playMusic(topSong)
             
-            let mediaCollection = MPMediaItemCollection(items: [song!.mediaItem!])
-            musicPlayer.setQueueWithItemCollection(mediaCollection)
-            musicPlayer.repeatMode = .None
-            musicPlayer.play()
-            
-            self.animateCellSoundBars(cell)
+            if musicPlayerState == .Stop {
+                animatingCellIndex = nil
+                resetCell(cell)
+            } else if musicPlayerState == .Play {
+                animatingCellIndex = indexPath
+                animateTextLabels(cell)
+                startSoundBarAnimation(cell)
+            }
         }
+
     }
     
-    func animateCellSoundBars(cell: TopPickTableViewCell) {
+    func animateTextLabels(cell: TopPickTableViewCell) {
+        cell.contentView.layoutIfNeeded()
+        UIView.animateWithDuration(0.5) {
+            cell.leftBarView.alpha = 1.0
+            cell.middleBarView.alpha = 1.0
+            cell.rightBarView.alpha = 1.0
+            cell.artistTitleLeadingMarginConstraint.constant = -45
+            cell.songTitleLeadingMarginConstraint.constant = -45
+            cell.contentView.layoutIfNeeded()
+        }
+    }
+
+    
+    func startSoundBarAnimation(cell: TopPickTableViewCell) {
+        let soundBars = [cell.leftBarView, cell.middleBarView, cell.rightBarView]
         
-        let soundbarViews = [cell.leftBarView, cell.middleBarView, cell.rightBarView]
-        let randomDuration = Double(randomNumberBetween(0.2, y: 0.5))
+        for soundBar in soundBars {
+            let randomTransformYScale = randomNumberBetween(0.2, y: 0.5)
+            animateSoundBar(cell, soundBar: soundBar, animatingCellIndex: animatingCellIndex!, withSize: randomTransformYScale)
+            
+        }
         
-        
-        cell.leftBarView.transform = CGAffineTransformIdentity
-        cell.middleBarView.transform = CGAffineTransformIdentity
-        cell.rightBarView.transform = CGAffineTransformIdentity
+    }
+    
+    
+    func animateSoundBar(cell: TopPickTableViewCell, soundBar: UIView, animatingCellIndex: NSIndexPath, withSize size: CGFloat) {
+        let randomTime = Double(randomNumberBetween(0.2, y: 0.5))
         
         cell.contentView.layoutIfNeeded()
-        for soundBar in soundbarViews {
-            UIView.animateWithDuration(randomDuration, delay: 0, options: [.Repeat, .Autoreverse, .CurveEaseOut], animations: {
-                soundBar.layer.anchorPoint = CGPoint(x: 0.5, y: 1.0)
-                let yRandomScale = self.randomNumberBetween(0.1, y: 0.5)
-                soundBar.transform = CGAffineTransformMakeScale(1, yRandomScale)
-                cell.contentView.layoutIfNeeded()
-                }, completion: nil)
+        
+        UIView.animateWithDuration(randomTime, delay: 0, options: [.CurveEaseIn], animations: {
+            
+            soundBar.layer.anchorPoint = CGPoint(x: 0.5, y: 1.0)
+            soundBar.transform = CGAffineTransformMakeScale(1.0, size)
+            cell.contentView.layoutIfNeeded()
+            
+        }) { (finshed) in
+            UIView.animateWithDuration(randomTime, delay: 0, options: [.CurveEaseOut], animations: {
+                soundBar.transform = CGAffineTransformIdentity
+                }, completion: { (finished) in
+                    
+                    guard self.animatingCellIndex != nil else {
+                        self.resetCell(cell)
+                        return
+                    }
+                    
+                    if animatingCellIndex == self.animatingCellIndex! {
+                        let newCell = self.tableView.cellForRowAtIndexPath(animatingCellIndex) as? TopPickTableViewCell
+                        if newCell != nil {
+                            self.animateSoundBar(newCell!, soundBar: soundBar, animatingCellIndex: animatingCellIndex, withSize: size)
+                        }
+                    } else {
+                        self.resetCell(cell)
+                    }
+            })
         }
         
     }
     
-    func randomNumberBetween(x: CGFloat, y: CGFloat) -> CGFloat {
-        return CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(x - y) + min(x, y)
-    }
-    
-    func stopSoundBarAnimation(cell: TopPickTableViewCell) {
+
+    func resetCell(cell: TopPickTableViewCell) {
         cell.contentView.layoutIfNeeded()
         UIView.animateWithDuration(0.25) {
             cell.artistTitleLeadingMarginConstraint.constant = -8
             cell.songTitleLeadingMarginConstraint.constant = -8
+            cell.leftBarView.alpha = 0
+            cell.middleBarView.alpha = 0
+            cell.rightBarView.alpha = 0
             cell.contentView.layoutIfNeeded()
         }
-        
-        cell.leftBarView.alpha = 0
-        cell.middleBarView.alpha = 0
-        cell.rightBarView.alpha = 0
     }
     
-    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopPickTableViewCell
-        currentAnimatingCell = nil
-        stopSoundBarAnimation(cell)
-    }
     
+    
+    
+    
+
     //MARK: UI
     func setupBackgroundGradient() {
         let views = [scrollView, self.view]
@@ -110,7 +122,12 @@ extension ProfileViewController {
         }
         
     }
-
+    
+    
+    //MARK: Helper
+    func randomNumberBetween(x: CGFloat, y: CGFloat) -> CGFloat {
+        return CGFloat(arc4random()) / CGFloat(UINT32_MAX) * abs(x - y) + min(x, y)
+    }
 }
 
 

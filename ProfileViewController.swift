@@ -12,13 +12,14 @@ import MediaPlayer
 import Firebase
 
 
-class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate {
+class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, SoundBarAnimatable {
     
     let firDatabaseRef = FIRDatabase.database().reference()
     var user: FIRUser? // Firebase
     var loggedInUser: User? // Core Data
     
     let firebaseClient = FirebaseClient.sharedInstance
+    var animatingCellIndex: NSIndexPath?
 
     @IBOutlet weak var scrollView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -101,16 +102,10 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        if currentAnimatingCell != nil {
-            animateCellSoundBars(currentAnimatingCell!)
-        }
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        currentAnimatingCell?.leftBarView.transform = CGAffineTransformIdentity
-        currentAnimatingCell?.middleBarView.transform = CGAffineTransformIdentity
-        currentAnimatingCell?.rightBarView.transform = CGAffineTransformIdentity
     }
     
     //MARK: Find User
@@ -164,6 +159,10 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         if let song = userTopPicks[indexPath.row] {
             cell.songTitleLabel.text = song.title
             cell.artistLabel.text = song.artist
+            
+            //configure Soundbars
+            configureSoundBarAnimation(cell, indexPath: indexPath)
+            
         } else {
             cell.songTitleLabel.text = "Pick A New Top Song"
             cell.artistLabel.text = ""
@@ -179,6 +178,20 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         
         return cell
         
+    }
+    
+    func configureSoundBarAnimation(cell: TopPickTableViewCell, indexPath: NSIndexPath) {
+        if animatingCellIndex != nil {
+            if animatingCellIndex! == indexPath {
+                cell.artistTitleLeadingMarginConstraint.constant = -45
+                cell.songTitleLeadingMarginConstraint.constant = -45
+                cell.leftBarView.alpha = 1.0
+                cell.middleBarView.alpha = 1.0
+                cell.rightBarView.alpha = 1.0
+                
+                startSoundBarAnimation(cell)
+            }
+        }
     }
 }
 

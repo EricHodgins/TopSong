@@ -90,7 +90,7 @@ extension TopSongsViewController {
     func resetCell(cell: TopSongTableViewCell) {
         
         cell.contentView.layoutIfNeeded()
-        UIView.animateWithDuration(0.5) {
+        UIView.animateWithDuration(0.25) {
             cell.leadingArtistConstraint.constant = 8
             cell.leadingTitleConstraint.constant = 8
             cell.leftBarView.alpha = 0

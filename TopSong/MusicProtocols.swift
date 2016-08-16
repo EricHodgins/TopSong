@@ -9,6 +9,5 @@
 import UIKit
 
 protocol SoundBarAnimatable: class {
-    func handleTableViewCellPressed(topSong: TopSong, withTableView tableView: UITableView, atIndexPath indexPath: NSIndexPath)
-    
+    var animatingCellIndex:NSIndexPath? { get set }
 }
