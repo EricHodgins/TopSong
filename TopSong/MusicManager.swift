@@ -33,11 +33,18 @@ class MusicManager {
         
     }
     
-    func playMusic(topSong: TopSong) -> MusicState {
+    func playMusic(topSong: TopSong, ViewController: SoundBarAnimatable) -> MusicState {
         
         guard topSong.mediaItem != nil else {
             return .Stop
         }
+        
+        if ViewController is TopSongsViewController {
+            profileViewController!.animatingCellIndex = nil
+        } else if topSongsViewController != nil {
+            topSongsViewController!.animatingCellIndex = nil
+        }
+        
         
         if currentlyPlayingMediaItem == nil {
             currentlyPlayingMediaItem = topSong.mediaItem!
@@ -69,6 +76,11 @@ class MusicManager {
             if let topSongsViewController = topSongsViewController {
                 topSongsViewController.animatingCellIndex = nil
             }
+            
+            if let profileViewController = profileViewController {
+                profileViewController.animatingCellIndex = nil
+            }
+            
         case .Playing:
             print("Playing")
             

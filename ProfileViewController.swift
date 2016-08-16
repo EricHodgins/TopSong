@@ -46,6 +46,8 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        MusicManager.sharedInstance.profileViewController = self
     
         setupBackgroundGradient()
         downloadProfileName()

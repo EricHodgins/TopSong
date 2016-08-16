@@ -50,7 +50,9 @@ extension FirebaseClient {
             // dispatch_group makes sure all network requests are done before a refresh can be made.
             dispatch_group_notify(self.networkGroup, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
                 print("finally...finished all network requests for top songs.")
-                delegate.endTableViewRefreshing()
+                dispatch_async(dispatch_get_main_queue()) {
+                    delegate.endTableViewRefreshing()
+                }
             }
         })
     }

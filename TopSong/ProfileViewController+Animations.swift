@@ -15,7 +15,7 @@ extension ProfileViewController {
         let topSong = userTopPicks[indexPath.row]
         
         if let topSong = topSong {
-            let musicPlayerState = MusicManager.sharedInstance.playMusic(topSong)
+            let musicPlayerState = MusicManager.sharedInstance.playMusic(topSong, ViewController: self)
             
             if musicPlayerState == .Stop {
                 animatingCellIndex = nil

@@ -15,7 +15,7 @@ extension TopSongsViewController {
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopSongTableViewCell
         let topSong = friendsArray[indexPath.section].topSongs![indexPath.row]
         
-        let musicPlayerState = MusicManager.sharedInstance.playMusic(topSong)
+        let musicPlayerState = MusicManager.sharedInstance.playMusic(topSong, ViewController: self)
         
         if musicPlayerState == .Stop {
             animatingCellIndex = nil
