@@ -148,6 +148,15 @@ extension SignInViewController {
         self.presentViewController(alertController, animated: true, completion: nil)
  
     }
+    
+    
+    //MARK: Success Message
+    func showSuccessMessage(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        alertController.addAction(action)
+        self.presentViewController(alertController, animated: true, completion: nil)    
+    }
 }
 
 

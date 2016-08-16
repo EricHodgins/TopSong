@@ -12,11 +12,7 @@ import MediaPlayer
 extension ProfileViewController {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let topSongVC = (tabBarController?.viewControllers![1] as! UINavigationController).viewControllers[0] as! TopSongsViewController
-        if topSongVC.currentAnimatingCell != nil {
-            topSongVC.stopSoundBarAnimation(topSongVC.currentAnimatingCell!)
-        }
-        
+
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopPickTableViewCell
         currentAnimatingCell = cell
         let song = userTopPicks[indexPath.row]

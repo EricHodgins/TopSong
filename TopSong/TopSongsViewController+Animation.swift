@@ -10,89 +10,95 @@ import UIKit
 import MediaPlayer
 
 extension TopSongsViewController {
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        let profileVC = (tabBarController?.viewControllers![0] as! UINavigationController).viewControllers[0] as! ProfileViewController
-        if profileVC.currentAnimatingCell != nil {
-            profileVC.stopSoundBarAnimation(profileVC.currentAnimatingCell!)
-        }
-        
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopSongTableViewCell
-        currentAnimatingCell = cell
-        let song = friendsArray[indexPath.section].topSongs![indexPath.row]
+        let topSong = friendsArray[indexPath.section].topSongs![indexPath.row]
         
-        guard song.mediaItem != nil else {
-            return
+        let musicPlayerState = MusicManager.sharedInstance.playMusic(topSong)
+        
+        if musicPlayerState == .Stop {
+            animatingCellIndex = nil
+            resetCell(cell)
+        } else if musicPlayerState == .Play {
+            animatingCellIndex = indexPath
+            animateTextLabels(cell)
+            startSoundBarAnimation(cell)
         }
         
-        if musicPlayer.nowPlayingItem == song.mediaItem! {
-            musicPlayer.stop()
-            stopSoundBarAnimation(cell)
-            return
-        }
-        
-        if song.isSongPlayable {
-            animateArtistTitleLabels(cell)
-            activateSoundBars(cell)
-            
-            let mediaColletion = MPMediaItemCollection(items: [song.mediaItem!])
-            musicPlayer.setQueueWithItemCollection(mediaColletion)
-            musicPlayer.repeatMode = .None
-            musicPlayer.play()
-        }
     }
     
-    func animateArtistTitleLabels(cell: TopSongTableViewCell) {
+    func animateTextLabels(cell: TopSongTableViewCell) {
         cell.contentView.layoutIfNeeded()
-        UIView.animateWithDuration(0.25) { 
-            cell.leadingArtistConstraint.constant = 45
-            cell.leadingTitleConstraint.constant = 45
+        UIView.animateWithDuration(0.5) {
             cell.leftBarView.alpha = 1.0
             cell.middleBarView.alpha = 1.0
             cell.rightBarView.alpha = 1.0
+            cell.leadingTitleConstraint.constant = 45
+            cell.leadingArtistConstraint.constant = 45
             cell.contentView.layoutIfNeeded()
         }
     }
     
-    func activateSoundBars(cell: TopSongTableViewCell) {
-        let soundBarViews = [cell.leftBarView, cell.middleBarView, cell.rightBarView]
-        let randomDuration = Double(randomNumberBetween(0.2, y: 0.5))
+    func startSoundBarAnimation(cell: TopSongTableViewCell) {
+        let soundBars = [cell.leftBarView, cell.middleBarView, cell.rightBarView]
         
-        cell.leftBarView.transform = CGAffineTransformIdentity
-        cell.middleBarView.transform = CGAffineTransformIdentity
-        cell.rightBarView.transform = CGAffineTransformIdentity
-        
-        cell.contentView.layoutIfNeeded()
-        for soundBar in soundBarViews {
-        UIView.animateWithDuration(randomDuration, delay: 0, options: [.Repeat, .Autoreverse, .CurveEaseOut], animations: { 
-                soundBar.layer.anchorPoint = CGPoint(x: 0.5, y: 1.0)
-                let yRandomScale = self.randomNumberBetween(0.1, y: 0.5)
-                soundBar.transform = CGAffineTransformMakeScale(1, yRandomScale)
-                cell.contentView.layoutIfNeeded()
-            }, completion: nil)
+        for soundBar in soundBars {
+            let randomTransformYScale = randomNumberBetween(0.2, y: 0.5)
+            animateSoundBar(cell, soundBar: soundBar, animatingCellIndex: animatingCellIndex!, withSize: randomTransformYScale)
             
         }
-    }
-    
-    func stopSoundBarAnimation(cell: TopSongTableViewCell) {
-        cell.contentView.layoutIfNeeded()
-        UIView.animateWithDuration(0.25) { 
-            cell.leadingTitleConstraint.constant = 8
-            cell.leadingArtistConstraint.constant = 8
-            cell.layoutIfNeeded()
-        }
         
-        cell.leftBarView.alpha = 0
-        cell.middleBarView.alpha = 0
-        cell.rightBarView.alpha = 0
     }
     
-    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as! TopSongTableViewCell
-        stopSoundBarAnimation(cell)
-        currentAnimatingCell = nil
+    
+    func animateSoundBar(cell: TopSongTableViewCell, soundBar: UIView, animatingCellIndex: NSIndexPath, withSize size: CGFloat) {
+        let randomTime = Double(randomNumberBetween(0.2, y: 0.5))
+        
+        cell.contentView.layoutIfNeeded()
+        
+        UIView.animateWithDuration(randomTime, delay: 0, options: [.CurveEaseIn], animations: {
+            
+            soundBar.layer.anchorPoint = CGPoint(x: 0.5, y: 1.0)
+            soundBar.transform = CGAffineTransformMakeScale(1.0, size)
+            cell.contentView.layoutIfNeeded()
+            
+        }) { (finshed) in
+            UIView.animateWithDuration(randomTime, delay: 0, options: [.CurveEaseOut], animations: {
+                soundBar.transform = CGAffineTransformIdentity
+                }, completion: { (finished) in
+                    
+                    guard self.animatingCellIndex != nil else {
+                        self.resetCell(cell)
+                        return
+                    }
+                    
+                    if animatingCellIndex == self.animatingCellIndex! {
+                        let newCell = self.tableView.cellForRowAtIndexPath(animatingCellIndex) as? TopSongTableViewCell
+                        if newCell != nil {
+                            self.animateSoundBar(newCell!, soundBar: soundBar, animatingCellIndex: animatingCellIndex, withSize: size)
+                        }
+                    } else {
+                        self.resetCell(cell)
+                    }
+            })
+        }
+
     }
     
+    
+    func resetCell(cell: TopSongTableViewCell) {
+        
+        cell.contentView.layoutIfNeeded()
+        UIView.animateWithDuration(0.5) {
+            cell.leadingArtistConstraint.constant = 8
+            cell.leadingTitleConstraint.constant = 8
+            cell.leftBarView.alpha = 0
+            cell.middleBarView.alpha = 0
+            cell.rightBarView.alpha = 0
+            cell.contentView.layoutIfNeeded()
+        }
+    }
     
     //HELPER:
     func randomNumberBetween(x: CGFloat, y: CGFloat) -> CGFloat {

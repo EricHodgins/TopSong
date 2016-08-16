@@ -23,11 +23,8 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     var friendsArray = [Friend]()
     var refreshControl: UIRefreshControl!
     
-    var currentAnimatingCell: TopSongTableViewCell?
-    
-    lazy var musicPlayer: MPMusicPlayerController = {
-        return MPMusicPlayerController.systemMusicPlayer()
-    }()
+    var animatingCellIndex: NSIndexPath?
+    weak var soundBarViewDelegate: SoundBarAnimatable?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,22 +41,19 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.addSubview(refreshControl)
         refreshControl.beginRefreshing()
         
+        MusicManager.sharedInstance.topSongsViewController = self
+        
         findUser()
         downloadTopSongs()
+        
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        if currentAnimatingCell != nil {
-           activateSoundBars(currentAnimatingCell!)
-        }
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        currentAnimatingCell?.leftBarView.transform = CGAffineTransformIdentity
-        currentAnimatingCell?.middleBarView.transform = CGAffineTransformIdentity
-        currentAnimatingCell?.rightBarView.transform = CGAffineTransformIdentity
     }
     
     //MARK: Context
@@ -143,13 +137,25 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCellWithIdentifier("topSongCell", forIndexPath: indexPath) as! TopSongTableViewCell
         
         let song = friendsArray[indexPath.section].topSongs![indexPath.row]
+        
+        if animatingCellIndex != nil {
+            if animatingCellIndex! == indexPath {
+                cell.leadingArtistConstraint.constant = 45
+                cell.leadingTitleConstraint.constant = 45
+                cell.leftBarView.alpha = 1.0
+                cell.middleBarView.alpha = 1.0
+                cell.rightBarView.alpha = 1.0
+                
+                startSoundBarAnimation(cell)
+            }
+        }
+        
+        
         if song.isSongPlayable {
             cell.iphoneNotPlayableImageView.alpha = 0
             cell.artistLabel.alpha = 1.0
             cell.titleLabel.alpha = 1.0
-            if musicPlayer.nowPlayingItem == song.mediaItem! {
-                activateSoundBars(cell)
-            }
+
         } else {
             cell.titleLabel.alpha = 0.4
             cell.artistLabel.alpha = 0.4
@@ -200,10 +206,6 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func downloadTopSongs() {
-        if currentAnimatingCell != nil {
-            musicPlayer.stop()
-            stopSoundBarAnimation(currentAnimatingCell!)
-        }
         
         friendsArray = []
         tableView.reloadData()
@@ -229,7 +231,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     
     
     //MARK: Update Friend for Core Data
-    //TODO: Make this a generic function. Probably will reuse this.
+    
     func updateFriend(friend: Friend, inSection section: NSIndexSet) {
         let fetchRequest = NSFetchRequest(entityName: "TopSongFriend")
         let predicate = NSPredicate(format: "user = %@", loggedInUser!)

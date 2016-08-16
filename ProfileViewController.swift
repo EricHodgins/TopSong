@@ -279,6 +279,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
         firebaseClient.fetchUserTopSongs(user!) { (success, topSongsArray) in
             guard success == true else {
                 print("error fetching top songs for user.")
+                self.activityIndicator.stopAnimating()
+                self.view.alpha = 1.0
                 return
             }
             

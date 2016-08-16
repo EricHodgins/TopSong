@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TopSongTableViewCell: UITableViewCell {
+class TopSongTableViewCell: MusicTableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var artistLabel: UILabel!
@@ -28,11 +28,22 @@ class TopSongTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         selectionStyle = .None
         leftBarView.alpha = 0
         middleBarView.alpha = 0
         rightBarView.alpha = 0
         iphoneNotPlayableImageView.alpha = 0
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        leadingTitleConstraint.constant = 8
+        leadingArtistConstraint.constant = 8
+        leftBarView.alpha = 0
+        middleBarView.alpha = 0
+        rightBarView.alpha = 0
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

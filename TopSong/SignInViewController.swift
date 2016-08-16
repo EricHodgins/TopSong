@@ -86,10 +86,11 @@ class SignInViewController: UIViewController {
         }
         
         activityIndicator.startAnimating()
-        firebaseClient.createAccount("erichodgins86@gmail.com", password: "123456") { (success, user, error) in
+        firebaseClient.createAccount(emailTextfield.text!, password: passwordTextfield.text!) { (success, user, error) in
             if success {
                 print("user successfully created.")
                 self.activityIndicator.stopAnimating()
+                self.showSuccessMessage("Awesome! Account Created.", message: "Keep care of your password.")
             } else {
                 self.activityIndicator.stopAnimating()
                 self.showErrorMessage(error, errorTitle: "Could not create account.")

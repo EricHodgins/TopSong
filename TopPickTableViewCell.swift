@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TopPickTableViewCell: UITableViewCell {
+class TopPickTableViewCell: MusicTableViewCell {
 
     @IBOutlet weak var songTitleLabel: UILabel!
     @IBOutlet weak var artistLabel: UILabel!
@@ -26,6 +26,8 @@ class TopPickTableViewCell: UITableViewCell {
     weak var delegate: SongChanging?
     
     override func awakeFromNib() {
+        super.awakeFromNib()
+        
         selectionStyle = .None
         leftBarView.alpha = 0
         middleBarView.alpha = 0
