@@ -20,6 +20,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     let firebaseClient = FirebaseClient.sharedInstance
     var animatingCellIndex: NSIndexPath?
+    var tempAnimatingCellIndex: NSIndexPath?
 
     @IBOutlet weak var scrollView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -36,13 +37,9 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     let cellSongTitleColorAttribute = UIColor().darkBlueAppDesign
     let cellArtistColorAttribute = UIColor().lightBlueAppDesign
     let cellArtistFontAttribute = UIFont.chalkboardFont(withSize: 15.0)
-    let cellButtonStringAttribute = NSAttributedString(string: "Change", attributes: [NSFontAttributeName: UIFont.chalkboardFont(withSize: 15.0), NSForegroundColorAttributeName: UIColor().redAppDesign])
     
     @IBOutlet weak var tableView: UITableView!
     
-    lazy var musicPlayer: MPMusicPlayerController = {
-        return MPMusicPlayerController.systemMusicPlayer()
-    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,10 +101,18 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // Restart the animations.  If this is animating and switch to another viewcontroller the CPU jumps very high.
+        animatingCellIndex = tempAnimatingCellIndex
+        tableView.reloadData()
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
+        
+        // Stop animations but save the indexPath if needed.  If this is animating and switch to another viewcontroller the CPU jumps very high.
+        tempAnimatingCellIndex = animatingCellIndex
+        animatingCellIndex = nil
     }
     
     //MARK: Find User
@@ -235,6 +240,15 @@ extension ProfileViewController: SongChanging {
 //MARK: SongPicking Protocol
 extension ProfileViewController: SongPicking {
     func pickedNewTopSong(song: TopSong, forIndexPath: NSIndexPath) {
+        
+        //Stop animting sound bars if necessary
+        if animatingCellIndex != nil {
+            if let mediaItem = song.mediaItem {
+                if mediaItem != MusicManager.sharedInstance.currentlyPlayingMediaItem! {
+                    animatingCellIndex = nil
+                }
+            }
+        }
         
         // Save to Firebase database
         firebaseClient.updateTopSong(user!, indexPath: forIndexPath, song: song)

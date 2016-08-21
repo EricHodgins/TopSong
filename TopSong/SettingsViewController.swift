@@ -24,7 +24,7 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
         
         let defaults = NSUserDefaults.standardUserDefaults()
-        if let username = defaults.objectForKey("username") as? String {
+        if let username = defaults.objectForKey("username/\(user!.uid)") as? String {
             usernameTextField.text = username
         }
         
@@ -80,7 +80,7 @@ class SettingsViewController: UIViewController {
 extension SettingsViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(textField.text!, forKey: "username")
+        defaults.setObject(textField.text!, forKey: "username/\(user!.uid)")
         
         generateUsername(textField.text!)
         textField.resignFirstResponder()

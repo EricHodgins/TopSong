@@ -24,6 +24,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     var refreshControl: UIRefreshControl!
     
     var animatingCellIndex: NSIndexPath?
+    var tempAnimatingCellIndex: NSIndexPath?
     weak var soundBarViewDelegate: SoundBarAnimatable?
     
     override func viewDidLoad() {
@@ -50,10 +51,18 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // Restart the animations.  If this is animating and switch to another viewcontroller the CPU jumps very high.
+        animatingCellIndex = tempAnimatingCellIndex
+        tableView.reloadData()
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
+        
+        // Stop animations but save the indexPath if needed.  If this is animating and switch to another viewcontroller the CPU jumps very high.
+        tempAnimatingCellIndex = animatingCellIndex
+        animatingCellIndex = nil
     }
     
     //MARK: Context

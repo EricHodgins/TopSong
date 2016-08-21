@@ -95,12 +95,16 @@ extension SignInViewController {
         ]
         
         //Email
+        emailVerticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:[topLayoutGuide]-200-[emailView(emailHeight)]", options: [], metrics: metrics, views: views)
+        view.addConstraints(emailVerticalConstraints)
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-20-[emailView]-20-|", options: [], metrics: metrics, views: views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[topLayoutGuide]-200-[emailView(emailHeight)]", options: [], metrics: metrics, views: views))
+        //view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[topLayoutGuide]-200-[emailView(emailHeight)]", options: [], metrics: metrics, views: views))
         
         //Password
+        passwordVerticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:[emailView]-10-[passwordView(passwordHeight)]", options: [], metrics: metrics, views: views)
+        view.addConstraints(passwordVerticalConstraints)
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-20-[passwordView]-20-|", options: [], metrics: metrics, views: views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[emailView]-10-[passwordView(passwordHeight)]", options: [], metrics: metrics, views: views))
+        //view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[emailView]-10-[passwordView(passwordHeight)]", options: [], metrics: metrics, views: views))
         
         //Sign In Button
         signInButton.centerXAnchor.constraintEqualToAnchor(passwordTextfield.centerXAnchor).active = true

@@ -19,6 +19,9 @@ class SignInViewController: UIViewController {
     var signInButton: UIButton!
     var createAccountButton: UIButton!
     
+    var emailVerticalConstraints = [NSLayoutConstraint]()
+    var passwordVerticalConstraints = [NSLayoutConstraint]()
+    
     lazy var firebaseClient: FirebaseClient = {
         return FirebaseClient.sharedInstance
     }()
@@ -26,6 +29,10 @@ class SignInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Observe Keyboard notifications
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SignInViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SignInViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
         
         let defaults = NSUserDefaults.standardUserDefaults()
         if let email = defaults.stringForKey("emailTextField") {
@@ -41,6 +48,39 @@ class SignInViewController: UIViewController {
         setupTextFields()
     }
     
+    func keyboardWillShow(notification: NSNotification) {
+        print(notification)
+        let info = notification.userInfo!
+        let keyboardFrame = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        print(keyboardFrame.height)
+        print(keyboardFrame.size.height)
+        print(passwordTextfield.frame.origin)
+        let topOfKeyboard = view.frame.size.height - keyboardFrame.size.height
+        let emailConstantDelta = topOfKeyboard - 110 - 20
+        
+        if topOfKeyboard - 20 < passwordTextfield.frame.origin.y {
+            view.layoutIfNeeded()
+            UIView.animateWithDuration(1.0, animations: {
+                self.emailVerticalConstraints[0].constant = emailConstantDelta
+                self.view.layoutIfNeeded()
+            })
+        }
+
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        
+        let delay = Int64(NSEC_PER_MSEC * 1)
+        let when = dispatch_time(DISPATCH_TIME_NOW, delay)
+        dispatch_after(when, dispatch_get_main_queue()) {
+        self.view.layoutIfNeeded()
+        UIView.animateWithDuration(2.0) {
+            self.emailVerticalConstraints[0].constant = 200
+            self.view.layoutIfNeeded()
+        }
+        }
+    }
+    
     
     func signIn() {
         guard passwordTextfield.text?.characters.count > 0 && emailTextfield.text?.characters.count > 0 else {
@@ -49,9 +89,7 @@ class SignInViewController: UIViewController {
         }
         
         activityIndicator.startAnimating()
-        // **************   FILLED IN FOR DEBUGGING ************
-        //erichodgins86@gmail.com
-        //hodgins.e@gmail.com
+
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(emailTextfield.text!, forKey: "emailTextField")
         firebaseClient.signIn(emailTextfield.text!, password: passwordTextfield.text!) { (success, user, error) in

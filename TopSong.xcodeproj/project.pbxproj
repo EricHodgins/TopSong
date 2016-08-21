@@ -340,6 +340,11 @@
 					7A3E313E1D07083600DC90B0 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = E3QZ6M9437;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
