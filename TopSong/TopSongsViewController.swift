@@ -251,7 +251,8 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         do {
             let fetchedResults = try sharedContext.executeFetchRequest(fetchRequest)
             if fetchedResults.count == 0 {
-                let topSongFriend = TopSongFriend(friendId: friend.uid ,imageFilePath: friend.imagePath!, lastImageUpdate: friend.lastImageUpdate!, context: sharedContext)
+                
+                let topSongFriend = TopSongFriend(friendId: friend.uid ,imageFilePath: friend.imagePath, lastImageUpdate: friend.lastImageUpdate, context: sharedContext)
                 topSongFriend.user = loggedInUser!
                 
                 //Save

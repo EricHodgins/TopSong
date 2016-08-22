@@ -115,7 +115,14 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
         let cell = tableView.dequeueReusableCellWithIdentifier("friendCell", forIndexPath: indexPath) as! FriendTableViewCell
         
         let friend = friends[indexPath.row]
-        cell.friendNameLabel.attributedText = UIDesign.darkStyleAttributedString(friend.heading!, fontSize: 20.0)
+        
+        if let friendName = friend.heading {
+            cell.friendNameLabel.attributedText = UIDesign.darkStyleAttributedString(friendName, fontSize: 20.0)
+        } else {
+            cell.friendNameLabel.attributedText = UIDesign.darkStyleAttributedString("Friend has not set name.", fontSize: 20.0)
+        }
+        
+        
         fetchFriendsProfileImage(friend, cell: cell)
         
         return cell
@@ -155,12 +162,15 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func fetchFriendsProfileImage(friend: Friend, cell: FriendTableViewCell) {
         firebaseClient.fetchUserImage(friend.uid) { (success, image) in
+            cell.friendProfileImageVIew.layer.cornerRadius = (cell.friendProfileImageView?.frame.size.height)! / 2
+            cell.friendProfileImageVIew.layer.masksToBounds = true
+            cell.friendProfileImageView.layer.borderWidth = 1
+            cell.friendProfileImageVIew.layer.borderColor = UIColor.whiteColor().CGColor
             if success {
                 cell.friendProfileImageVIew.image = image
-                cell.friendProfileImageVIew.layer.cornerRadius = (cell.friendProfileImageView?.frame.size.height)! / 2
-                cell.friendProfileImageVIew.layer.masksToBounds = true
-                cell.friendProfileImageView.layer.borderWidth = 1
-                cell.friendProfileImageVIew.layer.borderColor = UIColor.whiteColor().CGColor
+            } else {
+                cell.friendProfileImageVIew.backgroundColor = UIColor().lightBlueAppDesign
+                cell.friendProfileImageVIew.image = UIImage(named: "ic_account_circle_white")
             }
         }
     }

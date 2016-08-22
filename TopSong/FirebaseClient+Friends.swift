@@ -32,6 +32,16 @@ extension FirebaseClient {
     func downloadUserFriendInfo(userID: String, delegate: UserInfoUpdating, completionHandler: (friend: Friend) -> Void) {
         let usersRef = firDatabaseRef.child("users").child(userID)
         usersRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
+            
+            guard snapshot.exists() else {
+                let friend = Friend(friendName: nil, friendSongs: nil, friendID: userID, storageImagePath: nil, imageUpdate: nil)
+                dispatch_async(dispatch_get_main_queue()) {
+                    completionHandler(friend: friend)
+                }
+                return
+            }
+            
+            
             let usersDict = snapshot.value as! [String : String]
             let profileName = usersDict["profile-name"]!
             let imagePath = usersDict["imageFilePath"]

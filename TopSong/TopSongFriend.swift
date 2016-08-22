@@ -20,14 +20,25 @@ class TopSongFriend: NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
-    init(friendId: String, imageFilePath: String, lastImageUpdate: NSDate, context: NSManagedObjectContext) {
+    init(friendId: String, imageFilePath: String?, lastImageUpdate: NSDate?, context: NSManagedObjectContext) {
         
         let entity = NSEntityDescription.entityForName("TopSongFriend", inManagedObjectContext: context)!
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         
+        if let imageFilePath = imageFilePath {
+            self.imageFilePath = imageFilePath
+        } else {
+            self.imageFilePath = ""
+        }
+        
         self.friendId = friendId
-        self.imageFilePath = imageFilePath
-        self.lastImageUpdate = lastImageUpdate
+        
+        if let lastImageUpdate = lastImageUpdate {
+            self.lastImageUpdate = lastImageUpdate
+        } else {
+            self.lastImageUpdate = NSDate()
+        }
+        
     }
     
     override func prepareForDeletion() {

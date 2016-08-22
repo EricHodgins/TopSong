@@ -62,6 +62,7 @@ extension FirebaseClient {
         usersRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
             
             guard snapshot.exists() == true else {
+                dispatch_group_leave(self.networkGroup)
                 return
             }
             
@@ -98,6 +99,7 @@ extension FirebaseClient {
         topSongRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
             
             guard snapshot.exists() == true else {
+                dispatch_group_leave(self.networkGroup)
                 return
             }
             

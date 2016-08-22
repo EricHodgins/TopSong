@@ -49,12 +49,9 @@ class SignInViewController: UIViewController {
     }
     
     func keyboardWillShow(notification: NSNotification) {
-        print(notification)
         let info = notification.userInfo!
         let keyboardFrame = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        print(keyboardFrame.height)
-        print(keyboardFrame.size.height)
-        print(passwordTextfield.frame.origin)
+
         let topOfKeyboard = view.frame.size.height - keyboardFrame.size.height
         let emailConstantDelta = topOfKeyboard - 110 - 20
         
@@ -74,7 +71,7 @@ class SignInViewController: UIViewController {
         let when = dispatch_time(DISPATCH_TIME_NOW, delay)
         dispatch_after(when, dispatch_get_main_queue()) {
         self.view.layoutIfNeeded()
-        UIView.animateWithDuration(2.0) {
+        UIView.animateWithDuration(1.0) {
             self.emailVerticalConstraints[0].constant = 200
             self.view.layoutIfNeeded()
         }
