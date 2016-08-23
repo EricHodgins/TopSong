@@ -314,6 +314,11 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
             }
             
             for (index, song) in topSongsArray.enumerate() {
+                
+                guard song != nil else {
+                    continue
+                }
+                
                 self.userTopPicks[index] = song
             }
             

@@ -31,7 +31,7 @@ extension FirebaseClient {
     
     
     
-    func fetchUserTopSongs(user: FIRUser, completionHanlder: (success: Bool, topSongs: [TopSong]) -> Void) {
+    func fetchUserTopSongs(user: FIRUser, completionHanlder: (success: Bool, topSongs: [TopSong?]) -> Void) {
         let topSongsRef = firDatabaseRef.child("topSongs").child("\(user.uid)").child("songs")
         topSongsRef.observeEventType(.Value, withBlock: { (snapshot) in
             

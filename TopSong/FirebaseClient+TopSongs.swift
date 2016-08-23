@@ -115,7 +115,12 @@ extension FirebaseClient {
             
             var indexPath: NSIndexPath
             for (index, song) in songsArray.enumerate() {
-                let songDict = song as! [String : String]
+                
+                guard let songDict = song as? [String : String] else {
+                    continue
+                }
+                
+                //let songDict = song as! [String : String]
                 let topSong = songConverter.generateTopSong(songDict["songArtist"]!, title: songDict["songTitle"]!, rank: "\(index)")
                 friend.topSongs?.append(topSong)
                 indexPath = NSIndexPath(forRow: friend.topSongs!.count - 1, inSection: section)

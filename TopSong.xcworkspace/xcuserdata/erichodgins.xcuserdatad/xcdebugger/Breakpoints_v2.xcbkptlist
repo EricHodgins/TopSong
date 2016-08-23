@@ -2,4 +2,70 @@
 <Bucket
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TopSong/FirebaseClient+Profile.swift"
+            timestampString = "493618304.363883"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "fetchUserTopSongs(_:completionHanlder:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TopSong.FirebaseClient.fetchUserTopSongs (__ObjC.FIRUser, completionHanlder : (success : Swift.Bool, topSongs : Swift.Array&lt;Swift.Optional&lt;TopSong.TopSong&gt;&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "TopSong"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/erichodgins/UdacityIosNanodegree/FinalProjectTopSong/TopSong/TopSong/FirebaseClient+Profile.swift"
+                  timestampString = "493619712.970078"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "36"
+                  endingLineNumber = "36"
+                  offsetFromSymbolStart = "488">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TopSong.FirebaseClient.(fetchUserTopSongs (__ObjC.FIRUser, completionHanlder : (success : Swift.Bool, topSongs : Swift.Array&lt;Swift.Optional&lt;TopSong.TopSong&gt;&gt;) -&gt; ()) -&gt; ()).(closure #1)"
+                  moduleName = "TopSong"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/erichodgins/UdacityIosNanodegree/FinalProjectTopSong/TopSong/TopSong/FirebaseClient+Profile.swift"
+                  timestampString = "493619712.970198"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "56">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TopSong/FirebaseClient+Profile.swift"
+            timestampString = "493618311.856009"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "fetchUserTopSongs(_:completionHanlder:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

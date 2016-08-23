@@ -11,14 +11,20 @@ import MediaPlayer
 
 class SongConverter {
     
-    func getAudioFileFromSystemWithSongsArray(songsArray: NSArray) -> [TopSong] {
+    func getAudioFileFromSystemWithSongsArray(songsArray: NSArray) -> [TopSong?] {
         
         // audio references may or may not exist.  If they existed on the phone/ipod then playable otherwise not immediately playable
         
-        var audioReferences = [TopSong]()
+        var audioReferences = [TopSong?]()
         
         for (index, song) in songsArray.enumerate() {
-            let songDict = song as! [String : String]
+            
+            guard let songDict = song as? [String : String] else {
+                audioReferences.append(nil)
+                continue
+            }
+            
+            //songDict = song as! [String : String]
             let title = songDict["songTitle"]!
             let artist = songDict["songArtist"]!
             
