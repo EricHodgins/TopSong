@@ -66,15 +66,10 @@ class SignInViewController: UIViewController {
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        
-        let delay = Int64(NSEC_PER_MSEC * 1)
-        let when = dispatch_time(DISPATCH_TIME_NOW, delay)
-        dispatch_after(when, dispatch_get_main_queue()) {
         self.view.layoutIfNeeded()
         UIView.animateWithDuration(1.0) {
             self.emailVerticalConstraints[0].constant = 200
             self.view.layoutIfNeeded()
-        }
         }
     }
     
