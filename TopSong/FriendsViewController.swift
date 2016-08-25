@@ -12,6 +12,9 @@ import Firebase
 
 class FriendsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UserInfoUpdating {
     
+    //weak var editingButton: UIBarButtonItem!
+    @IBOutlet weak var editingButton: UIBarButtonItem!
+    
     var friends = [Friend]()
     let firebaseClient = FirebaseClient.sharedInstance
     
@@ -43,6 +46,7 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.addSubview(refreshControl)
         
         refreshFriendList()
+        
     }
     
     func findUser() {
@@ -174,6 +178,17 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
             }
         }
     }
+    
+    @IBAction func editButtonPressed(sender: AnyObject) {
+        if editingButton.title == "Edit" {
+            tableView.setEditing(true, animated: true)
+            editingButton.title = "Done"
+        } else {
+            tableView.setEditing(false, animated: true)
+            editingButton.title = "Edit"
+        }
+    }
+    
 }
 
 

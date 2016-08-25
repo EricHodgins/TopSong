@@ -601,6 +601,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Xx7-24-lcn">
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="rzi-UE-lhO">
+                            <connections>
+                                <action selector="editButtonPressed:" destination="vEE-1E-NeU" id="KW6-Ne-jw8"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="ic_person_add_white" id="XUf-Mq-NPl">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -609,6 +614,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editingButton" destination="rzi-UE-lhO" id="rjo-GK-uDg"/>
                         <outlet property="tableView" destination="DXg-Ai-e4y" id="SFF-I1-wHK"/>
                     </connections>
                 </viewController>
