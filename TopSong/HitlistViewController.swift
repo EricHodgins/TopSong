@@ -11,6 +11,8 @@ import CoreData
 import Firebase
 
 class HitlistViewController: UIViewController, NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate {
+    
+    @IBOutlet weak var editableButton: UIBarButtonItem!
 
     @IBOutlet weak var tableView: UITableView!
     var user: FIRUser?
@@ -138,6 +140,17 @@ extension HitlistViewController {
             youtubeController.youtubeImageCache = youtubeImageCache
         }
     }
+    
+    @IBAction func editButtonPressed(sender: AnyObject) {
+        if editableButton.title == "Edit" {
+            tableView.setEditing(true, animated: true)
+            editableButton.title = "Done"
+        } else {
+            tableView.setEditing(false, animated: true)
+            editableButton.title = "Edit"
+        }
+    }
+    
 }
 
 

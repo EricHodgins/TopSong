@@ -806,8 +806,15 @@
                             <constraint firstAttribute="trailingMargin" secondItem="xKh-j2-1hg" secondAttribute="trailing" constant="-20" id="Zfg-BW-DkL"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="YpM-oX-dJo"/>
+                    <navigationItem key="navigationItem" id="YpM-oX-dJo">
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="Wc2-GX-j6Z">
+                            <connections>
+                                <action selector="editButtonPressed:" destination="njq-kU-tcf" id="st3-vB-Dlc"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="editableButton" destination="Wc2-GX-j6Z" id="jJm-WP-rmM"/>
                         <outlet property="tableView" destination="xKh-j2-1hg" id="wp4-Mc-pPw"/>
                     </connections>
                 </viewController>
