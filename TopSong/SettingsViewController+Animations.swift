@@ -55,7 +55,7 @@ extension SettingsViewController {
         anim.path = path.CGPath
         
         anim.repeatCount = 1
-        anim.duration = 4.0
+        anim.duration = 2.0
         anim.fillMode = kCAFillModeForwards
         anim.removedOnCompletion = false
         
