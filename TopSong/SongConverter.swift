@@ -24,7 +24,6 @@ class SongConverter {
                 continue
             }
             
-            //songDict = song as! [String : String]
             let title = songDict["songTitle"]!
             let artist = songDict["songArtist"]!
             
@@ -48,6 +47,41 @@ class SongConverter {
         }
         
         return audioReferences
+    }
+    
+    //HELPER
+    func makeTopSongsArrayFromSongInfo(artist: String, title: String) -> [TopSong?] {
+        let titlePredicate = MPMediaPropertyPredicate(value: title, forProperty: MPMediaItemPropertyTitle)
+        let artistPredicate = MPMediaPropertyPredicate(value: artist, forProperty: MPMediaItemPropertyArtist)
+        
+        let query: MPMediaQuery = MPMediaQuery.songsQuery()
+        query.addFilterPredicate(titlePredicate)
+        query.addFilterPredicate(artistPredicate)
+        
+        
+        var audioReferences = [TopSong?]()
+        audioReferences.append(nil)
+        audioReferences.append(nil)
+        
+        if query.items?.count > 0 {
+            let songMediaItem = query.items![0]
+            let topSong = TopSong(artist: artist, title: title, rank: "\(index)", mediaItem: songMediaItem, isSongPlayable: true)
+            audioReferences.append(topSong)
+        } else {
+            let topSong = TopSong(artist: artist, title: title, rank: "\(index)", mediaItem: nil, isSongPlayable: false)
+            audioReferences.append(topSong)
+        }
+        
+        return audioReferences
+
+    }
+    
+    
+    func getAudioFileFromSystemWithDictionary(songDict: [String : AnyObject]) -> [TopSong?] {
+        let title = songDict["2"]!["songTitle"]!! as! String
+        let artist = songDict["2"]!["songArtist"]!! as! String
+        
+        return makeTopSongsArrayFromSongInfo(artist, title: title)
     }
     
     /// generateTopSong: Creates a TopSong.  Tries to find a song on the device. If it doesn't then it's marked as unplayable.

@@ -225,7 +225,7 @@ extension ProfileViewController: UITextFieldDelegate {
 }
 
 
-//MARK: SongChanging Protocol
+//MARK: SongChanging Protocol - This brings up the Modal presentation to pick a song from the music library from the Music App
 extension ProfileViewController: SongChanging {
     func changingNewTopSongAt(indexPath: NSIndexPath) {
         let songPickerNavVC = storyboard?.instantiateViewControllerWithIdentifier("SongPicker") as! UINavigationController
@@ -237,7 +237,7 @@ extension ProfileViewController: SongChanging {
     }
 }
 
-//MARK: SongPicking Protocol
+//MARK: SongPicking Protocol - The user picked a song
 extension ProfileViewController: SongPicking {
     func pickedNewTopSong(song: TopSong, forIndexPath: NSIndexPath) {
         

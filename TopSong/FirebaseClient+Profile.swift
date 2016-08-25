@@ -33,7 +33,7 @@ extension FirebaseClient {
     
     func fetchUserTopSongs(user: FIRUser, completionHanlder: (success: Bool, topSongs: [TopSong?]) -> Void) {
         let topSongsRef = firDatabaseRef.child("topSongs").child("\(user.uid)").child("songs")
-        topSongsRef.observeEventType(.Value, withBlock: { (snapshot) in
+        topSongsRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) in
             
             guard snapshot.exists() == true else {
                 print("No top songs made.")
@@ -41,10 +41,17 @@ extension FirebaseClient {
                 return
             }
             
-            let songsArray = snapshot.value as! NSArray
-            
             let songConverter = SongConverter()
-            let topSongsArray = songConverter.getAudioFileFromSystemWithSongsArray(songsArray)
+            var topSongsArray = [TopSong?]()
+            if snapshot.value as? NSArray == nil {
+                //For some reason index 2 becomes a Dictionary instead of NSArray
+                let songDict = snapshot.value as! [String : AnyObject]
+                print(songDict)
+                topSongsArray = songConverter.getAudioFileFromSystemWithDictionary(songDict)
+            } else {
+                let songsArray = snapshot.value as! NSArray
+                topSongsArray = songConverter.getAudioFileFromSystemWithSongsArray(songsArray)
+            }
             
             dispatch_async(dispatch_get_main_queue()) {
                 completionHanlder(success: true, topSongs: topSongsArray)
