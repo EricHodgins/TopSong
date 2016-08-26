@@ -62,7 +62,7 @@ extension FirebaseClient {
     
     func fetchUsername(user: FIRUser, completionHandler: (success: Bool, username: String) -> Void) {
         let nameRef = firDatabaseRef.child("users").child("\(user.uid)")
-        nameRef.observeEventType(.Value, withBlock: { (snapshot) in
+        nameRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) in
             guard snapshot.value != nil && snapshot.exists() == true else {
                 print("could not retrived username")
                 completionHandler(success: false, username: "")
@@ -71,7 +71,9 @@ extension FirebaseClient {
             
             let user = snapshot.value as! [String : String]
             dispatch_async(dispatch_get_main_queue()) {
-                completionHandler(success: true, username: user["profile-name"]!)
+                if let profileName = user["profile-name"] {
+                    completionHandler(success: true, username: profileName)
+                }
             }
         })
     }
