@@ -23,6 +23,8 @@
 		7A83DFA91D50490500D56640 /* YoutubeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A83DFA81D50490500D56640 /* YoutubeViewController.swift */; };
 		7A83DFAB1D50493400D56640 /* YoutubeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A83DFAA1D50493400D56640 /* YoutubeTableViewCell.swift */; };
 		7A84284D1D51984D00E6BDA1 /* YoutubeImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A84284C1D51984D00E6BDA1 /* YoutubeImageCache.swift */; };
+		7A848CCF1D6FEC410063231B /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A848CCE1D6FEC410063231B /* Reachability.m */; };
+		7A848CD11D6FEE960063231B /* Firebase+Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A848CD01D6FEE960063231B /* Firebase+Reachability.swift */; };
 		7A867A281D5D43B800944AAB /* MusicProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A867A271D5D43B800944AAB /* MusicProtocols.swift */; };
 		7A867A2A1D5D4FCC00944AAB /* MusicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A867A291D5D4FCC00944AAB /* MusicTableViewCell.swift */; };
 		7A8740A11D35DC75009D507E /* TopSongDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7A87409F1D35DC75009D507E /* TopSongDataModel.xcdatamodeld */; };
@@ -75,6 +77,10 @@
 		7A83DFA81D50490500D56640 /* YoutubeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeViewController.swift; sourceTree = "<group>"; };
 		7A83DFAA1D50493400D56640 /* YoutubeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeTableViewCell.swift; sourceTree = "<group>"; };
 		7A84284C1D51984D00E6BDA1 /* YoutubeImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeImageCache.swift; sourceTree = "<group>"; };
+		7A848CCC1D6FEC400063231B /* TopSong-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TopSong-Bridging-Header.h"; sourceTree = "<group>"; };
+		7A848CCD1D6FEC410063231B /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		7A848CCE1D6FEC410063231B /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		7A848CD01D6FEE960063231B /* Firebase+Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Firebase+Reachability.swift"; sourceTree = "<group>"; };
 		7A867A271D5D43B800944AAB /* MusicProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicProtocols.swift; sourceTree = "<group>"; };
 		7A867A291D5D4FCC00944AAB /* MusicTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicTableViewCell.swift; sourceTree = "<group>"; };
 		7A8740A01D35DC75009D507E /* TopSongDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TopSongDataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -172,6 +178,7 @@
 				7A3E314B1D07083600DC90B0 /* LaunchScreen.storyboard */,
 				7A3E314E1D07083600DC90B0 /* Info.plist */,
 				7A8C41311D0E009100D45C6B /* GoogleService-Info.plist */,
+				7A848CCB1D6FEBE90063231B /* Reachability */,
 			);
 			path = TopSong;
 			sourceTree = "<group>";
@@ -208,6 +215,16 @@
 			name = Youtube;
 			sourceTree = "<group>";
 		};
+		7A848CCB1D6FEBE90063231B /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				7A848CCD1D6FEC410063231B /* Reachability.h */,
+				7A848CCE1D6FEC410063231B /* Reachability.m */,
+				7A848CCC1D6FEC400063231B /* TopSong-Bridging-Header.h */,
+			);
+			name = Reachability;
+			sourceTree = "<group>";
+		};
 		7A8740A21D35DC7D009D507E /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,6 +244,7 @@
 				7A9332531D2FEBDF005FCED1 /* FirebaseClient+Profile.swift */,
 				7A9332551D2FECB1005FCED1 /* FirebaseClient+TopSongs.swift */,
 				7A9332571D2FED4A005FCED1 /* FirebaseClient+Friends.swift */,
+				7A848CD01D6FEE960063231B /* Firebase+Reachability.swift */,
 			);
 			name = FirebaseClient;
 			sourceTree = "<group>";
@@ -443,6 +461,7 @@
 				7A922CEB1D125CE1002CBE7B /* FriendsViewController.swift in Sources */,
 				7A9332561D2FECB1005FCED1 /* FirebaseClient+TopSongs.swift in Sources */,
 				7A7F2B1F1D1F353B006B85D0 /* FriendTableViewCell.swift in Sources */,
+				7A848CCF1D6FEC410063231B /* Reachability.m in Sources */,
 				7A83DFA91D50490500D56640 /* YoutubeViewController.swift in Sources */,
 				7A9332541D2FEBDF005FCED1 /* FirebaseClient+Profile.swift in Sources */,
 				7AB265361D15EC8A00EF8E59 /* TopSongTableViewCell.swift in Sources */,
@@ -456,6 +475,7 @@
 				7A8740AA1D35FDD1009D507E /* HitListSong.swift in Sources */,
 				7AC2CC261D20E3B0002FCC5D /* SignInViewController+UI.swift in Sources */,
 				7A8740A11D35DC75009D507E /* TopSongDataModel.xcdatamodeld in Sources */,
+				7A848CD11D6FEE960063231B /* Firebase+Reachability.swift in Sources */,
 				7A8C412E1D0DDC4E00D45C6B /* SongProtocols.swift in Sources */,
 				7A8740A41D35F7CD009D507E /* CoreDataStackManager.swift in Sources */,
 				7A9EBF001D486169002BD453 /* ProfileViewController+Animations.swift in Sources */,
@@ -587,11 +607,14 @@
 			baseConfigurationReference = 6FEDB98A7AB1D580C4BCCF45 /* Pods-TopSong.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = TopSong/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hodginsEric.TopSong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TopSong/TopSong-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -600,11 +623,13 @@
 			baseConfigurationReference = 8B0A7FCA8DB0EC9761B1C8C7 /* Pods-TopSong.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = TopSong/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hodginsEric.TopSong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "TopSong/TopSong-Bridging-Header.h";
 			};
 			name = Release;
 		};

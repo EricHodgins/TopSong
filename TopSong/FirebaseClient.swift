@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import SystemConfiguration
 
 public let EAHFirbaseSignInErrorDomain = "com.erichodgins.TopSong.SignInError"
 public let SignInError: Int = 10
@@ -15,6 +16,8 @@ public let EAHFirbaseCreateAccountErrorDomain = "com.erichodgins.TopSong.CreateA
 public let CreateAccountError: Int = 20
 
 class FirebaseClient {
+    
+    var reachability: Reachability?
     
     //Singleton
     static let sharedInstance = FirebaseClient()
@@ -36,6 +39,8 @@ class FirebaseClient {
     
     private init() {
         print("FirebaseClient was init.")
+        reachability = Reachability.reachabilityForInternetConnection()
+        reachability?.startNotifier()
     }
     
     let firDatabaseRef = FIRDatabase.database().reference()
@@ -43,6 +48,14 @@ class FirebaseClient {
     
     //MARK: Sign In
     func signIn(email: String, password: String, completionHandler: (success: Bool, user: FIRUser?, error: NSError?) -> Void) {
+        
+        //check Internet connectivity
+        if FirebaseClient.internetIsConnected() == false {
+            let userInfo = [NSLocalizedDescriptionKey : "There is no internet connection."]
+            return completionHandler(success: false, user: nil, error: NSError(domain: "FirebaseClientSignin", code: 0, userInfo: userInfo))
+        }
+        
+        
         FIRAuth.auth()?.signInWithEmail(email, password: password, completion: { (user, error) in
             guard error == nil else {
                 print("error signing user in: \(error?.localizedDescription)")
@@ -57,9 +70,15 @@ class FirebaseClient {
                 case FIRAuthErrorCode.ErrorCodeWrongPassword.rawValue:
                     print("Wrong password.")
                     localizedErrorMessage = "Wrong password."
+                case FIRAuthErrorCode.ErrorCodeUserNotFound.rawValue:
+                    print("user not found. Wrong email.")
+                    localizedErrorMessage = "User not found. Possibly wrong email."
+                case FIRAuthErrorCode.ErrorCodeNetworkError.rawValue:
+                    print("Network error")
+                    localizedErrorMessage = "There's something wroing with the network. Check the internet connection."
                 default:
-                    print("\(error)")
-                    localizedErrorMessage = "Is your email correct?"
+                    print("\(error?.localizedDescription)")
+                    localizedErrorMessage = "Oops, sorry could not login. Please try again."
                 }
                 
                 let userInfo = [NSLocalizedDescriptionKey: localizedErrorMessage]
