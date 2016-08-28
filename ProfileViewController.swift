@@ -292,7 +292,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
     
     //MARK: Download Profile Name
     func downloadProfileName() {
-        firebaseClient.fetchUsername(user!) { (success, username) in
+        firebaseClient.fetchProfileName(user!) { (success, errorMessage, username) in
             guard success == true else {
                 return
             }
@@ -305,7 +305,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate {
     func downloadTopSongPicks() {
         activityIndicator.startAnimating()
         view.alpha = 0.6
-        firebaseClient.fetchUserTopSongs(user!) { (success, topSongsArray) in
+        firebaseClient.fetchUserTopSongs(user!) { (success, errorMessage, topSongsArray) in
             guard success == true else {
                 print("error fetching top songs for user.")
                 self.activityIndicator.stopAnimating()

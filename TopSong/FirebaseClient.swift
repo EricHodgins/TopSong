@@ -95,6 +95,12 @@ class FirebaseClient {
     
     func createAccount(email: String, password: String, completionHandler: (success: Bool, user: FIRUser?, error: NSError?) -> Void) {
         
+        //check Internet connectivity
+        if FirebaseClient.internetIsConnected() == false {
+            let userInfo = [NSLocalizedDescriptionKey : "There is no internet connection."]
+            return completionHandler(success: false, user: nil, error: NSError(domain: "FirebaseClientSignin", code: 0, userInfo: userInfo))
+        }
+        
         FIRAuth.auth()?.createUserWithEmail(email, password: password, completion: { (user, error) in
             guard error == nil else {
                 print("error creating account: \(error?.localizedDescription)\n")
@@ -112,6 +118,9 @@ class FirebaseClient {
                 case FIRAuthErrorCode.ErrorCodeWeakPassword.rawValue:
                     print("Weak password.")
                     localizedErrorMessage = "Weak password."
+                case FIRAuthErrorCode.ErrorCodeNetworkError.rawValue:
+                    print("Network error when creating account.")
+                    localizedErrorMessage = "There's something wrong with the network. Check internet connection."
                 default:
                     print("\(error)")
                     localizedErrorMessage = "\(error?.localizedDescription)"
@@ -129,6 +138,11 @@ class FirebaseClient {
     
     //MARK: Generate unique username
     func generateUsername(username: String, id: String, completionHandler: (success: Bool, errorMessage: String?) -> Void) {
+        
+        //check Internet connectivity
+        if FirebaseClient.internetIsConnected() == false {
+            return completionHandler(success: false, errorMessage: "Sorry, there's no internet connection.")
+        }
         
         let registeredUsersRef = firDatabaseRef.child("registered-users").queryOrderedByChild("username").queryEqualToValue(username)
         registeredUsersRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in

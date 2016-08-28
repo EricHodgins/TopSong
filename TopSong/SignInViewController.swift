@@ -110,22 +110,10 @@ class SignInViewController: UIViewController {
     }
     
     func createAccount() {
-        guard passwordTextfield.text?.characters.count > 0 && emailTextfield.text?.characters.count > 0 else {
-            animateTextFieldsWhenNoTextIsPresent()
-            return
-        }
         
-        activityIndicator.startAnimating()
-        firebaseClient.createAccount(emailTextfield.text!, password: passwordTextfield.text!) { (success, user, error) in
-            if success {
-                print("user successfully created.")
-                self.activityIndicator.stopAnimating()
-                self.showSuccessMessage("Awesome! Account Created.", message: "Keep care of your password.")
-            } else {
-                self.activityIndicator.stopAnimating()
-                self.showErrorMessage(error, errorTitle: "Could not create account.")
-            }
-        }
+        let createAccountViewController = storyboard?.instantiateViewControllerWithIdentifier("CreateAccount") as! CreateAccountViewController
+        presentViewController(createAccountViewController, animated: true, completion: nil)
+        
     }
 
 }

@@ -12,6 +12,12 @@ import Firebase
 extension FirebaseClient {
     /// For logged in user
     func fetchUsername(id: String, completionHandler: (success: Bool, username: String?) -> Void) {
+        
+        //check Internet connectivity
+        if FirebaseClient.internetIsConnected() == false {
+            return completionHandler(success: false, username: "Sorry, there's no internet connection.")
+        }
+        
         let registeresUsersRef = firDatabaseRef.child("registered-users").child(id)
         registeresUsersRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
             
@@ -31,13 +37,19 @@ extension FirebaseClient {
     
     
     
-    func fetchUserTopSongs(user: FIRUser, completionHanlder: (success: Bool, topSongs: [TopSong?]) -> Void) {
+    func fetchUserTopSongs(user: FIRUser, completionHanlder: (success: Bool, errorMessage: String?, topSongs: [TopSong?]) -> Void) {
+        
+        //check Internet connectivity
+        if FirebaseClient.internetIsConnected() == false {
+            return completionHanlder(success: false, errorMessage: "Oops, there's not internet connection.", topSongs: [])
+        }
+        
         let topSongsRef = firDatabaseRef.child("topSongs").child("\(user.uid)").child("songs")
         topSongsRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) in
             
             guard snapshot.exists() == true else {
                 print("No top songs made.")
-                completionHanlder(success: false, topSongs: [])
+                completionHanlder(success: false, errorMessage: "No top picks yet.", topSongs: [])
                 return
             }
             
@@ -54,25 +66,31 @@ extension FirebaseClient {
             }
             
             dispatch_async(dispatch_get_main_queue()) {
-                completionHanlder(success: true, topSongs: topSongsArray)
+                completionHanlder(success: true, errorMessage: nil, topSongs: topSongsArray)
             }
             
         })
     }
     
-    func fetchUsername(user: FIRUser, completionHandler: (success: Bool, username: String) -> Void) {
+    func fetchProfileName(user: FIRUser, completionHandler: (success: Bool, errorMessage: String?, username: String) -> Void) {
+        
+        //check Internet connectivity
+        if FirebaseClient.internetIsConnected() == false {
+            return completionHandler(success: false, errorMessage: "There's not internet connection.", username: "")
+        }
+        
         let nameRef = firDatabaseRef.child("users").child("\(user.uid)")
         nameRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) in
             guard snapshot.value != nil && snapshot.exists() == true else {
                 print("could not retrived username")
-                completionHandler(success: false, username: "")
+                completionHandler(success: false, errorMessage: "No user name setup yet.", username: "")
                 return
             }
             
             let user = snapshot.value as! [String : String]
             dispatch_async(dispatch_get_main_queue()) {
                 if let profileName = user["profile-name"] {
-                    completionHandler(success: true, username: profileName)
+                    completionHandler(success: true, errorMessage: nil, username: profileName)
                 }
             }
         })

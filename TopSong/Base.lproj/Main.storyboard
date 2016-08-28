@@ -1,11 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="QeM-x2-ugK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="QeM-x2-ugK">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
+        <!--Create Account View Controller-->
+        <scene sceneID="9Kf-n2-msk">
+            <objects>
+                <viewController storyboardIdentifier="CreateAccount" id="fxm-K1-Y9l" customClass="CreateAccountViewController" customModule="TopSong" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SCI-Q0-Zso"/>
+                        <viewControllerLayoutGuide type="bottom" id="zQE-vb-szC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="83G-OD-2Ha">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TopSongAppIcon Copy" translatesAutoresizingMaskIntoConstraints="NO" id="fVx-JP-UuC">
+                                <rect key="frame" x="229" y="28" width="143" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="143" id="3bh-9m-r0Q"/>
+                                    <constraint firstAttribute="height" constant="100" id="4GX-5H-NuX"/>
+                                </constraints>
+                            </imageView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="CnG-pz-xMW">
+                                <rect key="frame" x="290" y="136" width="20" height="20"/>
+                                <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="CnG-pz-xMW" firstAttribute="top" secondItem="fVx-JP-UuC" secondAttribute="bottom" constant="8" id="6Rh-hs-4hx"/>
+                            <constraint firstItem="fVx-JP-UuC" firstAttribute="top" secondItem="SCI-Q0-Zso" secondAttribute="bottom" constant="8" id="Cdc-79-cZa"/>
+                            <constraint firstItem="fVx-JP-UuC" firstAttribute="centerX" secondItem="83G-OD-2Ha" secondAttribute="centerX" id="W2N-vD-4rX"/>
+                            <constraint firstItem="CnG-pz-xMW" firstAttribute="centerX" secondItem="fVx-JP-UuC" secondAttribute="centerX" id="dSA-cb-WEQ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="CnG-pz-xMW" id="jKr-p1-7qN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CTj-uU-IJl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2137" y="-235"/>
+        </scene>
         <!--Sign In-->
         <scene sceneID="dxb-IV-WMl">
             <objects>
