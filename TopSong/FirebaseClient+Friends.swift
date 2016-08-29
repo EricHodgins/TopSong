@@ -78,13 +78,16 @@ extension FirebaseClient {
     func findFriendWithText(id: String, text: String, completionHandler: (friendID: String, username: String) -> Void) {
         let friendsRef = firDatabaseRef.child("registered-users").queryOrderedByChild("username").queryEqualToValue(text)
         friendsRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
-            if snapshot.exists() {
-                let userDict = snapshot.value as! [String : AnyObject]
-                let friendID = userDict.keys.first!
-                let username = userDict[friendID]!["username"] as! String
-                completionHandler(friendID: friendID ,username: username)
+            dispatch_async(dispatch_get_main_queue()) {
+                if snapshot.exists() {
+                    let userDict = snapshot.value as! [String : AnyObject]
+                    let friendID = userDict.keys.first!
+                    let username = userDict[friendID]!["username"] as! String
+                    completionHandler(friendID: friendID ,username: username)
+                } else {
+                    completionHandler(friendID: "", username: "")
+                }
             }
-            
         })
     }
     

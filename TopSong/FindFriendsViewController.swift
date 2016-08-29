@@ -17,6 +17,8 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
     var user: FIRUser?
     
     let searchController = UISearchController(searchResultsController: nil)
+    var refreshControl: UIRefreshControl!
+    var activityView: UIActivityIndicatorView!
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var doneButton: UIBarButtonItem!
@@ -46,6 +48,16 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
         tableView.tableHeaderView = searchController.searchBar
         tableView.delegate = self
         tableView.dataSource = self
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = UIDesign.lightStyleAttributedString("Pull To Refresh", fontSize: 15.0)
+        refreshControl.addTarget(self, action: #selector(FriendsViewController.refreshFriendList), forControlEvents: .ValueChanged)
+        tableView.addSubview(refreshControl)
+        
+        activityView = UIActivityIndicatorView(frame: CGRect(x: view.frame.size.width / 2, y: view.frame.size.height / 2 - 100, width: 40, height: 40))
+        activityView.color = UIColor().darkBlueAppDesign
+        activityView.hidesWhenStopped = true
+        view.addSubview(activityView)
         
     }
     
@@ -85,13 +97,25 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
 
 extension FindFriendsViewController: UISearchResultsUpdating {
     func updateSearchResultsForSearchController(searchController: UISearchController) {
+        activityView.startAnimating()
         self.friends = []
         self.tableView.reloadData()
         firebaseClient.findFriendWithText(user!.uid, text: searchController.searchBar.text!) { (id, username) in
-            print("found: \(username)")
-            let friendFound = Friend(friendName: username, friendSongs: nil, friendID: id, storageImagePath: nil, imageUpdate: nil)
-            self.friends.append(friendFound)
-            self.tableView.reloadData()
+            
+            if id == "" && username == "" {
+                print("did not find username")
+            } else {
+                print("found: \(username)")
+                let friendFound = Friend(friendName: username, friendSongs: nil, friendID: id, storageImagePath: nil, imageUpdate: nil)
+                self.friends.append(friendFound)
+                self.tableView.reloadData()
+            }
+            
+            //setup a slight delay
+            let when = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+            dispatch_after(when, dispatch_get_main_queue()) {
+                self.activityView.stopAnimating()
+            }
         }
     }
 }
