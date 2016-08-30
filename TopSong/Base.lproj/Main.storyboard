@@ -349,12 +349,16 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="R3d-qq-HbH">
+                                <rect key="frame" x="290" y="233" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="MSG-nh-4s8" firstAttribute="top" secondItem="jJJ-QO-Zat" secondAttribute="bottom" constant="8" id="6XO-Mg-UyV"/>
                             <constraint firstItem="d26-yC-0fT" firstAttribute="top" secondItem="LrY-dl-72h" secondAttribute="bottom" constant="41" id="Az9-SF-4NR"/>
                             <constraint firstItem="W3Y-Er-24l" firstAttribute="centerX" secondItem="5KV-cB-pJx" secondAttribute="centerX" id="LPs-h3-59J"/>
+                            <constraint firstItem="R3d-qq-HbH" firstAttribute="centerX" secondItem="TWd-g2-IWr" secondAttribute="centerX" id="OQz-CT-s17"/>
                             <constraint firstItem="W3Y-Er-24l" firstAttribute="leading" secondItem="5KV-cB-pJx" secondAttribute="leadingMargin" id="Qph-Jn-9Ax"/>
                             <constraint firstItem="TWd-g2-IWr" firstAttribute="top" secondItem="W3Y-Er-24l" secondAttribute="bottom" constant="34" id="ScI-of-9rL"/>
                             <constraint firstItem="J1q-pO-6uL" firstAttribute="top" secondItem="d26-yC-0fT" secondAttribute="bottom" constant="20" id="TOV-VI-MeI"/>
@@ -364,9 +368,11 @@
                             <constraint firstItem="LrY-dl-72h" firstAttribute="centerX" secondItem="d26-yC-0fT" secondAttribute="centerX" id="jh4-Tn-udv"/>
                             <constraint firstItem="W3Y-Er-24l" firstAttribute="top" secondItem="jJJ-QO-Zat" secondAttribute="bottom" constant="120" id="jk3-i6-AEl"/>
                             <constraint firstAttribute="leadingMargin" secondItem="TWd-g2-IWr" secondAttribute="leading" id="vLq-Q1-YXw"/>
+                            <constraint firstItem="R3d-qq-HbH" firstAttribute="top" secondItem="TWd-g2-IWr" secondAttribute="bottom" constant="8" id="w0T-Fr-Rac"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityView" destination="R3d-qq-HbH" id="Vna-oa-3m5"/>
                         <outlet property="cloudImageView" destination="MSG-nh-4s8" id="BRB-m7-rPd"/>
                         <outlet property="doneButton" destination="LrY-dl-72h" id="sdK-sj-dsl"/>
                         <outlet property="logoutButton" destination="d26-yC-0fT" id="k01-1U-IPz"/>

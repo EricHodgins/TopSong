@@ -16,6 +16,9 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var cloudImageView: UIImageView!
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
+    
+    var presentingAlertMessage: Bool = false
     
     var user: FIRUser?
     let firebaseClient = FirebaseClient.sharedInstance
@@ -45,6 +48,12 @@ class SettingsViewController: UIViewController {
         doneButton.setAttributedTitle(doneAttributedString, forState: .Normal)
         
         setupBackgroundGradient()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SettingsViewController.showNetworkErrorMessage), name: networkErrorNotificationKey, object: nil)
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -95,16 +104,63 @@ extension SettingsViewController: UITextFieldDelegate {
         }
     }
     
+    //MARK: Upload username
     func generateUsername(name: String) {
+        activityView.startAnimating()
         firebaseClient.generateUsername(name, id: user!.uid) { (success, errorMessage) in
             if !success {
-                let alertController = UIAlertController(title: "Failed to created username.", message: "\(errorMessage!)", preferredStyle: .Alert)
-                let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
-                alertController.addAction(action)
-                self.presentViewController(alertController, animated: true, completion: nil)
-                print(errorMessage)
+                self.showMessage("Failed to create username", message: errorMessage!)
+            } else {
+                self.showMessage("Success!", message: "Username created.")
+            }
+            
+            self.activityView.stopAnimating()
+        }
+        
+        
+    }
+    
+    func showNetworkErrorMessage() {
+        print("show network error message.")
+            if presentingAlertMessage == false {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.activityView.stopAnimating()
+                self.showMessage("Network Error", message: "Looks like there is a network problem. Check your connection.")
             }
         }
     }
     
+    func showMessage(title: String, message: String?) {
+        presentingAlertMessage = true
+        let errorMessage: String
+        if message != nil {
+            errorMessage = message!
+        } else {
+            errorMessage = ""
+        }
+        
+        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .Alert)
+        let action = UIAlertAction(title: "OK", style: .Default) { (action) in
+            self.presentingAlertMessage = false
+        }
+            
+        alertController.addAction(action)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+        print(errorMessage)
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

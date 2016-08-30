@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Firebase
 
 extension FirebaseClient {
     
@@ -14,6 +15,15 @@ extension FirebaseClient {
         if FirebaseClient.sharedInstance.reachability?.currentReachabilityStatus().rawValue == NotReachable.rawValue {
             return false
         }
+        
+        let connectedRef = FIRDatabase.database().referenceWithPath(".info/connected")
+        connectedRef.observeEventType(.Value, withBlock: {(connected) in
+            let status = connected.value as? Bool
+            print("Connected Ref Changed: \(status)")
+            if let boolean = status where boolean == false {
+                NSNotificationCenter.defaultCenter().postNotificationName(networkErrorNotificationKey, object: nil)
+            }
+        })
         
         return true
     }

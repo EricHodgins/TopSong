@@ -14,6 +14,7 @@ public let EAHFirbaseSignInErrorDomain = "com.erichodgins.TopSong.SignInError"
 public let SignInError: Int = 10
 public let EAHFirbaseCreateAccountErrorDomain = "com.erichodgins.TopSong.CreateAccountError"
 public let CreateAccountError: Int = 20
+public let networkErrorNotificationKey = "com.erichodgins.TopSong.networkErrorNotificationKey"
 
 class FirebaseClient {
     
@@ -146,12 +147,17 @@ class FirebaseClient {
         
         let registeredUsersRef = firDatabaseRef.child("registered-users").queryOrderedByChild("username").queryEqualToValue(username)
         registeredUsersRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
-            if snapshot.exists() {
-                completionHandler(success: false, errorMessage: "Username is already being used.")
-            } else {
-                self.firDatabaseRef.child("registered-users").child(id).setValue(["username" : username])
+            dispatch_async(dispatch_get_main_queue()) {
+                
+                if snapshot.exists() {
+                    completionHandler(success: false, errorMessage: "Username is already being used.")
+                } else {
+                    self.firDatabaseRef.child("registered-users").child(id).setValue(["username" : username])
+                    completionHandler(success: true, errorMessage: nil)
+                }
             }
         })
+        
     }
 
 
