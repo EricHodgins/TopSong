@@ -122,7 +122,7 @@ extension SettingsViewController: UITextFieldDelegate {
     
     func showNetworkErrorMessage() {
         print("show network error message.")
-            if presentingAlertMessage == false {
+        if presentingAlertMessage == false {
             dispatch_async(dispatch_get_main_queue()) {
                 self.activityView.stopAnimating()
                 self.showMessage("Network Error", message: "Looks like there is a network problem. Check your connection.")

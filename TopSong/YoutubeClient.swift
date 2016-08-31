@@ -27,7 +27,13 @@ class YoutubeClient {
     }
     
     func parseJSONData(data: NSData?, completionHandler: (sucess: Bool, youtubeVideos: [YoutubeVideo]) -> Void) {
+        
         do {
+            guard data != nil else {
+                completionHandler(sucess: false, youtubeVideos: [])
+                return
+            }
+            
             if let jsonData = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as? [String : AnyObject] {
                 var youtubeVideos = [YoutubeVideo]()
                 let items = jsonData["items"] as! [[String : AnyObject]]

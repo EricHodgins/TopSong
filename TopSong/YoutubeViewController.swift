@@ -11,6 +11,7 @@ import UIKit
 class YoutubeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
+    var activityView: UIActivityIndicatorView!
     
     var youtubeClient = YoutubeClient()
     var hitlistSong: HitListSong?
@@ -19,6 +20,8 @@ class YoutubeViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var loadingView: UIView!
     var blurEffectView: UIVisualEffectView!
+    
+    var presentingAlertMessage: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +35,7 @@ class YoutubeViewController: UIViewController, UITableViewDelegate, UITableViewD
         blurEffectView.frame = view.frame
         view.addSubview(blurEffectView)
         
-        let activityView = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        activityView = UIActivityIndicatorView(activityIndicatorStyle: .White)
         activityView.color = UIColor().darkBlueAppDesign
         activityView.frame = CGRect(x: loadingView.frame.width / 2, y: loadingView.frame.height / 2, width: 20, height: 20)
         activityView.startAnimating()
@@ -42,18 +45,14 @@ class YoutubeViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.dataSource = self
         getYoutubeVideoData()
         
-        //setupLoadingView()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(YoutubeViewController.showNetworkErrorMessage), name: networkErrorNotificationKey, object: nil)
+        
     }
     
-    func setupLoadingView() {
-        loadingView.backgroundColor = UIColor().lightBlueAppDesign
-        view.addSubview(loadingView)
-        
-        let activityView = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
-        activityView.frame = CGRect(x: loadingView.frame.width / 2, y: loadingView.frame.height / 2, width: 20, height: 20)
-        activityView.startAnimating()
-        loadingView.addSubview(activityView)
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
+    
     
     func getYoutubeVideoData() {
         youtubeClient.getYoutubeVideoData(withSearchString: "\(hitlistSong!.artist) \(hitlistSong!.title)") { (success, youtubeVideos) in
@@ -63,9 +62,42 @@ class YoutubeViewController: UIViewController, UITableViewDelegate, UITableViewD
                     self.tableView.reloadData()
                     self.animateBlurViewAway()
                 }
+            } else {
+                print("error getting youtube data.")
+                self.showNetworkErrorMessage()
             }
         }
     }
+    
+    func showNetworkErrorMessage() {
+        if presentingAlertMessage == false {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.activityView.stopAnimating()
+                self.showMessage("Network Error", message: "Looks like there is a network problem. Check your connection.")
+            }
+        }
+    }
+    
+    func showMessage(title: String, message: String?) {
+        presentingAlertMessage = true
+        let errorMessage: String
+        if message != nil {
+            errorMessage = message!
+        } else {
+            errorMessage = ""
+        }
+        
+        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .Alert)
+        let action = UIAlertAction(title: "OK", style: .Default) { (action) in
+            self.presentingAlertMessage = false
+        }
+        
+        alertController.addAction(action)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+        print(errorMessage)
+    }
+
     
     func animateBlurViewAway() {
         UIView.animateWithDuration(2.0, animations: {

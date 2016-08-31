@@ -40,6 +40,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @IBOutlet weak var tableView: UITableView!
     
+    var presentingAlertMessage: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +93,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         //Check if user is saved already on the device.  If not save the user's id
         findUser()
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.showNetworkErrorMessage), name: networkErrorNotificationKey, object: nil)
+        
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -200,6 +207,36 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             }
         }
     }
+    
+    func showNetworkErrorMessage() {
+        if presentingAlertMessage == false {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.activityIndicator.stopAnimating()
+                self.showMessage("Network Error", message: "Looks like there is a network problem. Check your connection.")
+            }
+        }
+    }
+    
+    func showMessage(title: String, message: String?) {
+        presentingAlertMessage = true
+        let errorMessage: String
+        if message != nil {
+            errorMessage = message!
+        } else {
+            errorMessage = ""
+        }
+        
+        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .Alert)
+        let action = UIAlertAction(title: "OK", style: .Default) { (action) in
+            self.presentingAlertMessage = false
+        }
+        
+        alertController.addAction(action)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+        print(errorMessage)
+    }
+
 }
 
 
