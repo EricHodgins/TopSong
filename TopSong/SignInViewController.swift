@@ -18,6 +18,7 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var topSongLabel: UILabel!
     var signInButton: UIButton!
     var createAccountButton: UIButton!
+    var forgotPasswordButton: UIButton!
     
     var emailVerticalConstraints = [NSLayoutConstraint]()
     var passwordVerticalConstraints = [NSLayoutConstraint]()
@@ -133,8 +134,25 @@ extension SignInViewController: UITextFieldDelegate {
 }
 
 
-
-
+//MARK: Reset Password
+extension SignInViewController {
+    func resetPassword() {
+        print("forgot password.")
+        activityIndicator.startAnimating()
+        FIRAuth.auth()?.sendPasswordResetWithEmail(emailTextfield.text!, completion: { (error) in
+            dispatch_async(dispatch_get_main_queue()) {
+                self.activityIndicator.stopAnimating()
+                guard error == nil else {
+                    self.showErrorMessage(error, errorTitle: "Something went wrong..")
+                    return
+                }
+                
+                self.showSuccessMessage("Success!", message: "A email will be sent to your inbox shortly with the new password.")
+                
+            }
+        })
+    }
+}
 
 
 

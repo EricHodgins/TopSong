@@ -20,16 +20,16 @@ extension SignInViewController {
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         createAccountButton.translatesAutoresizingMaskIntoConstraints = false
         
-        signInButton.addTarget(self, action: #selector(SignInViewController.signIn), forControlEvents: .TouchUpInside)
-        let signInAttributedString = NSAttributedString(string: "Sign In", attributes: [NSFontAttributeName: UIFont.chalkboardFont(withSize: 20.0) ,NSForegroundColorAttributeName: UIColor().lightBlueAppDesign])
-        signInButton.setAttributedTitle(signInAttributedString, forState: .Highlighted)
+        forgotPasswordButton = UIButton()
+        forgotPasswordButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let createAccountAttributedString = NSAttributedString(string: "Create an Account", attributes: [NSFontAttributeName: UIFont.chalkboardFont(withSize: 20.0) ,NSForegroundColorAttributeName: UIColor().lightBlueAppDesign])
-        createAccountButton.setAttributedTitle(createAccountAttributedString, forState: .Highlighted)
+        signInButton.addTarget(self, action: #selector(SignInViewController.signIn), forControlEvents: .TouchUpInside)
         createAccountButton.addTarget(self, action: #selector(SignInViewController.createAccount), forControlEvents: .TouchUpInside)
+        forgotPasswordButton.addTarget(self, action: #selector(SignInViewController.resetPassword), forControlEvents: .TouchUpInside)
         
         view.addSubview(signInButton)
         view.addSubview(createAccountButton)
+        view.addSubview(forgotPasswordButton)
     }
     
     func setupBackgroundGradient() {
@@ -79,19 +79,26 @@ extension SignInViewController {
         let createAccountAttributedString = NSAttributedString(string: "Create an Account", attributes: [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: UIColor.whiteColor()])
         createAccountButton.setAttributedTitle(createAccountAttributedString, forState: .Normal)
         
+        //forgot password Button
+        let forgotPasswordAttributedString = NSAttributedString(string: "Forgot Password?", attributes: [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: UIColor().darkBlueAppDesign])
+        forgotPasswordButton.setAttributedTitle(forgotPasswordAttributedString, forState: .Normal)
+        
+        
         let views: [String : AnyObject] = [
             "emailView": emailTextfield,
             "passwordView": passwordTextfield,
             "topLayoutGuide": self.topLayoutGuide,
             "signInButton": signInButton,
-            "createAccountButton": createAccountButton
+            "createAccountButton": createAccountButton,
+            "forgotPasswordButton": forgotPasswordButton
         ]
         
         let metrics: [String : AnyObject] = [
             "emailHeight": 40,
             "passwordHeight": 40,
             "signInButtonHeight": 20,
-            "createAccountButtonHeight": 20
+            "createAccountButtonHeight": 20,
+            "forgotPasswordButtonHeight": 20
         ]
         
         //Email
@@ -113,6 +120,10 @@ extension SignInViewController {
         //Create Account Button
         createAccountButton.centerXAnchor.constraintEqualToAnchor(passwordTextfield.centerXAnchor).active = true
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[signInButton]-15-[createAccountButton(createAccountButtonHeight)]", options: [], metrics: metrics, views: views))
+        
+        //Forgot Password Button
+        forgotPasswordButton.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[createAccountButton]-40-[forgotPasswordButton(forgotPasswordButtonHeight)]", options: [], metrics: metrics, views: views))
         
     }
     
