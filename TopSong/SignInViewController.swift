@@ -137,7 +137,6 @@ extension SignInViewController: UITextFieldDelegate {
 //MARK: Reset Password
 extension SignInViewController {
     func resetPassword() {
-        print("forgot password.")
         activityIndicator.startAnimating()
         FIRAuth.auth()?.sendPasswordResetWithEmail(emailTextfield.text!, completion: { (error) in
             dispatch_async(dispatch_get_main_queue()) {

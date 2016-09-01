@@ -25,7 +25,7 @@ extension SignInViewController {
         
         signInButton.addTarget(self, action: #selector(SignInViewController.signIn), forControlEvents: .TouchUpInside)
         createAccountButton.addTarget(self, action: #selector(SignInViewController.createAccount), forControlEvents: .TouchUpInside)
-        forgotPasswordButton.addTarget(self, action: #selector(SignInViewController.resetPassword), forControlEvents: .TouchUpInside)
+        forgotPasswordButton.addTarget(self, action: #selector(SignInViewController.askUserIfSureMessage), forControlEvents: .TouchUpInside)
         
         view.addSubview(signInButton)
         view.addSubview(createAccountButton)
@@ -171,6 +171,21 @@ extension SignInViewController {
         let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
         alertController.addAction(action)
         self.presentViewController(alertController, animated: true, completion: nil)    
+    }
+    
+    func askUserIfSureMessage() {
+        let alertController = UIAlertController(title: "Are you sure want to reset your password?", message: nil, preferredStyle: .Alert)
+        let yesAction = UIAlertAction(title: "YES", style: .Default) { (action) in
+            self.resetPassword()
+        }
+        
+        let noAction = UIAlertAction(title: "NO", style: .Default, handler: nil)
+        
+        alertController.addAction(yesAction)
+        alertController.addAction(noAction)
+        
+        presentViewController(alertController, animated: true, completion: nil)
+        
     }
 }
 
