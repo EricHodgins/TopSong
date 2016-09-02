@@ -54,8 +54,11 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
         refreshControl.addTarget(self, action: #selector(FriendsViewController.refreshFriendList), forControlEvents: .ValueChanged)
         tableView.addSubview(refreshControl)
         
-        activityView = UIActivityIndicatorView(frame: CGRect(x: view.frame.size.width / 2, y: view.frame.size.height / 2 - 100, width: 40, height: 40))
+        activityView = UIActivityIndicatorView()
+        activityView.activityIndicatorViewStyle = .WhiteLarge
         activityView.color = UIColor().darkBlueAppDesign
+        activityView.center.x = view.center.x
+        activityView.center.y = view.center.y - 100
         activityView.hidesWhenStopped = true
         view.addSubview(activityView)
         
