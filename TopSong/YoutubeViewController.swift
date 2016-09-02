@@ -128,7 +128,7 @@ extension YoutubeViewController {
     }
     
     func getYoutubeVideoImage(cell: YoutubeTableViewCell, video: YoutubeVideo, atIndexPath indexPath: NSIndexPath) {
-        cell.youtubeImageView.image = UIImage(named: "ic_music_video")
+        cell.youtubeImageView.image = UIImage(named: "TopSongAppIcon Copy")
         // 1st check youtubeimage cache
         let cachedImage = youtubeImageCache?.imageWithIdentifier(video.videoId!)
         if cachedImage != nil {
