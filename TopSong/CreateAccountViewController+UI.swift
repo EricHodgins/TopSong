@@ -49,6 +49,7 @@ extension CreateAccountViewController {
     func setupTextFields() {
         view.addSubview(emailTextfield)
         view.addSubview(passwordTextfield)
+        view.addSubview(confirmPasswordTextField)
         
         // Email
         emailTextfield.translatesAutoresizingMaskIntoConstraints = false
@@ -68,16 +69,27 @@ extension CreateAccountViewController {
         passwordTextfield.secureTextEntry = true
         passwordTextfield.delegate = self
         
+        //Confirm Password
+        confirmPasswordTextField.translatesAutoresizingMaskIntoConstraints = false
+        confirmPasswordTextField.placeholder = "Confirm Password"
+        confirmPasswordTextField.backgroundColor = UIColor.whiteColor()
+        confirmPasswordTextField.layer.sublayerTransform = CATransform3DMakeTranslation(10.0, 0, 0)
+        confirmPasswordTextField.secureTextEntry = true
+        confirmPasswordTextField.delegate = self
+        
         let colorAttribute = UIColor().darkBlueAppDesign
         let fontAttribute = UIFont.chalkboardFont(withSize: 20.0)
         
         emailTextfield.defaultTextAttributes = [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: colorAttribute]
         passwordTextfield.defaultTextAttributes = [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: colorAttribute]
+        
+        confirmPasswordTextField.defaultTextAttributes = [NSFontAttributeName: fontAttribute, NSForegroundColorAttributeName: colorAttribute]
 
         
         let views: [String : AnyObject] = [
             "emailView": emailTextfield,
             "passwordView": passwordTextfield,
+            "confirmPasswordView": confirmPasswordTextField,
             "topLayoutGuide": self.topLayoutGuide,
             "createAccountButton": createAccountButton
         ]
@@ -85,6 +97,7 @@ extension CreateAccountViewController {
         let metrics: [String : AnyObject] = [
             "emailHeight": 40,
             "passwordHeight": 40,
+            "confirmPasswordHeight": 40,
             "createAccountButtonHeight": 20
         ]
         
@@ -97,11 +110,15 @@ extension CreateAccountViewController {
         passwordVerticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:[emailView]-10-[passwordView(passwordHeight)]", options: [], metrics: metrics, views: views)
         view.addConstraints(passwordVerticalConstraints)
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-20-[passwordView]-20-|", options: [], metrics: metrics, views: views))
+        
+        //Confirm Password
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-20-[confirmPasswordView]-20-|", options: [], metrics: metrics, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[passwordView]-10-[confirmPasswordView(confirmPasswordHeight)]", options: [], metrics: metrics, views: views))
 
         
         //Create Account Button
         createAccountButton.centerXAnchor.constraintEqualToAnchor(passwordTextfield.centerXAnchor).active = true
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[passwordView]-15-[createAccountButton(createAccountButtonHeight)]", options: [], metrics: metrics, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[confirmPasswordView]-15-[createAccountButton(createAccountButtonHeight)]", options: [], metrics: metrics, views: views))
         
         //Done Button
         doneButton.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true

@@ -12,6 +12,7 @@ class CreateAccountViewController: UIViewController {
     
     let emailTextfield = UITextField()
     let passwordTextfield = UITextField()
+    let confirmPasswordTextField = UITextField()
     
     var emailVerticalConstraints = [NSLayoutConstraint]()
     var passwordVerticalConstraints = [NSLayoutConstraint]()
@@ -43,11 +44,16 @@ class CreateAccountViewController: UIViewController {
             animateTextFieldsWhenNoTextIsPresent()
             return
         }
+        
+        guard passwordTextfield.text == confirmPasswordTextField.text else {
+            let error = NSError(domain: "CreateAccount", code: 0, userInfo: [NSLocalizedDescriptionKey : "Password Mismatch Error"])
+            showErrorMessage(error, errorTitle: "Sorry, retry.  Password didn't match confirmation password.")
+            return
+        }
 
         activityIndicator.startAnimating()
         firebaseClient.createAccount(emailTextfield.text!, password: passwordTextfield.text!) { (success, user, error) in
             if success {
-                print("user successfully created.")
                 self.activityIndicator.stopAnimating()
                 self.showSuccessMessage("Awesome! Account Created.", message: "Keep care of your password.")
             } else {
@@ -76,7 +82,7 @@ extension CreateAccountViewController: UITextFieldDelegate {
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if emailTextfield.isFirstResponder() || passwordTextfield.isFirstResponder() {
+        if emailTextfield.isFirstResponder() || passwordTextfield.isFirstResponder() || confirmPasswordTextField.isFirstResponder() {
             view.endEditing(true)
         }
     }

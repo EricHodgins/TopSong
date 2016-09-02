@@ -122,6 +122,8 @@ class FirebaseClient {
                 case FIRAuthErrorCode.ErrorCodeNetworkError.rawValue:
                     print("Network error when creating account.")
                     localizedErrorMessage = "There's something wrong with the network. Check internet connection."
+                case FIRAuthErrorCode.ErrorCodeInternalError.rawValue:
+                    localizedErrorMessage = "There was an internal error.  Possibly an invalid email."
                 default:
                     print("\(error)")
                     localizedErrorMessage = "\(error?.localizedDescription)"
