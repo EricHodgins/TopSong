@@ -17,7 +17,6 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
     var user: FIRUser?
     
     let searchController = UISearchController(searchResultsController: nil)
-    var refreshControl: UIRefreshControl!
     var activityView: UIActivityIndicatorView!
 
     @IBOutlet weak var tableView: UITableView!
@@ -49,11 +48,6 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
         tableView.delegate = self
         tableView.dataSource = self
         
-        refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = UIDesign.lightStyleAttributedString("Pull To Refresh", fontSize: 15.0)
-        refreshControl.addTarget(self, action: #selector(FriendsViewController.refreshFriendList), forControlEvents: .ValueChanged)
-        tableView.addSubview(refreshControl)
-        
         activityView = UIActivityIndicatorView()
         activityView.activityIndicatorViewStyle = .WhiteLarge
         activityView.color = UIColor().darkBlueAppDesign
@@ -64,9 +58,6 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
         
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return friends.count
@@ -114,8 +105,8 @@ extension FindFriendsViewController: UISearchResultsUpdating {
                 self.tableView.reloadData()
             }
             
-            //setup a slight delay
-            let when = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+            //setup a slight delay for visual queue
+            let when = dispatch_time(DISPATCH_TIME_NOW, Int64(500 * Double(NSEC_PER_MSEC)))
             dispatch_after(when, dispatch_get_main_queue()) {
                 self.activityView.stopAnimating()
             }
