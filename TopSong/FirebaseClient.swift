@@ -76,7 +76,7 @@ class FirebaseClient {
                     localizedErrorMessage = "User not found. Possibly wrong email."
                 case FIRAuthErrorCode.ErrorCodeNetworkError.rawValue:
                     print("Network error")
-                    localizedErrorMessage = "There's something wroing with the network. Check the internet connection."
+                    localizedErrorMessage = "There's something wrong with the network. Check the internet connection."
                 default:
                     print("\(error?.localizedDescription)")
                     localizedErrorMessage = "Oops, sorry could not login. Please try again."
