@@ -45,6 +45,7 @@
 		7A9332581D2FED4A005FCED1 /* FirebaseClient+Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9332571D2FED4A005FCED1 /* FirebaseClient+Friends.swift */; };
 		7A93BF311D55A23E00D40C85 /* SettingsViewController+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A93BF301D55A23E00D40C85 /* SettingsViewController+Animations.swift */; };
 		7A975C1A1D5C3472003B5BC3 /* MusicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A975C191D5C3472003B5BC3 /* MusicManager.swift */; };
+		7A9B0AFD1D77F9D400AF8834 /* ManualSongEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9B0AFC1D77F9D400AF8834 /* ManualSongEntryViewController.swift */; };
 		7A9EBF001D486169002BD453 /* ProfileViewController+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9EBEFF1D486169002BD453 /* ProfileViewController+Animations.swift */; };
 		7A9EBF021D486686002BD453 /* TopSongsViewController+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9EBF011D486686002BD453 /* TopSongsViewController+Animation.swift */; };
 		7AA009CC1D2309DD008DBDFF /* SongConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA009CB1D2309DD008DBDFF /* SongConverter.swift */; };
@@ -103,6 +104,7 @@
 		7A9332571D2FED4A005FCED1 /* FirebaseClient+Friends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FirebaseClient+Friends.swift"; sourceTree = "<group>"; };
 		7A93BF301D55A23E00D40C85 /* SettingsViewController+Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SettingsViewController+Animations.swift"; sourceTree = "<group>"; };
 		7A975C191D5C3472003B5BC3 /* MusicManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicManager.swift; sourceTree = "<group>"; };
+		7A9B0AFC1D77F9D400AF8834 /* ManualSongEntryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManualSongEntryViewController.swift; sourceTree = "<group>"; };
 		7A9EBEFF1D486169002BD453 /* ProfileViewController+Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProfileViewController+Animations.swift"; sourceTree = "<group>"; };
 		7A9EBF011D486686002BD453 /* TopSongsViewController+Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TopSongsViewController+Animation.swift"; sourceTree = "<group>"; };
 		7AA009CB1D2309DD008DBDFF /* SongConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongConverter.swift; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 			children = (
 				7A3E31541D070A4300DC90B0 /* ProfileViewController.swift */,
 				7A9EBEFF1D486169002BD453 /* ProfileViewController+Animations.swift */,
+				7A9B0AFC1D77F9D400AF8834 /* ManualSongEntryViewController.swift */,
 				7A8CD6DE1D08613F0010EBD9 /* SongPickerViewController.swift */,
 				7A3DB2661D2CB69500A7C9D9 /* ProfileProtocols.swift */,
 			);
@@ -457,6 +460,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A9B0AFD1D77F9D400AF8834 /* ManualSongEntryViewController.swift in Sources */,
 				7A9EBF021D486686002BD453 /* TopSongsViewController+Animation.swift in Sources */,
 				7A5DE2ED1D316CE300B7C2F1 /* ImageCache.swift in Sources */,
 				7AA0A8421D0E20B1009324D9 /* SignInViewController.swift in Sources */,

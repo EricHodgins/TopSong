@@ -155,10 +155,6 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
     }
@@ -265,16 +261,35 @@ extension ProfileViewController: UITextFieldDelegate {
 //MARK: SongChanging Protocol - This brings up the Modal presentation to pick a song from the music library from the Music App
 extension ProfileViewController: SongChanging {
     func changingNewTopSongAt(indexPath: NSIndexPath) {
-        let songPickerNavVC = storyboard?.instantiateViewControllerWithIdentifier("SongPicker") as! UINavigationController
-        let songPickerVC = songPickerNavVC.viewControllers[0] as! SongPickerViewController
-        songPickerVC.pickedNumberAtIndexPath = indexPath
-        songPickerVC.delegate = self
-        songPickerNavVC.modalPresentationStyle = .OverCurrentContext
-        tabBarController?.presentViewController(songPickerNavVC, animated: true, completion: nil)
+        
+        let alertController = UIAlertController(title: "Choose an Option to Pick a Song", message: nil, preferredStyle: .Alert)
+        let manualAction = UIAlertAction(title: "Manual Entry", style: .Default) { (action) in
+            print("choose to enter manually.")
+            let manualVC = self.storyboard?.instantiateViewControllerWithIdentifier("manualEntry") as! ManualSongEntryViewController
+            manualVC.delegate = self
+            manualVC.pickedNumberAtIndexPath = indexPath
+            manualVC.modalPresentationStyle = .OverCurrentContext
+            self.tabBarController?.presentViewController(manualVC, animated: true, completion: nil)
+        }
+        
+        let pickFromDeviceMedia = UIAlertAction(title: "Music Library", style: .Default) { (action) in
+            let songPickerNavVC = self.storyboard?.instantiateViewControllerWithIdentifier("SongPicker") as! UINavigationController
+            let songPickerVC = songPickerNavVC.viewControllers[0] as! SongPickerViewController
+            songPickerVC.pickedNumberAtIndexPath = indexPath
+            songPickerVC.delegate = self
+            songPickerNavVC.modalPresentationStyle = .OverCurrentContext
+            self.tabBarController?.presentViewController(songPickerNavVC, animated: true, completion: nil)
+        }
+        
+        alertController.addAction(pickFromDeviceMedia)
+        alertController.addAction(manualAction)
+        presentViewController(alertController, animated: true, completion: nil)
     }
 }
 
-//MARK: SongPicking Protocol - The user picked a song
+
+
+//MARK: SongPicking Protocol - The user finisehd picking a song
 extension ProfileViewController: SongPicking {
     func pickedNewTopSong(song: TopSong, forIndexPath: NSIndexPath) {
         
@@ -294,6 +309,11 @@ extension ProfileViewController: SongPicking {
         userTopPicks[forIndexPath.row] = song
         tableView.reloadData()
     }
+    
+    func manualEntryFinished(artist: String, title: String) {
+        
+    }
+    
 }
 
 

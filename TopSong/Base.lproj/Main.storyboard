@@ -303,6 +303,23 @@
             </objects>
             <point key="canvasLocation" x="4756" y="-127"/>
         </scene>
+        <!--Manual Song Entry View Controller-->
+        <scene sceneID="qaR-iD-L9n">
+            <objects>
+                <viewController storyboardIdentifier="manualEntry" id="0BK-jU-5uW" customClass="ManualSongEntryViewController" customModule="TopSong" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ZvD-4H-vay"/>
+                        <viewControllerLayoutGuide type="bottom" id="dbO-jl-xzV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eic-J6-t83">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AFn-sE-Ova" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5482" y="-655"/>
+        </scene>
         <!--Settings-->
         <scene sceneID="BL1-ry-dEz">
             <objects>
@@ -382,7 +399,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8ih-ZY-NEQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5498" y="-127"/>
+            <point key="canvasLocation" x="5482" y="13"/>
         </scene>
         <!--TopSong-->
         <scene sceneID="gLd-j3-NQm">
@@ -769,7 +786,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T4I-PJ-G4w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3944" y="-642"/>
+            <point key="canvasLocation" x="3880" y="-820"/>
         </scene>
         <!--Friends-->
         <scene sceneID="Dn5-eS-vrH">
