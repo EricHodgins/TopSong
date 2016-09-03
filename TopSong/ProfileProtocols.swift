@@ -12,5 +12,6 @@ protocol UserInfoUpdating {
     func upatedFriendProfileNameAndImage(friendID: String, newName: String?)
     func endTableViewRefreshing()
     func updateFriendSongChange(friendID: String, newTopSong: TopSong, rank: Int)
+    func showNetworkErrorMessage()
 }
 

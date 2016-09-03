@@ -23,6 +23,7 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
     
     @IBOutlet weak var tableView: UITableView!
     var refreshControl: UIRefreshControl!
+    var presentingAlertMessage: Bool = false
     
     //MARK: Context
     lazy var sharedContext: NSManagedObjectContext = {
@@ -193,7 +194,44 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
 
 
 
+//MARK: Error Messages
 
+extension FriendsViewController {
+    func showNetworkErrorMessage() {
+        
+        //make sure it's the presenting viewcontroller first
+        guard tabBarController?.selectedViewController?.childViewControllers[0] == self else {
+            return
+        }
+        
+        if presentingAlertMessage == false {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.showMessage("Network Error", message: "Looks like there is a network problem. Check your connection.")
+            }
+        }
+    }
+    
+    func showMessage(title: String, message: String?) {
+        presentingAlertMessage = true
+        let errorMessage: String
+        if message != nil {
+            errorMessage = message!
+        } else {
+            errorMessage = ""
+        }
+        
+        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .Alert)
+        let action = UIAlertAction(title: "OK", style: .Default) { (action) in
+            self.presentingAlertMessage = false
+        }
+        
+        alertController.addAction(action)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+        print(errorMessage)
+    }
+ 
+}
 
 
 

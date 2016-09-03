@@ -26,6 +26,12 @@ extension FirebaseClient {
     typealias DownloadedFriendTopSongs = (friend: Friend, newSongIndexPaths: [NSIndexPath]) -> Void
     
     func downloadFriendsTopSongs(user: FIRUser, delegate: UserInfoUpdating, completionHandler: DownloadedFriendTopSongs) {
+        
+        if FirebaseClient.internetIsConnected() == false {
+            delegate.showNetworkErrorMessage()
+            return
+        }
+        
         //Refreshing
         removeFirebaseHandles()
         

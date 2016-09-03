@@ -27,6 +27,8 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     var tempAnimatingCellIndex: NSIndexPath?
     weak var soundBarViewDelegate: SoundBarAnimatable?
     
+    var presentingAlertMessage: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,6 +49,12 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         findUser()
         downloadTopSongs()
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TopSongsViewController.showNetworkErrorMessage), name: networkErrorNotificationKey, object: nil)
+        
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -214,6 +222,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
+    //MARK: Download Top Songs
     func downloadTopSongs() {
         
         friendsArray = []
@@ -319,10 +328,43 @@ extension TopSongsViewController: HitlistMoreButtonProtocol {
 }
 
 
+//MARK: Show Error Messages
 
-
-
-
+extension TopSongsViewController {
+    func showNetworkErrorMessage() {
+        
+        //make sure it's the presenting viewcontroller first
+        guard tabBarController?.selectedViewController?.childViewControllers[0] == self else {
+            return
+        }
+        
+        if presentingAlertMessage == false {
+            presentingAlertMessage = true
+            dispatch_async(dispatch_get_main_queue()) {
+                self.showMessage("Network Error", message: "Looks like there is a network problem. Check your connection.")
+            }
+        }
+    }
+    
+    func showMessage(title: String, message: String?) {
+        let errorMessage: String
+        if message != nil {
+            errorMessage = message!
+        } else {
+            errorMessage = ""
+        }
+        
+        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .Alert)
+        let action = UIAlertAction(title: "OK", style: .Default) { (action) in
+            self.presentingAlertMessage = false
+        }
+        
+        alertController.addAction(action)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+        print(errorMessage)
+    }
+}
 
 
 

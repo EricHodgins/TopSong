@@ -204,7 +204,14 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
+    //MARK: Error Messages
     func showNetworkErrorMessage() {
+        
+        //make sure it's the presenting viewcontroller first
+        guard tabBarController?.selectedViewController?.childViewControllers[0] == self else {
+            return
+        }
+        
         if presentingAlertMessage == false {
             dispatch_async(dispatch_get_main_queue()) {
                 self.activityIndicator.stopAnimating()
@@ -308,10 +315,6 @@ extension ProfileViewController: SongPicking {
         //update tableview
         userTopPicks[forIndexPath.row] = song
         tableView.reloadData()
-    }
-    
-    func manualEntryFinished(artist: String, title: String) {
-        
     }
     
 }
