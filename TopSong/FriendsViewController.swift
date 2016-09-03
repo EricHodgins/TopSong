@@ -148,6 +148,7 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
         return cell
     }
     
+    //MARK: Deleting a Friend
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             //1. Update friends array
@@ -175,6 +176,10 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
             } catch let error as NSError {
                 print(error)
             }
+            
+            //4. Refresh TopSongsViewController
+            let topSongsVC = tabBarController?.viewControllers![1].childViewControllers[0] as! TopSongsViewController
+            topSongsVC.downloadTopSongs()
         }
     }
     
