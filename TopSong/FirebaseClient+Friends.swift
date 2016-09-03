@@ -83,7 +83,14 @@ extension FirebaseClient {
     
     //MARK: Finding friends to add
     
-    func findFriendWithText(id: String, text: String, completionHandler: (friendID: String, username: String) -> Void) {
+    func findFriendWithText(id: String, text: String, delegate: FindFriendsViewController, completionHandler: (friendID: String, username: String) -> Void) {
+        
+        //check Network connection
+        if FirebaseClient.internetIsConnected() == false {
+            delegate.showNetworkErrorMessage()
+            return
+        }
+        
         let friendsRef = firDatabaseRef.child("registered-users").queryOrderedByChild("username").queryEqualToValue(text)
         friendsRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
             dispatch_async(dispatch_get_main_queue()) {

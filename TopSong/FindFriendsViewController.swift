@@ -12,12 +12,15 @@ import Firebase
 class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     let firebaseClient = FirebaseClient.sharedInstance
+    var delegateFriendsViewController: FriendsViewController?
+    var delegateTopSongsViewController: TopSongsViewController?
     
     var friends = [Friend]()
     var user: FIRUser?
     
     let searchController = UISearchController(searchResultsController: nil)
     var activityView: UIActivityIndicatorView!
+    var presentingAlertMessage: Bool = false
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var doneButton: UIBarButtonItem!
@@ -56,8 +59,13 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
         activityView.hidesWhenStopped = true
         view.addSubview(activityView)
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FindFriendsViewController.showNetworkErrorMessage), name: networkErrorNotificationKey, object: nil)
+        
     }
     
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return friends.count
@@ -78,6 +86,9 @@ class FindFriendsViewController: UIViewController, UITableViewDelegate, UITableV
         let friendSelected = friends[indexPath.row]
         
         firDatabaseRef.child("friendsGroup").child("\(user!.uid)").child(friendSelected.uid).setValue(["friendId": friendSelected.uid])
+        delegateFriendsViewController?.refreshFriendList()
+        delegateTopSongsViewController?.downloadTopSongs()
+        showMessage("Friend Added!", message: nil)
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -94,7 +105,7 @@ extension FindFriendsViewController: UISearchResultsUpdating {
         activityView.startAnimating()
         self.friends = []
         self.tableView.reloadData()
-        firebaseClient.findFriendWithText(user!.uid, text: searchController.searchBar.text!) { (id, username) in
+        firebaseClient.findFriendWithText(user!.uid, text: searchController.searchBar.text!, delegate: self) { (id, username) in
             
             if id == "" && username == "" {
                 print("did not find username")
@@ -115,7 +126,37 @@ extension FindFriendsViewController: UISearchResultsUpdating {
 }
 
 
+extension FindFriendsViewController {
+    func showNetworkErrorMessage() {
+        
+        if presentingAlertMessage == false {
+            presentingAlertMessage = true
+            dispatch_async(dispatch_get_main_queue()) {
+                self.showMessage("Network Error", message: "Looks like there is a network problem. Check your connection.")
+            }
+        }
+    }
+    
+    func showMessage(title: String, message: String?) {
+        let errorMessage: String
+        if message != nil {
+            errorMessage = message!
+        } else {
+            errorMessage = ""
+        }
+        
+        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .Alert)
+        let action = UIAlertAction(title: "OK", style: .Default) { (action) in
+            self.presentingAlertMessage = false
+        }
+        
+        alertController.addAction(action)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+        print(errorMessage)
+    }
 
+}
 
 
 

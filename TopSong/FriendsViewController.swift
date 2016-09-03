@@ -77,7 +77,12 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let findFriendsNav = segue.destinationViewController as! UINavigationController
         let findFriendsVC = findFriendsNav.viewControllers.first as! FindFriendsViewController
+        let topSongsVC = tabBarController?.viewControllers![1].childViewControllers[0] as! TopSongsViewController
         findFriendsVC.user = user
+        findFriendsVC.delegateFriendsViewController = self
+        findFriendsVC.delegateTopSongsViewController = topSongsVC
+        
+        
     }
     
     func endTableViewRefreshing() {
