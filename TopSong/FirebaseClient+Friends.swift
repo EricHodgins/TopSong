@@ -12,6 +12,14 @@ import Firebase
 extension FirebaseClient {
     //MARK: Getting friends for signed in user
     func downloadUsersFriends(userID: String, delegate: UserInfoUpdating, completionHandler:(friend: Friend) -> Void) {
+        
+        //check network connection
+        if FirebaseClient.internetIsConnected() == false {
+            delegate.showNetworkErrorMessage()
+            return
+        }
+        
+        
         let friendsRef = firDatabaseRef.child("friendsGroup").child(userID)
         friendsRef.observeSingleEventOfType(.Value, withBlock: {(snapshot) in
             

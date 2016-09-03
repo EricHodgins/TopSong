@@ -45,9 +45,16 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
         refreshControl.attributedTitle = UIDesign.lightStyleAttributedString("Pull To Refresh", fontSize: 15.0)
         refreshControl.addTarget(self, action: #selector(FriendsViewController.refreshFriendList), forControlEvents: .ValueChanged)
         tableView.addSubview(refreshControl)
+        refreshControl.beginRefreshing()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FriendsViewController.showNetworkErrorMessage), name: networkErrorNotificationKey, object: nil)
         
         refreshFriendList()
         
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     func findUser() {
@@ -94,6 +101,8 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
         //Do not need this method for the moment.  Just fullfilling the protocol requirements for now
     }
 
+    
+    //MARK: Refresh friend List
     func refreshFriendList() {
         self.friends = []
         self.tableView.reloadData()
@@ -104,6 +113,7 @@ class FriendsViewController: UIViewController, UITableViewDataSource, UITableVie
             let indexPath = NSIndexPath(forRow: self.friends.count - 1, inSection: 0)
             self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             self.tableView.endUpdates()
+            self.endTableViewRefreshing()
         }
     }
     
@@ -205,6 +215,7 @@ extension FriendsViewController {
         }
         
         if presentingAlertMessage == false {
+            presentingAlertMessage = true
             dispatch_async(dispatch_get_main_queue()) {
                 self.showMessage("Network Error", message: "Looks like there is a network problem. Check your connection.")
             }
@@ -212,7 +223,6 @@ extension FriendsViewController {
     }
     
     func showMessage(title: String, message: String?) {
-        presentingAlertMessage = true
         let errorMessage: String
         if message != nil {
             errorMessage = message!
