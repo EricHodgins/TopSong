@@ -148,14 +148,14 @@ extension FindFriendsViewController {
         let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .Alert)
         let action = UIAlertAction(title: "OK", style: .Default) { (action) in
             self.presentingAlertMessage = false
+            self.activityView.stopAnimating()
         }
         
         alertController.addAction(action)
         
-        self.presentViewController(alertController, animated: true, completion: nil)
+        presentViewController(alertController, animated: true, completion: nil)
         print(errorMessage)
     }
-
 }
 
 
