@@ -81,6 +81,9 @@ class SignInViewController: UIViewController {
             return
         }
         
+        //save credentials for automatic login next time
+        self.saveCredentials()
+        
         firebaseSignIn(emailTextfield.text!, password: passwordTextfield.text!)
     }
     
@@ -104,9 +107,6 @@ class SignInViewController: UIViewController {
                 
                 self.activityIndicator.stopAnimating()
                 self.presentViewController(tabBC!, animated: true, completion: nil)
-                
-                //save credentials for automatic login next time
-                self.saveCredentials()
                 
             } else {
                 self.activityIndicator.stopAnimating()
@@ -182,6 +182,7 @@ extension SignInViewController {
     func checkAutomaticLogin() {
         if NSUserDefaults.standardUserDefaults().valueForKey("hasLoggedInSecurely") as? Bool == true {
             let email = NSUserDefaults.standardUserDefaults().valueForKey("emailTextField")
+            print(email)
             let password = keychainWrapper.myObjectForKey(kSecValueData)
             
             firebaseSignIn(email as! String, password: password as! String)
