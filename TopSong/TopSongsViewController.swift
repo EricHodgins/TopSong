@@ -107,7 +107,7 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         let headerView = UIView()
         headerView.backgroundColor = UIColor().lightBlueAppDesign
         
-        //title (user name)
+        //title (profile name)
         let nameFrame = CGRectMake(80, 3, 200, 40)
         let nameLabel = UILabel(frame: nameFrame)
         let profileName: String
