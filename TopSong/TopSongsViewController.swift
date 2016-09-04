@@ -110,7 +110,14 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
         //title (user name)
         let nameFrame = CGRectMake(80, 3, 200, 40)
         let nameLabel = UILabel(frame: nameFrame)
-        nameLabel.attributedText = UIDesign.customColorStyleAttributedString(friendsArray[section].heading!, fontSize: 22.0, color: UIColor.whiteColor())
+        let profileName: String
+        if friendsArray[section].heading == nil {
+            profileName = ""
+        } else {
+            profileName = friendsArray[section].heading!
+        }
+        
+        nameLabel.attributedText = UIDesign.customColorStyleAttributedString(profileName, fontSize: 22.0, color: UIColor.whiteColor())
         
         //image
         let imageFrame = CGRectMake(8, -6, 60, 60)

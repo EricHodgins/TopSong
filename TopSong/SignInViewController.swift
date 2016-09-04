@@ -182,7 +182,6 @@ extension SignInViewController {
     func checkAutomaticLogin() {
         if NSUserDefaults.standardUserDefaults().valueForKey("hasLoggedInSecurely") as? Bool == true {
             let email = NSUserDefaults.standardUserDefaults().valueForKey("emailTextField")
-            print(email)
             let password = keychainWrapper.myObjectForKey(kSecValueData)
             
             firebaseSignIn(email as! String, password: password as! String)

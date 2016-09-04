@@ -51,7 +51,7 @@ extension FirebaseClient {
             
             
             let usersDict = snapshot.value as! [String : String]
-            let profileName = usersDict["profile-name"]!
+            let profileName = usersDict["profile-name"]
             let imagePath = usersDict["imageFilePath"]
             let imageUpdate = usersDict["image-updated"]
             
