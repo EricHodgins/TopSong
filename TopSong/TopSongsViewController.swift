@@ -190,7 +190,9 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     //MARK: Download Songs/Friend Info
     
     func endTableViewRefreshing() {
-        self.refreshControl.endRefreshing()
+        if refreshControl != nil {
+            refreshControl.endRefreshing()
+        }
     }
     
     func upatedFriendProfileNameAndImage(friendID: String, newName: String?) {
@@ -225,7 +227,13 @@ class TopSongsViewController: UIViewController, UITableViewDelegate, UITableView
     //MARK: Download Top Songs
     func downloadTopSongs() {
         
+        //In case the view hasn't been loaded yet. No need to refresh
+        guard tableView != nil else {
+            return
+        }
+        
         friendsArray = []
+        
         tableView.reloadData()
         
         firebaseClient.downloadFriendsTopSongs(user!, delegate: self) { (friend, newSongIndexPaths) in

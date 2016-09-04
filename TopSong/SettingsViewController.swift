@@ -74,11 +74,14 @@ class SettingsViewController: UIViewController {
     @IBAction func doneButtonPressed(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
     }
-
+    
+    //MARK: Logout
     @IBAction func logoutButtonPressed(sender: AnyObject) {
         print("logging out")
         do {
             try FIRAuth.auth()?.signOut()
+            //Stop automatic login now
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "hasLoggedInSecurely")
             view.window?.rootViewController?.dismissViewControllerAnimated(true, completion: nil)
         } catch let error as NSError {
             print("could not logout user: \(error)")

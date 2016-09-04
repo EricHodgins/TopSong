@@ -23,6 +23,8 @@ class SignInViewController: UIViewController {
     var emailVerticalConstraints = [NSLayoutConstraint]()
     var passwordVerticalConstraints = [NSLayoutConstraint]()
     
+    let keychainWrapper = KeychainWrapper()
+    
     lazy var firebaseClient: FirebaseClient = {
         return FirebaseClient.sharedInstance
     }()
@@ -35,10 +37,6 @@ class SignInViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SignInViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SignInViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
         
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if let email = defaults.stringForKey("emailTextField") {
-            emailTextfield.text = email
-        }
         
         let colorAttribute = UIColor.whiteColor()
         let fontAttribute = UIFont.chalkboardFont(withSize: 25.0)
@@ -47,6 +45,8 @@ class SignInViewController: UIViewController {
         setupBackgroundGradient()
         setupButtons()
         setupTextFields()
+        
+        checkAutomaticLogin()
     }
     
     func keyboardWillShow(notification: NSNotification) {
@@ -81,11 +81,13 @@ class SignInViewController: UIViewController {
             return
         }
         
+        firebaseSignIn(emailTextfield.text!, password: passwordTextfield.text!)
+    }
+    
+    func firebaseSignIn(email: String, password: String) {
         activityIndicator.startAnimating()
-
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(emailTextfield.text!, forKey: "emailTextField")
-        firebaseClient.signIn(emailTextfield.text!, password: passwordTextfield.text!) { (success, user, error) in
+        
+        firebaseClient.signIn(email, password: password) { (success, user, error) in
             
             if success {
                 print("Signed in user: \(user)")
@@ -99,15 +101,20 @@ class SignInViewController: UIViewController {
                 profileVC.user = user
                 friendsVC.user = user
                 hitlistVC.user = user
-                self.activityIndicator.stopAnimating()
                 
+                self.activityIndicator.stopAnimating()
                 self.presentViewController(tabBC!, animated: true, completion: nil)
+                
+                //save credentials for automatic login next time
+                self.saveCredentials()
+                
             } else {
                 self.activityIndicator.stopAnimating()
                 self.showErrorMessage(error, errorTitle: "Could not sign in.")
             }
             
         }
+
     }
     
     func createAccount() {
@@ -154,7 +161,33 @@ extension SignInViewController {
 }
 
 
-
+//MARK: Save/Retrieve Credentials
+extension SignInViewController {
+    func saveCredentials() {
+        //Save email
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(self.emailTextfield.text!, forKey: "emailTextField")
+        
+        //Save Password securely 
+        keychainWrapper.mySetObject(passwordTextfield.text!, forKey: kSecValueData)
+        keychainWrapper.writeToKeychain()
+        
+        //Save a bool indicating has saved credentials to login automatically now
+        defaults.setBool(true, forKey: "hasLoggedInSecurely")
+        
+        defaults.synchronize()
+    }
+    
+    
+    func checkAutomaticLogin() {
+        if NSUserDefaults.standardUserDefaults().valueForKey("hasLoggedInSecurely") as? Bool == true {
+            let email = NSUserDefaults.standardUserDefaults().valueForKey("emailTextField")
+            let password = keychainWrapper.myObjectForKey(kSecValueData)
+            
+            firebaseSignIn(email as! String, password: password as! String)
+        }
+    }
+}
 
 
 
