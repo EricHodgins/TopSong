@@ -67,6 +67,7 @@ class SettingsViewController: UIViewController {
         firebaseClient.fetchUsername(user!.uid) { (success, username) in
             if success {
                 self.usernameTextField.text = username
+                self.saveUsernameToDevice()
             }
         }
     }
@@ -91,11 +92,9 @@ class SettingsViewController: UIViewController {
 
 extension SettingsViewController: UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(textField.text!, forKey: "username/\(user!.uid)")
-        
         generateUsername(textField.text!)
         textField.resignFirstResponder()
+        saveUsernameToDevice()
         
         return true
     }
@@ -104,7 +103,13 @@ extension SettingsViewController: UITextFieldDelegate {
         if usernameTextField.isFirstResponder() {
             generateUsername(usernameTextField.text!)
             usernameTextField.resignFirstResponder()
+            saveUsernameToDevice()
         }
+    }
+    
+    func saveUsernameToDevice() {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(usernameTextField.text!, forKey: "username/\(user!.uid)")
     }
     
     //MARK: Upload username
